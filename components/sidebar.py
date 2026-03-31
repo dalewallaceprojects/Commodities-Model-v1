@@ -1,27 +1,34 @@
 """
 components/sidebar.py
-Renders the sidebar with ticker input, chart controls, and news filters.
+Renders the sidebar with commodity selector, ticker input, chart controls, and news filters.
 Returns a dict of all user selections.
 """
 
 import streamlit as st
 from config.settings import NEWS_DEFAULT_AGE
+from config.commodities import list_commodities, get_commodity
 
 
-def render_sidebar(
-    commodity_name: str,
-    commodity_symbol: str,
-    default_ticker: str,
-    ticker_help: str,
-    risk_categories: dict,
-    producing_regions: dict,
-) -> dict:
-    """Render the sidebar and return user selections."""
+def render_sidebar() -> dict:
+    """Render the full sidebar and return user selections + commodity module."""
+    available = list_commodities()
+
     with st.sidebar:
-        st.markdown(f"## {commodity_symbol} {commodity_name} Terminal")
+        # Commodity selector (only shows if 2+ registered)
+        if len(available) > 1:
+            chosen = st.selectbox("Commodity", available)
+        else:
+            chosen = available[0]
+
+        commodity_module = get_commodity(chosen)
+        COMMODITY = commodity_module.COMMODITY
+        risk_categories = commodity_module.RISK_CATEGORIES
+        producing_regions = commodity_module.PRODUCING_REGIONS
+
+        st.markdown(f"## {COMMODITY['symbol']} {COMMODITY['name']} Terminal")
         st.markdown("---")
 
-        ticker = st.text_input("Ticker Symbol", default_ticker, help=ticker_help)
+        ticker = st.text_input("Ticker Symbol", COMMODITY["default_ticker"], help=COMMODITY["ticker_help"])
         view_type = st.toggle("Candlestick Mode", value=True)
         overlays = st.multiselect(
             "Chart Overlays",
@@ -49,6 +56,7 @@ def render_sidebar(
         st.caption("Market data via Yahoo Finance · News via Google News RSS · Forecast via Holt-Winters ES")
 
     return {
+        "commodity_module": commodity_module,
         "ticker": ticker,
         "candlestick": view_type,
         "overlays": overlays,

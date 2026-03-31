@@ -12,9 +12,8 @@ from datetime import datetime, timedelta
 import pandas as pd
 
 # ── Config ──────────────────────────────────
-from config.theme import get_css, section_label, PRIMARY, FONT_DISPLAY
+from config.theme import get_css, section_label, PRIMARY
 from config.settings import Z_EXTREME, RSI_OB, RSI_OS
-from config.commodities import list_commodities, get_commodity
 
 # ── Engines ─────────────────────────────────
 from engines.market_data import load_price_data, run_forecast, get_derived_values, get_stock_metrics
@@ -44,42 +43,23 @@ st.markdown(get_css(), unsafe_allow_html=True)
 
 
 # ─────────────────────────────────────────────
-# COMMODITY SELECTION
+# SIDEBAR (includes commodity selector)
 # ─────────────────────────────────────────────
-available = list_commodities()
-if len(available) == 1:
-    commodity_module = get_commodity(available[0])
-else:
-    # Future: multi-commodity selector in sidebar
-    with st.sidebar:
-        chosen = st.selectbox("Commodity", available)
-    commodity_module = get_commodity(chosen)
+ui = render_sidebar()
+
+commodity_module    = ui["commodity_module"]
+ticker              = ui["ticker"]
+candlestick         = ui["candlestick"]
+overlays            = ui["overlays"]
+selected_categories = ui["selected_categories"]
+selected_regions    = ui["selected_regions"]
+max_age_days        = ui["max_age_days"]
 
 # Unpack commodity config
 COMMODITY         = commodity_module.COMMODITY
 PRODUCING_REGIONS = commodity_module.PRODUCING_REGIONS
 RISK_CATEGORIES   = commodity_module.RISK_CATEGORIES
 LINKED_STOCKS     = commodity_module.LINKED_STOCKS
-
-
-# ─────────────────────────────────────────────
-# SIDEBAR
-# ─────────────────────────────────────────────
-ui = render_sidebar(
-    commodity_name=COMMODITY["name"],
-    commodity_symbol=COMMODITY["symbol"],
-    default_ticker=COMMODITY["default_ticker"],
-    ticker_help=COMMODITY["ticker_help"],
-    risk_categories=RISK_CATEGORIES,
-    producing_regions=PRODUCING_REGIONS,
-)
-
-ticker             = ui["ticker"]
-candlestick        = ui["candlestick"]
-overlays           = ui["overlays"]
-selected_categories = ui["selected_categories"]
-selected_regions   = ui["selected_regions"]
-max_age_days       = ui["max_age_days"]
 
 
 # ─────────────────────────────────────────────
