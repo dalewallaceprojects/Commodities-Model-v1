@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Commodity Risk Terminal</title>
+    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;700&family=Syne:wght@700;800&display=swap" rel="stylesheet">
+    <style>
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        ::selection { background: #00FBFF; color: #000; }
+        body {
+            background: #000;
+            color: #fff;
+            font-family: 'JetBrains Mono', monospace;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+            padding: 40px 24px;
+        }
+        h1 {
+            font-family: 'Syne', sans-serif;
+            font-size: clamp(2rem, 5vw, 3.5rem);
+            font-weight: 800;
+            letter-spacing: -0.03em;
+            margin-bottom: 12px;
+            text-align: center;
+        }
+        h1 span { color: #00FBFF; }
+        .subtitle {
+            color: #555;
+            font-size: 0.75rem;
+            margin-bottom: 48px;
+            text-align: center;
+            max-width: 500px;
+            line-height: 1.6;
+        }
+        .commodities {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+            width: 100%;
+            max-width: 440px;
+        }
+        .commodity-link {
+            display: block;
+            background: #0a0a0a;
+            border: 1px solid #1a1a1a;
+            padding: 24px;
+            text-decoration: none;
+            color: #fff;
+            transition: all 0.15s;
+        }
+        .commodity-link:hover {
+            border-color: #00FBFF;
+            background: #050505;
+        }
+        .commodity-link .symbol {
+            font-size: 1.6rem;
+            margin-bottom: 8px;
+        }
+        .commodity-link .name {
+            font-family: 'Syne', sans-serif;
+            font-size: 1.1rem;
+            font-weight: 700;
+            color: #00FBFF;
+        }
+        .commodity-link .ticker {
+            color: #555;
+            font-size: 0.7rem;
+            margin-top: 4px;
+        }
+        footer {
+            margin-top: 60px;
+            color: #333;
+            font-size: 0.6rem;
+            letter-spacing: 0.15em;
+        }
+    </style>
+</head>
+<body>
+    <h1>⬡ Commodity <span>Risk Terminal</span></h1>
+    <div class="subtitle">
+        Supply chain risk intelligence across environmental, geopolitical, and economic factors.
+        Select a commodity to view its dashboard.
+    </div>
+    <div class="commodities">
+        
+        <a href="cobalt.html" class="commodity-link">
+            <div class="symbol">⬡</div>
+            <div class="name">Cobalt</div>
+            <div class="ticker">GC=F</div>
+        </a>
+        
+        <a href="coffee.html" class="commodity-link">
+            <div class="symbol">☕</div>
+            <div class="name">Coffee</div>
+            <div class="ticker">KC=F</div>
+        </a>
+        
+    </div>
+    <footer>COMMODITY RISK TERMINAL · NOT FINANCIAL ADVICE · 2026-03-31 14:18 UTC</footer>
+</body>
+</html>

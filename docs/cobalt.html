@@ -1,0 +1,3669 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cobalt Risk Intelligence</title>
+    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;700&family=Syne:wght@700;800&display=swap" rel="stylesheet">
+    <style>
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        ::selection { background: #00FBFF; color: #000; }
+
+        body {
+            background: #000;
+            color: #fff;
+            font-family: 'JetBrains Mono', monospace;
+            line-height: 1.6;
+        }
+
+        .container { max-width: 960px; margin: 0 auto; padding: 0 24px; }
+
+        /* Nav */
+        nav {
+            border-bottom: 1px solid #1a1a1a;
+            padding: 16px 0;
+            margin-bottom: 40px;
+        }
+        nav .container {
+            display: flex;
+            align-items: center;
+            gap: 24px;
+            flex-wrap: wrap;
+        }
+        nav .brand {
+            font-family: 'Syne', sans-serif;
+            font-size: 0.85rem;
+            font-weight: 800;
+            color: #00FBFF;
+            text-decoration: none;
+            letter-spacing: -0.02em;
+        }
+        nav a {
+            color: #555;
+            text-decoration: none;
+            font-size: 0.75rem;
+            letter-spacing: 0.05em;
+            transition: color 0.15s;
+        }
+        nav a:hover, nav a.active { color: #00FBFF; }
+
+        /* Section label */
+        .section-label {
+            font-family: 'Syne', sans-serif;
+            font-size: 0.6rem;
+            letter-spacing: 0.2em;
+            text-transform: uppercase;
+            color: #00FBFF;
+            border-left: 2px solid #00FBFF;
+            padding-left: 0.6rem;
+            margin: 48px 0 20px;
+        }
+
+        /* Title */
+        h1 {
+            font-family: 'Syne', sans-serif;
+            font-size: clamp(1.8rem, 4vw, 2.8rem);
+            font-weight: 800;
+            letter-spacing: -0.02em;
+            margin-bottom: 8px;
+        }
+        h1 span { color: #00FBFF; }
+        .subtitle {
+            color: #555;
+            font-size: 0.75rem;
+            margin-bottom: 32px;
+        }
+
+        /* Metric cards */
+        .metrics {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+            margin-bottom: 32px;
+        }
+        .metric {
+            background: #0a0a0a;
+            border: 1px solid #1a1a1a;
+            padding: 16px 20px;
+        }
+        .metric-label {
+            font-size: 0.6rem;
+            letter-spacing: 0.15em;
+            text-transform: uppercase;
+            color: #555;
+            margin-bottom: 4px;
+        }
+        .metric-value {
+            font-size: 1.4rem;
+            font-weight: 700;
+            color: #00FBFF;
+        }
+        .metric-delta {
+            font-size: 0.75rem;
+            margin-left: 8px;
+        }
+        .positive { color: #00FF88; }
+        .negative { color: #FF3B30; }
+        .neutral  { color: #aaa; }
+        .mixed    { color: #FFD700; }
+
+        /* Tables */
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 8px;
+        }
+        th {
+            background: #0a0a0a;
+            color: #00FBFF;
+            border-bottom: 1px solid #00FBFF;
+            padding: 10px 12px;
+            text-align: left;
+            font-family: 'Syne', sans-serif;
+            font-size: 0.65rem;
+            letter-spacing: 0.08em;
+            text-transform: uppercase;
+        }
+        th.right { text-align: right; }
+        td {
+            background: #000;
+            color: #ccc;
+            border-bottom: 1px solid #111;
+            padding: 10px 12px;
+            font-size: 0.8rem;
+        }
+        td.right { text-align: right; }
+        td.muted { color: #555; font-size: 0.7rem; }
+        tr:hover td { background: #050505; }
+
+        /* Stock group label */
+        .group-label {
+            font-family: 'Syne', sans-serif;
+            font-size: 0.65rem;
+            letter-spacing: 0.15em;
+            text-transform: uppercase;
+            margin: 24px 0 12px;
+            padding-left: 0.6rem;
+            border-left: 2px solid;
+        }
+
+        /* Article cards */
+        .category-bar {
+            background: #0a0a0a;
+            border: 1px solid #1a1a1a;
+            padding: 10px 14px;
+            margin-bottom: 4px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .category-bar .name { font-size: 0.75rem; color: #ccc; }
+        .category-bar .count { font-size: 1rem; font-weight: 800; }
+
+        .article-group-header {
+            font-family: 'Syne', sans-serif;
+            font-size: 0.7rem;
+            letter-spacing: 0.1em;
+            text-transform: uppercase;
+            margin: 28px 0 12px;
+            padding: 8px 12px;
+            border-left: 3px solid;
+        }
+
+        .article {
+            background: #0a0a0a;
+            border: 1px solid #1a1a1a;
+            padding: 14px 16px;
+            margin-bottom: 4px;
+            transition: border-color 0.15s;
+        }
+        .article:hover { border-color: #333; }
+        .article-meta {
+            font-size: 0.65rem;
+            color: #555;
+            margin-bottom: 6px;
+        }
+        .article-meta .badge {
+            display: inline-block;
+            padding: 1px 6px;
+            font-size: 0.55rem;
+            font-weight: 700;
+            letter-spacing: 0.08em;
+            text-transform: uppercase;
+            color: #000;
+            margin-right: 6px;
+        }
+        .article a {
+            color: #ddd;
+            text-decoration: none;
+            font-size: 0.82rem;
+            line-height: 1.4;
+        }
+        .article a:hover { color: #00FBFF; }
+        .article .regions {
+            margin-top: 6px;
+        }
+        .article .region-tag {
+            display: inline-block;
+            background: #111;
+            color: #888;
+            padding: 1px 6px;
+            font-size: 0.55rem;
+            border: 1px solid #222;
+            margin-right: 4px;
+        }
+
+        /* Divider */
+        hr {
+            border: none;
+            border-top: 1px solid #1a1a1a;
+            margin: 40px 0;
+        }
+
+        /* Footer */
+        footer {
+            text-align: center;
+            color: #333;
+            font-size: 0.6rem;
+            letter-spacing: 0.15em;
+            padding: 40px 0 60px;
+        }
+    </style>
+</head>
+<body>
+
+<nav>
+    <div class="container">
+        <a href="index.html" class="brand">⬡ Risk Terminal</a>
+        
+        <a href="cobalt.html" class="active">Cobalt</a>
+        
+        <a href="coffee.html" >Coffee</a>
+        
+    </div>
+</nav>
+
+<div class="container">
+
+    <!-- Title -->
+    <h1>⬡ Cobalt Risk Intelligence — <span>GC=F</span></h1>
+    <div class="subtitle">Generated 2026-03-31 14:18 UTC · Data via Yahoo Finance · News via Google News RSS</div>
+
+    <!-- Metrics -->
+    <div class="section-label">📊 Market Snapshot</div>
+    <div class="metrics">
+        <div class="metric">
+            <div class="metric-label">Last Price</div>
+            <div>
+                <span class="metric-value">$4607.50</span>
+                <span class="metric-delta positive">
+                    +81.50 (+1.80%)
+                </span>
+            </div>
+        </div>
+        <div class="metric">
+            <div class="metric-label">RSI (14)</div>
+            <div>
+                <span class="metric-value">29.1</span>
+                <span class="metric-delta positive">
+                    Oversold
+                </span>
+            </div>
+        </div>
+        <div class="metric">
+            <div class="metric-label">Z-Score</div>
+            <div>
+                <span class="metric-value">-0.69</span>
+                <span class="metric-delta neutral">
+                    Within Range
+                </span>
+            </div>
+        </div>
+        <div class="metric">
+            <div class="metric-label">ATR (14)</div>
+            <div>
+                <span class="metric-value">109.01</span>
+                <span class="metric-delta negative">
+                    Expanding
+                </span>
+            </div>
+        </div>
+    </div>
+
+    <hr>
+
+    <!-- Technical Intelligence -->
+    <div class="section-label">🧬 Technical Intelligence</div>
+    <table>
+        <thead><tr><th>Indicator</th><th>Value</th><th>Signal</th></tr></thead>
+        <tbody>
+            
+            <tr>
+                <td>Z-Score (Mean Rev.)</td>
+                <td>-0.69</td>
+                <td style="color:#aaa;font-weight:700;">Neutral</td>
+            </tr>
+            
+            <tr>
+                <td>ATR (Volatility)</td>
+                <td>109.01</td>
+                <td style="color:#FF9500;font-weight:700;">Expanding</td>
+            </tr>
+            
+            <tr>
+                <td>RSI (Momentum)</td>
+                <td>29.1</td>
+                <td style="color:#00FF88;font-weight:700;">Oversold</td>
+            </tr>
+            
+        </tbody>
+    </table>
+
+    <hr>
+
+    <!-- Producing Regions -->
+    <div class="section-label">🌐 Key Producing Regions</div>
+    <table>
+        <thead><tr><th>Region</th><th>Global Share</th><th>Search Terms</th></tr></thead>
+        <tbody>
+            
+            <tr>
+                <td>DRC (Democratic Republic of Congo)</td>
+                <td>~74%</td>
+                <td class="muted">DRC, Congo, Katanga</td>
+            </tr>
+            
+            <tr>
+                <td>Indonesia</td>
+                <td>~5%</td>
+                <td class="muted">Indonesia, Sulawesi, Morowali</td>
+            </tr>
+            
+            <tr>
+                <td>Russia</td>
+                <td>~4%</td>
+                <td class="muted">Russia, Norilsk, Nornickel</td>
+            </tr>
+            
+            <tr>
+                <td>Australia</td>
+                <td>~3%</td>
+                <td class="muted">Australia, Murrin Murrin, Cobalt Blue</td>
+            </tr>
+            
+            <tr>
+                <td>Philippines</td>
+                <td>~3%</td>
+                <td class="muted">Philippines, Mindanao, Palawan</td>
+            </tr>
+            
+            <tr>
+                <td>Cuba</td>
+                <td>~2%</td>
+                <td class="muted">Cuba, Moa</td>
+            </tr>
+            
+            <tr>
+                <td>Canada</td>
+                <td>~2%</td>
+                <td class="muted">Canada, Voisey, Sudbury</td>
+            </tr>
+            
+        </tbody>
+    </table>
+
+    <hr>
+
+    <!-- Linked Equities -->
+    <div class="section-label">📈 Cobalt-Linked Equities</div>
+
+    
+    
+    
+    <div class="group-label" style="color:#00FF88;border-color:#00FF88;">Positively Correlated</div>
+    <table>
+        <thead>
+            <tr><th>Ticker</th><th class="right">Price</th><th class="right">Day</th><th class="right">1M</th><th class="right">3M</th><th class="right">β</th><th>Exposure</th></tr>
+        </thead>
+        <tbody>
+            
+            <tr>
+                <td><span style="color:#00FBFF;font-weight:700;">GLNCY</span><br><span style="color:#666;font-size:0.7rem;">Glencore</span></td>
+                <td class="right">$14.44</td>
+                <td class="right" style="color:#00FF88;">+1.83%</td>
+                <td class="right" style="color:#00FF88;">+0.3%</td>
+                <td class="right" style="color:#00FF88;">+35.1%</td>
+                <td class="right" style="color:#00FF88;font-weight:700;">+0.50</td>
+                <td class="muted">Direct producer — cobalt is a primary revenue stream</td>
+            </tr>
+            
+            <tr>
+                <td><span style="color:#00FBFF;font-weight:700;">VALE</span><br><span style="color:#666;font-size:0.7rem;">Vale S.A.</span></td>
+                <td class="right">$15.10</td>
+                <td class="right" style="color:#00FF88;">+0.47%</td>
+                <td class="right" style="color:#FF3B30;">-11.1%</td>
+                <td class="right" style="color:#00FF88;">+16.9%</td>
+                <td class="right" style="color:#00FF88;font-weight:700;">+0.52</td>
+                <td class="muted">Cobalt byproduct from nickel mining</td>
+            </tr>
+            
+            <tr>
+                <td><span style="color:#00FBFF;font-weight:700;">BHP</span><br><span style="color:#666;font-size:0.7rem;">BHP Group</span></td>
+                <td class="right">$69.02</td>
+                <td class="right" style="color:#FF3B30;">-0.69%</td>
+                <td class="right" style="color:#FF3B30;">-15.2%</td>
+                <td class="right" style="color:#00FF88;">+16.5%</td>
+                <td class="right" style="color:#00FF88;font-weight:700;">+0.50</td>
+                <td class="muted">Cobalt byproduct from nickel mining</td>
+            </tr>
+            
+            <tr>
+                <td><span style="color:#00FBFF;font-weight:700;">CMCLF</span><br><span style="color:#666;font-size:0.7rem;">CMOC Group</span></td>
+                <td class="right">$2.22</td>
+                <td class="right" style="color:#FF3B30;">-1.33%</td>
+                <td class="right" style="color:#FF3B30;">-27.2%</td>
+                <td class="right" style="color:#FF3B30;">-11.6%</td>
+                <td class="right" style="color:#FFD700;font-weight:700;">+0.19</td>
+                <td class="muted">Direct producer — major DRC cobalt-copper mine</td>
+            </tr>
+            
+            <tr>
+                <td><span style="color:#00FBFF;font-weight:700;">SBSW</span><br><span style="color:#666;font-size:0.7rem;">Sibanye Stillwater</span></td>
+                <td class="right">$11.14</td>
+                <td class="right" style="color:#FF3B30;">-3.47%</td>
+                <td class="right" style="color:#FF3B30;">-32.5%</td>
+                <td class="right" style="color:#FF3B30;">-19.3%</td>
+                <td class="right" style="color:#00FF88;font-weight:700;">+2.25</td>
+                <td class="muted">Growing battery metals portfolio including cobalt</td>
+            </tr>
+            
+        </tbody>
+    </table>
+    
+    
+    
+    
+    <div class="group-label" style="color:#FF3B30;border-color:#FF3B30;">Negatively Correlated</div>
+    <table>
+        <thead>
+            <tr><th>Ticker</th><th class="right">Price</th><th class="right">Day</th><th class="right">1M</th><th class="right">3M</th><th class="right">β</th><th>Exposure</th></tr>
+        </thead>
+        <tbody>
+            
+            <tr>
+                <td><span style="color:#00FBFF;font-weight:700;">TSLA</span><br><span style="color:#666;font-size:0.7rem;">Tesla</span></td>
+                <td class="right">$355.28</td>
+                <td class="right" style="color:#FF3B30;">-1.81%</td>
+                <td class="right" style="color:#FF3B30;">-11.9%</td>
+                <td class="right" style="color:#FF3B30;">-22.7%</td>
+                <td class="right" style="color:#FFD700;font-weight:700;">+0.21</td>
+                <td class="muted">Cobalt is a key battery cathode input — rising prices squeeze margins</td>
+            </tr>
+            
+            <tr>
+                <td><span style="color:#00FBFF;font-weight:700;">6752.T</span><br><span style="color:#666;font-size:0.7rem;">Panasonic</span></td>
+                <td class="right">$2,585.50</td>
+                <td class="right" style="color:#FF3B30;">-0.56%</td>
+                <td class="right" style="color:#00FF88;">+0.5%</td>
+                <td class="right" style="color:#00FF88;">+26.3%</td>
+                <td class="right" style="color:#00FF88;font-weight:700;">+0.39</td>
+                <td class="muted">Battery cell manufacturer — cobalt is a direct input cost</td>
+            </tr>
+            
+            <tr>
+                <td><span style="color:#00FBFF;font-weight:700;">RIVN</span><br><span style="color:#666;font-size:0.7rem;">Rivian</span></td>
+                <td class="right">$14.49</td>
+                <td class="right" style="color:#FF3B30;">-1.90%</td>
+                <td class="right" style="color:#FF3B30;">-3.5%</td>
+                <td class="right" style="color:#FF3B30;">-29.9%</td>
+                <td class="right" style="color:#FFD700;font-weight:700;">-0.10</td>
+                <td class="muted">EV producer — cobalt in NMC battery packs raises BOM costs</td>
+            </tr>
+            
+            <tr>
+                <td><span style="color:#00FBFF;font-weight:700;">NIO</span><br><span style="color:#666;font-size:0.7rem;">NIO Inc.</span></td>
+                <td class="right">$5.51</td>
+                <td class="right" style="color:#00FF88;">+3.77%</td>
+                <td class="right" style="color:#00FF88;">+16.7%</td>
+                <td class="right" style="color:#00FF88;">+3.2%</td>
+                <td class="right" style="color:#FFD700;font-weight:700;">-0.13</td>
+                <td class="muted">EV producer — cobalt is a significant battery material cost</td>
+            </tr>
+            
+        </tbody>
+    </table>
+    
+    
+    
+    
+    <div class="group-label" style="color:#FFD700;border-color:#FFD700;">Mixed / Indirect</div>
+    <table>
+        <thead>
+            <tr><th>Ticker</th><th class="right">Price</th><th class="right">Day</th><th class="right">1M</th><th class="right">3M</th><th class="right">β</th><th>Exposure</th></tr>
+        </thead>
+        <tbody>
+            
+            <tr>
+                <td><span style="color:#00FBFF;font-weight:700;">ALB</span><br><span style="color:#666;font-size:0.7rem;">Albemarle</span></td>
+                <td class="right">$177.22</td>
+                <td class="right" style="color:#FF3B30;">-1.24%</td>
+                <td class="right" style="color:#FF3B30;">-0.3%</td>
+                <td class="right" style="color:#00FF88;">+22.9%</td>
+                <td class="right" style="color:#00FF88;font-weight:700;">+0.43</td>
+                <td class="muted">Indirect — benefits from cobalt substitution trends</td>
+            </tr>
+            
+            <tr>
+                <td><span style="color:#00FBFF;font-weight:700;">MP</span><br><span style="color:#666;font-size:0.7rem;">MP Materials</span></td>
+                <td class="right">$45.59</td>
+                <td class="right" style="color:#FF3B30;">-11.99%</td>
+                <td class="right" style="color:#FF3B30;">-28.5%</td>
+                <td class="right" style="color:#FF3B30;">-12.2%</td>
+                <td class="right" style="color:#00FF88;font-weight:700;">+0.87</td>
+                <td class="muted">Indirect — correlated through critical minerals policy sentiment</td>
+            </tr>
+            
+        </tbody>
+    </table>
+    
+    
+
+    <hr>
+
+    <!-- Risk Intelligence Feed -->
+    <div class="section-label">📡 Live Risk Intelligence Feed</div>
+    <div class="subtitle">240 articles from 157 sources</div>
+
+    <!-- Category breakdown -->
+    
+    <div class="category-bar" style="border-left:3px solid #FF9500;">
+        <span class="name">🚢 Supply Chain & Logistics</span>
+        <span class="count" style="color:#FF9500;">104</span>
+    </div>
+    
+    <div class="category-bar" style="border-left:3px solid #aaa;">
+        <span class="name">📊 General Market</span>
+        <span class="count" style="color:#aaa;">72</span>
+    </div>
+    
+    <div class="category-bar" style="border-left:3px solid #FFD700;">
+        <span class="name">📜 Trade Policy & Sanctions</span>
+        <span class="count" style="color:#FFD700;">57</span>
+    </div>
+    
+    <div class="category-bar" style="border-left:3px solid #FF3B30;">
+        <span class="name">⚔️ Conflict & Instability</span>
+        <span class="count" style="color:#FF3B30;">36</span>
+    </div>
+    
+    <div class="category-bar" style="border-left:3px solid #00FF88;">
+        <span class="name">🌍 Environmental Regulation</span>
+        <span class="count" style="color:#00FF88;">28</span>
+    </div>
+    
+    <div class="category-bar" style="border-left:3px solid #00BFFF;">
+        <span class="name">🌪️ Weather & Climate</span>
+        <span class="count" style="color:#00BFFF;">16</span>
+    </div>
+    
+
+    <!-- Articles by category -->
+    
+    <div class="article-group-header" style="color:#00BFFF;border-color:#00BFFF;">
+        🌪️ Weather & Climate — 16 articles
+    </div>
+    
+    <div class="article">
+        <div class="article-meta">
+            <span class="badge" style="background:#00BFFF;">Weather & Climate</span>
+            Discovery Alert · 41d ago
+        </div>
+        <a href="https://news.google.com/rss/articles/CBMiggFBVV95cUxOV0pKN0N0UWJwQVh4ck1KXzFiemczTXY3OHMzR3ZIS0VKeThVNzBuOW5DLTY1ODI1dmxIQ1Buemw5dENjeWhxYm4wSTdLZjVBNkFjM0VmWFU1cUpRTWFHU0d5OFEyTFgxaUVCeXpaTXZfdDNGdlpZR2QzeExMZGFBTDVR?oc=5" target="_blank">Sumitomo Ambatovy Cyclone Damage: Mining Crisis Impact</a>
+        
+    </div>
+    
+    <div class="article">
+        <div class="article-meta">
+            <span class="badge" style="background:#00BFFF;">Weather & Climate</span>
+            People Daily · 56d ago
+        </div>
+        <a href="https://news.google.com/rss/articles/CBMiqwFBVV95cUxOWlFPVW9nOGJJdXBUXzVlaldiMlJUOVRlLUdoSWxaMUlJbGk2Rl8wMlpkRkVRbzRjNngtcVZRTnBLdEk4SFFucFFpdXpISmlEU2RHZmpBVDN0ZmtneURVTnQ0b0pWTXZYRzQtWVBSNDZnQlBRTE0xa3JGb1V5UFk0a1E2cUlXM1YzTnBNRGY3ZG5qX1FiWTBLczBLRTdkMHFGMlRvdEVBQlc3Z0U?oc=5" target="_blank">Families mourn Congo mine landslide victims as survivors prepare to return</a>
+        
+        <div class="regions">
+            
+            <span class="region-tag">DRC</span>
+            
+        </div>
+        
+    </div>
+    
+    <div class="article">
+        <div class="article-meta">
+            <span class="badge" style="background:#00BFFF;">Weather & Climate</span>
+            AnewZ · 57d ago
+        </div>
+        <a href="https://news.google.com/rss/articles/CBMiiwFBVV95cUxNMWNsYTltX2FicktzR0tHWWQ1eGVSWkk1dDhFZ0Q2ekp6bm1MSUtnZzhrekZBUGU5OGFjQy1XUHNIeVhIQmxvN1ZNRjRBM0dqQXdtLVRuZDdIYk40SDF2Rjl4SGVWV0NRY3dIc1o5YkJTdTVlYXJkcXZmdDRVTDJiSXY5M1NmY210V2VV?oc=5" target="_blank">More than 200 killed in landslide at rebel-held coltan mine in eastern DR Congo</a>
+        
+        <div class="regions">
+            
+            <span class="region-tag">DRC</span>
+            
+        </div>
+        
+    </div>
+    
+    <div class="article">
+        <div class="article-meta">
+            <span class="badge" style="background:#00BFFF;">Weather & Climate</span>
+            Watching the world evolve and transform · 59d ago
+        </div>
+        <a href="https://news.google.com/rss/articles/CBMizAFBVV95cUxNTE5zZ1FTTE5xRFRLcWdwcnFvVTkxQkp5UUhGaWNpQkJ0Z1dNYllGMzIyaDdWMk0xN2oxaXBrUXphUlEwS05KbFo5bDZOSFNTekFhNHh5cmpLQUFzRThXbnJWTlZLaUU1OE9WdWpoeVUwOTJSOW42U3hJZlRoTGJlOUZwV1lQSjhIbEpSMkZzMlJsdWN6cWo2OVU5b2dlNGY3ZjRUOVdCWEhtLV9lWVJySFpmMWNvN2tfT2dKUE10ZjJLbEV4MmcwT3ZqSmo?oc=5" target="_blank">Landslide-triggered mine collapse kills more than 200 at Rubaya coltan site in North Kivu, DR Congo - The Watchers</a>
+        
+        <div class="regions">
+            
+            <span class="region-tag">DRC</span>
+            
+        </div>
+        
+    </div>
+    
+    <div class="article">
+        <div class="article-meta">
+            <span class="badge" style="background:#00BFFF;">Weather & Climate</span>
+            Discovery Alert · 74d ago
+        </div>
+        <a href="https://news.google.com/rss/articles/CBMiigFBVV95cUxNNjMwQUxqcjMyXzZZLVJ2Q2tFTGlsZ0VKSXBHckJNUGRUU0N2NWxUNEptTTNIVWFMNXJIU2Z6aUtJRE5vQnN2Z1hUOVRfNHpQSUtiLXVQbFRrSjRHaUlPMk14RzdhM2FwV0tBaGJxS1Z3S19QRHBYSGVTdEJ3a21XTnpoUE9sYkNMYlE?oc=5" target="_blank">Heavy Rainfall Disrupts Australian Metallurgical Coal Supply Chains</a>
+        
+        <div class="regions">
+            
+            <span class="region-tag">Australia</span>
+            
+        </div>
+        
+    </div>
+    
+    <div class="article">
+        <div class="article-meta">
+            <span class="badge" style="background:#00BFFF;">Weather & Climate</span>
+            Council on Foreign Relations · 127d ago
+        </div>
+        <a href="https://news.google.com/rss/articles/CBMiqwFBVV95cUxPUGV5cU96QVB6TmxsbWtEZllSY0h6YUZKa08tSTBaTGpSMW9nNWMyUlJLOU1tZ0dyaUIxWmRsbTRUS0U1VHpCaG9yZnFxa0E1MUJXMlhrWWlYLVktMmdEOWFDSVRETHR3SExjY1NnWDlXbHluX2k5R3hnR0dIbW1HQ055TDg0TWc0T2NNUFVkNlBlMVdOWmRBSFlMMFFDZzJKLTlkTkFZQ2tKSWc?oc=5" target="_blank">Trade Tools for Climate Action: Ensuring a Secure and Stable Supply of Critical Minerals</a>
+        
+    </div>
+    
+    <div class="article">
+        <div class="article-meta">
+            <span class="badge" style="background:#00BFFF;">Weather & Climate</span>
+            Asianet Newsable · 134d ago
+        </div>
+        <a href="https://news.google.com/rss/articles/CBMizgFBVV95cUxNS09pVmxYRUxpT0ducjRNcEd1RXcwRjJxamt2QXltTUVSUGtKbElmdzBiUXVkWEM3Z1dUSzRJTzZfN25nREFoLXVBTHJyOEcyaDdGbm9PbnhrMHo5WnQySURtUGdXSGRZanVoc0NnM0pPM2V5amx1YWNKMWNmN0dld3lpWDFBbjVWTzBnTERUMnVlWi1LOU1CQjB5TkpVUHp1Zy1xQnNPWFVFV25qVzBXX2RiSUFKUmJWZ1AzdWdsT1NVWGV3dVJTN1AzbkhMQdIB0wFBVV95cUxQaDdiNVZmWnk1a2VfSmJiQVlLMjdzVUVodzNnZ0NkMndlVjR4Y0tINU1pZ3hDRmhWWUE3TmZEamN6RFB4c0dTUS1MMHV4ZkE5Nkt6d2E2YkY3dUNVM0JMV0Nwd1BmOGFHOHlwOGFzbFEzNkY4NFJfWjdHVDhNa3o2dEM1NVlkRktVd0JBWG1fdlVWSjVyZ1NWWlk2UVF2VzUtTGhmdzhLcDdEc24xQ1kyQTFGem5RR1lqSU1SS0QzU0lFT21GMU82YVF6Vmg0eExFSnY4?oc=5" target="_blank">Congo Mine Collapse: Dramatic Video Shows Massive Landslide That Killed 32 Workers (WATCH)</a>
+        
+        <div class="regions">
+            
+            <span class="region-tag">DRC</span>
+            
+        </div>
+        
+    </div>
+    
+    <div class="article">
+        <div class="article-meta">
+            <span class="badge" style="background:#00BFFF;">Weather & Climate</span>
+            Global Voices · 172d ago
+        </div>
+        <a href="https://news.google.com/rss/articles/CBMi0wFBVV95cUxOcDZfbWhDNTJvclMwcDd1X2JGY1RzS1haekJBeWpSN3JqMjBNcVR2c09OdHNiOC0xMkpoSGdpYm9yS2dzbjBsQmtCT19PVlViUDFfTTU1dl9vRWdQeDZseWhNRkJWR2ZDQ3QxazAxZUNkV2VMWXF5QnZYeW4ybFJJb0NlMFZZbWRXSVZyYk9YdTIydnlhLWtQWk9fanA5WkJsdHhHcm1xdTZVSDlzbmdDLVRrM2JnV2N2YjQxZV93R01vZWNkaENuVXJYOGdhQnhld0VB?oc=5" target="_blank">The key to saving potato cultivation amid climate disruption in the Democratic Republic of the Congo</a>
+        
+        <div class="regions">
+            
+            <span class="region-tag">DRC</span>
+            
+        </div>
+        
+    </div>
+    
+    <div class="article">
+        <div class="article-meta">
+            <span class="badge" style="background:#00BFFF;">Weather & Climate</span>
+            allAfrica.com · 208d ago
+        </div>
+        <a href="https://news.google.com/rss/articles/CBMiW0FVX3lxTE9LNmRyVkR2dHB3LW5YaWNXcXRHbVdnUTVWclkwalNFeVhHZHg2YmZzNDhfdGpMOU05SXY4RXhPd1JVbVlJZXFTaFluVnBGYmcyR3pqdjR2cUtINUE?oc=5" target="_blank">Congo-Kinshasa: Mining DR Congo's Cobalt - False Solution to Climate Transition?</a>
+        
+        <div class="regions">
+            
+            <span class="region-tag">DRC</span>
+            
+        </div>
+        
+    </div>
+    
+    <div class="article">
+        <div class="article-meta">
+            <span class="badge" style="background:#00BFFF;">Weather & Climate</span>
+            Climate Home News · 306d ago
+        </div>
+        <a href="https://news.google.com/rss/articles/CBMivAFBVV95cUxPYkFoNlB6UGhnUm5XX1JSV2x6bl9LQU9tNXNNbm1VU3RqVHA5VFo1QlYtWHRDNlZaSXkyd0xTeUwyaURXeUxJNWo1VDlCY0d5Y3dpSmpDZnVqTGRJOGlRcG1CajlKd1NGMDlnbUIxT2QySW8tZDN3U0pUbzBkNWMxSl9Ecm54NXdmTW1OeVNvVTdubHdoTkxfckFrV3ZSaDA1WXhPR1k3S0d4SEVjRXpCTS1wbzlTQk9YWXpDVw?oc=5" target="_blank">Cobalt and nickel-free electric car batteries boom in “good news” for rainforests</a>
+        
+    </div>
+    
+    <div class="article">
+        <div class="article-meta">
+            <span class="badge" style="background:#00BFFF;">Weather & Climate</span>
+            The Conversation · 414d ago
+        </div>
+        <a href="https://news.google.com/rss/articles/CBMiywFBVV95cUxQaDNQU1M3dEpxeTFKeHZWN3cwSG1sc0paRS1YbzZTYW16NVg0R0pvYlNvZklGbm1rbUlRenNIV2h5ZDBaS1FKd1JEWjczSjFsTktOUFdwNlpoYjBGNFdPYjVWUzJHM1hCdmFaNjg3NjVqY2NJekdjT2RRZWVqaEthaFYtN0xtR2lOSzhueThsdkpzZ3BiWm5pd0dJbm9Ea0pnUHRFNE1qUHFYQ19BczMxUTJmaE1mSW1JbTI4bEtOOW9IODFQNDZpeFFuMA?oc=5" target="_blank">Modern slavery and climate change: how extreme weather fuels forced labour and unwanted marriages</a>
+        
+    </div>
+    
+    <div class="article">
+        <div class="article-meta">
+            <span class="badge" style="background:#00BFFF;">Weather & Climate</span>
+            Mining.com · 588d ago
+        </div>
+        <a href="https://news.google.com/rss/articles/CBMigwFBVV95cUxPRlZ0eWxieUlUZ3IyUXZndTlIM2tPQ1hMZjNxVEhCdVNDZ1ZuOS1xakZYY25QQ3R4WkZUUDY1TXVvYTdUVzM5ZTJyM1V0dXRXMDB4akdQSEVWZFl3Y3NyMmJEa0R0aHpHMmNmNGdrbUFLc05HR1RSTk95cWlzZlpIN1N1MA?oc=5" target="_blank">Heavy rains to threaten 25% of copper projects by 2050</a>
+        
+    </div>
+    
+    <div class="article">
+        <div class="article-meta">
+            <span class="badge" style="background:#00BFFF;">Weather & Climate</span>
+            Amnesty International · 942d ago
+        </div>
+        <a href="https://news.google.com/rss/articles/CBMi1wFBVV95cUxNR21jekhuZ29YeW9tQnZ1ZkhQa3U5VWVRajN3b3p3eV9vSFI5TDZEY1BLeDd0YkRwcE1qMTlQZS1ZbUc5UHhTZzlVaEpfQ3RGQzRya0s2RUpabWotRUZ6QVZFZkdvSUxDX3pkZ2xSMU1nYm9xZHAxZlpiYnE4eWl5bV9YVmc4Tk9waXBROENnNGhRSDFwV05HOFpwTUJoSkFwSVYtX3otaXpHZmx5SUoyUFBUREJaS1N2dmIwMFNPLXBnYUFVN2lCeDN4bkZ3bF94NTdfVWlHRQ?oc=5" target="_blank">Africa: Leaders at key Climate Summit and week must place human rights at centre of ambitious, bold action</a>
+        
+    </div>
+    
+    <div class="article">
+        <div class="article-meta">
+            <span class="badge" style="background:#00BFFF;">Weather & Climate</span>
+            DGAP · 1093d ago
+        </div>
+        <a href="https://news.google.com/rss/articles/CBMipAFBVV95cUxPbWdHQ18xTVBwRFJmUDRJZG1QZFZNUlVBS3dZeXEyWngyU04tVnh0TWo5U0RsUy1sQkd6SHBfUE9UVURkQmNsdFgzbmk3c0ZuMTZaY01rdXQyUVNKTnFfYWNpRGlmQjBXaUpEV2lTeDBDLVJLNW5DMUtwWF9xSWY2OE90QmtMdk85dEVnSHlwV3lXZ0VwQ0g2NVRZRFRYOG9vX3ZwRw?oc=5" target="_blank">Climate and Environmental Security in the Democratic Republic of Congo</a>
+        
+        <div class="regions">
+            
+            <span class="region-tag">DRC</span>
+            
+        </div>
+        
+    </div>
+    
+    <div class="article">
+        <div class="article-meta">
+            <span class="badge" style="background:#00BFFF;">Weather & Climate</span>
+            The China-Global South Project · 1441d ago
+        </div>
+        <a href="https://news.google.com/rss/articles/CBMi1AFBVV95cUxNRlo5TWJ0UktFdXR6cGIzWVhpeGtfdW5MdnRkcUZZVEFLV0tDWXV2aXYxUmhxWDlIMTUzNkpuSlNoV1Y2YmJjcE5oUzFTcnZvQVV0aEF1YXhOX2ZkamJjc3kwdkZHUGJWTjhKaTl2bDZBZExPRDBRZk5wbjNkbmw1a3VBVkQtOUJpdHRQLVJ6NW4xajA2a3E5eEpDekd6V2JQR2g2ZnM0WHQ5ZmZJcm9MaEF4c1k2cFBEX3FIckVUa0NXYkxNUGtKM0NJVFNWNjVnR1NsQQ?oc=5" target="_blank">Glencore Calls Force Majeure on Cobalt Exports as Durban Flooding Worsens Chinese Shipping Crisis</a>
+        
+    </div>
+    
+    <div class="article">
+        <div class="article-meta">
+            <span class="badge" style="background:#00BFFF;">Weather & Climate</span>
+            CGEP · 1442d ago
+        </div>
+        <a href="https://news.google.com/rss/articles/CBMiwAFBVV95cUxNeWdjem5LelA3Zkd6SjhBS1VxWXdTRDlPaFBOTXNVU2VYSmNWakl2NWlrbDh4OVoyR2hqdS04SEpLQjJOMGVjS1BlcW9fUGFwYjJ1ZVMtNENjNVBycnMzVTB0ekVSWDNxazY5bGxISFV5NWVhU1h5aDZaOTZFcTFRQUQtZlRaS2tpejA4dEItQmc2a0FBaGZjc0lhR3BPN2t3anp1TXRrVlRJcTk3ZlBmeWd0di1udmNFMzVQeDVKX3I?oc=5" target="_blank">Supply of Critical Minerals Amid the Russia-Ukraine War and Possible Sanctions</a>
+        
+        <div class="regions">
+            
+            <span class="region-tag">Russia</span>
+            
+        </div>
+        
+    </div>
+    
+    
+    <div class="article-group-header" style="color:#FF3B30;border-color:#FF3B30;">
+        ⚔️ Conflict & Instability — 36 articles
+    </div>
+    
+    <div class="article">
+        <div class="article-meta">
+            <span class="badge" style="background:#FF3B30;">Conflict & Instability</span>
+            SciTechDaily · 9d ago
+        </div>
+        <a href="https://news.google.com/rss/articles/CBMiSkFVX3lxTE5id1N1bUVabVNRZjhILU1uUjViRExLLTZkUXpCVE5lMHRZM2hYTWxsNE8tZE1yd0NmNkFwXzRvS2F0ZGlkYVhLek9n?oc=5" target="_blank">Global Cobalt Supply Chain at Risk of Sudden, System-Wide Collapse, Study Warns</a>
+        
+    </div>
+    
+    <div class="article">
+        <div class="article-meta">
+            <span class="badge" style="background:#FF3B30;">Conflict & Instability</span>
+            Discovery Alert · 18d ago
+        </div>
+        <a href="https://news.google.com/rss/articles/CBMilAFBVV95cUxQWEN3ZGx0ZXBJN1M4U3B6T3M5Q2VUZTE4MUlrYjdVMjZFaW1NMnZCR1puSVRGbGp6RDFwb3NQX2JDc0xpbGh0R0NqX0lMZmJkWlNsdl9HMm1WVnRXTjNuV0F3SGYxUnZtd3FtRXplbGpjeU1SMXBGVDd4RjZCZWJ4QXNXbktzTHBjbVByWDJORWdHR2VP?oc=5" target="_blank">Illegal Mining in DRC: Economics & Security Impacts</a>
+        
+        <div class="regions">
+            
+            <span class="region-tag">DRC</span>
+            
+        </div>
+        
+    </div>
+    
+    <div class="article">
+        <div class="article-meta">
+            <span class="badge" style="background:#FF3B30;">Conflict & Instability</span>
+            Reuters · 28d ago
+        </div>
+        <a href="https://news.google.com/rss/articles/CBMiwAFBVV95cUxOZzFBN3pxaGZLMURocjhKbE11M1NGUGJjSzZxZmxsLVJfMXpZRzRXWkhqUF9jRUtjSGNvWC1IMVhodEtHV3pjM1ZaeGc2blhGNkVySEF3dFdmRDFUaHRlM2R4NlBENUlPd0otNGhVRXhqa21YMzJRN2Zaci0zRHRTQllaeU41NmZuQjJEY095dlVpbk56RnQzbWFZNnY1NUNUbUl0VTMxTXpBZXVwN21HTTBXdjJHMXI0X21QeENUb0E?oc=5" target="_blank">US struggling to de-risk Congo's 'war zone minerals' even after pact, sources say</a>
+        
+        <div class="regions">
+            
+            <span class="region-tag">DRC</span>
+            
+        </div>
+        
+    </div>
+    
+    <div class="article">
+        <div class="article-meta">
+            <span class="badge" style="background:#FF3B30;">Conflict & Instability</span>
+            Council on Foreign Relations · 41d ago
+        </div>
+        <a href="https://news.google.com/rss/articles/CBMikAFBVV95cUxNSG9La2pKSXhlanRJOFoxTWZ2aWFmWkR0Rkx4U3RyeWVXVnBXZFlyN1ZlWThiM3JHMzVlcERuYzRSOUtkRUlMYy1vQ1A3R295UG9rTlppbGN1M202TGhta3pSSWEzZi13SzhsTVJwTlNpaDFBZTl0bTlNblhSSmFDQ0d6OUgySURLcFh0V1NQX1Y?oc=5" target="_blank">Conflict in the Democratic Republic of Congo | Global Conflict Tracker</a>
+        
+        <div class="regions">
+            
+            <span class="region-tag">DRC</span>
+            
+        </div>
+        
+    </div>
+    
+    <div class="article">
+        <div class="article-meta">
+            <span class="badge" style="background:#FF3B30;">Conflict & Instability</span>
+            RFI · 50d ago
+        </div>
+        <a href="https://news.google.com/rss/articles/CBMizgFBVV95cUxOZi0tM3BfTTBSTHc5eUlPeHFBVk92SExSNGd3LWRtbXNtTUJGQWtRQnowa21WOFRPY25tWENINVZ5LXR1OFhyOVBwMjhnenJqV21ocVBDUjJtZ2ZmaVd0d1pnOVlXVWwtVHBoX2c4U3VaNE9kcmJsNk5PWjNqOEhIdzYtRVFRM1ZlUlFSdWtiMnNYeC0wcGZBbGFHRVZmQVBRdVlKSU4wNFktMjc3bW54Tm45YU53ZmZJLU1VTHhmNURQbU1kbHNwb1F4MHBmZw?oc=5" target="_blank">DR Congo weighs price of security in minerals deal with US</a>
+        
+        <div class="regions">
+            
+            <span class="region-tag">DRC</span>
+            
+        </div>
+        
+    </div>
+    
+    <div class="article">
+        <div class="article-meta">
+            <span class="badge" style="background:#FF3B30;">Conflict & Instability</span>
+            CPG Click Petróleo e Gás · 55d ago
+        </div>
+        <a href="https://news.google.com/rss/articles/CBMiwgJBVV95cUxOZExEZHBVa3R1UkhHQ2dWNkRlVnBxLS1BNHhYOFVweGxxSC1IWTdnRmpWTlNfeWVSTTZjUERYMjFnamdXSE1uWjcxVFhwU1RSRnA5ZktYbzVBVnpSaXJqMlB3b3N2ZExJRjBmVXhZeF8xVTE4cVNHU2JwWnpxdFRiZ0ZOVUVqMGpqSTg5TTJXQ29hQmt4VXd3Uk1qZmFTX1pCN09Tc29oZlQzRzhDVkRlRTR1OFpXbFprY3l6V3doNUZSb2s1TGxmb0htVEtRMkdyVkN1ZDJOQkpxYUgtQUZrb2VGYm9YTzRJWEFOZ2hjcWtkRlVPcTBURUJTREY5N0FGUkZGV3NqZEY0dTlPRFRpWFZ3Z3R5Tng5LUtxUVJPeW9YQ2VKUS1GakNTd0FPZkN6QW01V2tpVXZJM1BOa3MzaFFn?oc=5" target="_blank">After restricting exports and attracting billions in foreign investment, Indonesia is transforming itself into a strategic territory in the global race for nickel, cobalt, and batteries that underpin the 21st-century electric, military, and energy automotive industries</a>
+        
+        <div class="regions">
+            
+            <span class="region-tag">Indonesia</span>
+            
+        </div>
+        
+    </div>
+    
+    <div class="article">
+        <div class="article-meta">
+            <span class="badge" style="background:#FF3B30;">Conflict & Instability</span>
+            AnewZ · 57d ago
+        </div>
+        <a href="https://news.google.com/rss/articles/CBMiiwFBVV95cUxNMWNsYTltX2FicktzR0tHWWQ1eGVSWkk1dDhFZ0Q2ekp6bm1MSUtnZzhrekZBUGU5OGFjQy1XUHNIeVhIQmxvN1ZNRjRBM0dqQXdtLVRuZDdIYk40SDF2Rjl4SGVWV0NRY3dIc1o5YkJTdTVlYXJkcXZmdDRVTDJiSXY5M1NmY210V2VV?oc=5" target="_blank">More than 200 killed in landslide at rebel-held coltan mine in eastern DR Congo</a>
+        
+        <div class="regions">
+            
+            <span class="region-tag">DRC</span>
+            
+        </div>
+        
+    </div>
+    
+    <div class="article">
+        <div class="article-meta">
+            <span class="badge" style="background:#FF3B30;">Conflict & Instability</span>
+            Global Voices · 61d ago
+        </div>
+        <a href="https://news.google.com/rss/articles/CBMi1wFBVV95cUxNT0FrOElQV1dsN09TZmtHakNVbDBMUlNWNHVTS2J3U0dRS2RTbHlvYWNqOEg3cDR0MXRiSml6SGpvaElPWmJ2ZHJPOW9pdzV3RmZ6eWZwNVp5azlLLTMxaC1xV0lZOWVlaFlQck1UTUkwQmU3UXY0b0czdjNodkRFb2J3cWdyM09TTkI3UEVnaC13LUhxM0JqN25QbzBXY09xRWlkVXhmM0E5UHkzMFUxSUtXc3FUX25SV0FGZ1B3SmNmc1duUVBRbWFTNFEyMnhkOUxvbmN2Zw?oc=5" target="_blank">Tensions high in DRC, the global cobalt capital, between artisanal miners and industrial mining companies</a>
+        
+        <div class="regions">
+            
+            <span class="region-tag">DRC</span>
+            
+        </div>
+        
+    </div>
+    
+    <div class="article">
+        <div class="article-meta">
+            <span class="badge" style="background:#FF3B30;">Conflict & Instability</span>
+            Mining Magazine · 84d ago
+        </div>
+        <a href="https://news.google.com/rss/articles/CBMijwFBVV95cUxOekVwNHdiaFhSYVBKa2FSTGFiZXFqekREZFR6UHg1RHNjb1REaTNnQ011XzJkejVTXzNTOWFMRmt3Zkk5OGNJT3BhclM3czJXQ2RaNVZhX1lSUFMwaThqQVhvdFg4a2RiOG5kWEVsQml1S1I0TGk1dFJYem82U2xwVEwwam5uUWdtTDZiWnhKRQ?oc=5" target="_blank">Militia attack Morila mine in Mali</a>
+        
+    </div>
+    
+    <div class="article">
+        <div class="article-meta">
+            <span class="badge" style="background:#FF3B30;">Conflict & Instability</span>
+            CSIS | Center for Strategic and International Studies · 111d ago
+        </div>
+        <a href="https://news.google.com/rss/articles/CBMikwFBVV95cUxQTkJyMUVaYVZLNl9MajJ4dE5zQ3E3OVpGSTRyWDB0Z0Rza29DYndDQWs4WU13WV9TMW5zLWdHN1JnejdyajYzRDBLNU10bklld2ItcGJsWE1nZ1BkSTI2UGRXSVVVMGVyc1FpZXduYzZ0a2RxYjlfUk1kb0YtVG5HUGhiZ1dXWDFnNzdnRDc5Nzl3dlU?oc=5" target="_blank">Stabilizing Cobalt Markets: A Price Floor for U.S. Minerals Security</a>
+        
+    </div>
+    
+    <div class="article">
+        <div class="article-meta">
+            <span class="badge" style="background:#FF3B30;">Conflict & Instability</span>
+            Business Insider Africa · 124d ago
+        </div>
+        <a href="https://news.google.com/rss/articles/CBMi0wFBVV95cUxQV1RwUW1jU01lYk1Xd2duQmlldUxSQVRJazBjcmlxVjduYUpKeFhOSm9ybHNjUUtqTTBORmJ5eDl0RGM3N0x4ZW5LaEU5STZxZFlqbkZRN1ZxSldLdHFEb1RORk04WTVZcm14UnF4MTY4clcyNS1aTWFRX2FaaFFQdWJZMDJfRmJQU0JwdFFEbEdOaDl4cDVxRjNlNUdLSEM3RWhHM2NyTUxhNm1Nb0IzU0ZyQllJYVNYNHVSY0dUaFl5Zldpb0lUS3pyMVZUVGVXdGVV?oc=5" target="_blank">Congo’s conflict mineral lands the world’s largest tech company in legal trouble</a>
+        
+        <div class="regions">
+            
+            <span class="region-tag">DRC</span>
+            
+        </div>
+        
+    </div>
+    
+    <div class="article">
+        <div class="article-meta">
+            <span class="badge" style="background:#FF3B30;">Conflict & Instability</span>
+            The China-Global South Project · 125d ago
+        </div>
+        <a href="https://news.google.com/rss/articles/CBMikAFBVV95cUxPOFh6azlQTzNLMkZVUkk0WHhUZExCUm1BN003bHYwck45X0JpZTFLVnhCbV9yVmJ4WDY1dkktTTBXMktuTk5temUxWGN1U3lNZllqbTdkTWR5Q2VXSElRR2ZRdGxxYTJmZjNqa2dJQ3Rra0VNQkN0ZFhZRjNTc2x5WFdaSlp6SGx1NGhoWDRzRnc?oc=5" target="_blank">As Conflict Escalates in Eastern Congo, China’s Mining Giants Confront New Risks Far From the Front Lines</a>
+        
+        <div class="regions">
+            
+            <span class="region-tag">DRC</span>
+            
+        </div>
+        
+    </div>
+    
+    <div class="article">
+        <div class="article-meta">
+            <span class="badge" style="background:#FF3B30;">Conflict & Instability</span>
+            The Barents Observer · 127d ago
+        </div>
+        <a href="https://news.google.com/rss/articles/CBMivgFBVV95cUxOZ3I1U1Q3dWFpVVJEcDN2RDV5R2Z3cm50QkJnTUd4X1J0ZjVvRjZyeWdfbkZxeEhUeDRWdjBCcm9UUVg4NFgwWGYtLVZBUlpvSExjV280QXJ6blZ6MUlxdlpHN2dXZ1dqQ2MtNVNhT0VGSEhQUU5aOS14YnFhbnRDclhKYWVJUklZR2hFOEVmZHV0WWt4ZlEyeXI3a3ZMZTZYblB2eW4zQmM0M3oyUnk3RHBqM3kwc1pGRmd5YVln?oc=5" target="_blank">Potanin admits trouble as Russia’s war-torn economy suffers due to sanctions</a>
+        
+        <div class="regions">
+            
+            <span class="region-tag">Russia</span>
+            
+        </div>
+        
+    </div>
+    
+    <div class="article">
+        <div class="article-meta">
+            <span class="badge" style="background:#FF3B30;">Conflict & Instability</span>
+            Reuters · 134d ago
+        </div>
+        <a href="https://news.google.com/rss/articles/CBMiogFBVV95cUxORGh2Sm96cDZDeFNCTVZTc0EwYzNZUnhzckh6czlUQ1FfRmRnQ3NnNV9zTDI5c19IdUxfSU5OcXZWdFNzMzRzYmdPanJfZms3TmMxRnhDcE9udHNGcHk0ZjVUU1pldzBGTjNaVnkyWUk2NkwxVHczTFNDX0lHejN5X2tHdlVneDZGLW9RYkRzYml0c0wwRmh0N09pZkhtRjRLckE?oc=5" target="_blank">Congo extends ban on trade in minerals from sites in war-hit east</a>
+        
+        <div class="regions">
+            
+            <span class="region-tag">DRC</span>
+            
+        </div>
+        
+    </div>
+    
+    <div class="article">
+        <div class="article-meta">
+            <span class="badge" style="background:#FF3B30;">Conflict & Instability</span>
+            Geopolitical Monitor · 139d ago
+        </div>
+        <a href="https://news.google.com/rss/articles/CBMihwFBVV95cUxNZHRXMjVXSjZZRkxHQXRrWlJyZTA4SUZpbEFEWUhFSUxDWWJmQllrWTdHb3NoT044ZHFmWEIwT1l6YjJpQnJiXzV2eVdCaHBsMDdSYmkzV1E3TUc2WTdxaTdUc0lJOGlTVXhJRWRucmdIZ29mMVM5OW1zYkx4T2E0T1JCNHczRXM?oc=5" target="_blank">M23, Minerals, and Geopolitics in Eastern DRC</a>
+        
+        <div class="regions">
+            
+            <span class="region-tag">DRC</span>
+            
+        </div>
+        
+    </div>
+    
+    <div class="article">
+        <div class="article-meta">
+            <span class="badge" style="background:#FF3B30;">Conflict & Instability</span>
+            The Hub | More Signal. Less Noise. · 162d ago
+        </div>
+        <a href="https://news.google.com/rss/articles/CBMi0wFBVV95cUxPSmNEclI1X2NjX3Nqazh1VGtLRFJhNjJ5OFY0cEpEYmh5WFlCaW0wTF9yUWg3ZTBLa191RnZVdnNTMHBBVWoyaUh0MXNVbTd3STRvaElpNHIzLXNTZDBFa3FxQ3VFV25yR2RYUk9LN1FvcGtOSGhNdkxHU1kzME9pTFJ3SThFWXRJYjRvb1hITmVKamRqV0NydHNvYkIzZ2dtTFFCSU9ZVWhZUm9FVVRRdElLSmlpVFk3TDg4SEFPblJjTmwzelVSQ0dlRHZ1T2RDd1c0?oc=5" target="_blank">Canada’s secret leverage in U.S.-trade war: How lithium and cobalt could reshape trade negotiations with Trump</a>
+        
+        <div class="regions">
+            
+            <span class="region-tag">Canada</span>
+            
+        </div>
+        
+    </div>
+    
+    <div class="article">
+        <div class="article-meta">
+            <span class="badge" style="background:#FF3B30;">Conflict & Instability</span>
+            Automotive News · 168d ago
+        </div>
+        <a href="https://news.google.com/rss/articles/CBMifkFVX3lxTE5NOG5VeVN0RVpqRWdDX1MxZm42eDFYV2stS3p5RnFSVEI0YU1JNzQzQU5MTllXVnllY0tjcTlhMXB3bmFRQ0Rpb0xicEdzN3k1SnN5cE55c2F6cm1TT20tODBMQ1ZJc2ZRakZsR3p2aVRfMklVVXNjeURkUTVYZw?oc=5" target="_blank">How a renewed U.S.-China trade war could scramble auto supply chains</a>
+        
+    </div>
+    
+    <div class="article">
+        <div class="article-meta">
+            <span class="badge" style="background:#FF3B30;">Conflict & Instability</span>
+            New Lines Institute · 182d ago
+        </div>
+        <a href="https://news.google.com/rss/articles/CBMi2gFBVV95cUxORE1LcURzREpXRFBIaHpDR0hfZTJobnNoY2c2Z1FOeXI1ZVZSWU1wV012Y2VnWU54dkVaOEdhcm5qN0pKZm5WVkloMFlOWWR5ZU11YmY4UDR6NFltY2hGajZoc1pENW5PYTk2a2liRW5mbWJ2N1JqcmZaNEFKY29zU2dOSTI1aDVoenB3RE16RVlKZEtzQjhHcU1qQVVReHpvaTc3UTZHc1pFaEE4ZHdOUC1BWHV5ckdRdDNoQjk1cFVnNEVMQnh4TUxKcFE4R3Y2bGhXN200Z1BhQQ?oc=5" target="_blank">The Nexus of Conflict, Mining, and Violence in Eastern DRC</a>
+        
+        <div class="regions">
+            
+            <span class="region-tag">DRC</span>
+            
+        </div>
+        
+    </div>
+    
+    <div class="article">
+        <div class="article-meta">
+            <span class="badge" style="background:#FF3B30;">Conflict & Instability</span>
+            Global Witness · 186d ago
+        </div>
+        <a href="https://news.google.com/rss/articles/CBMiwAFBVV95cUxOQ25qVkdJN2VjYlliM0ZsSktfWGFlYURjN0VOdVlyek5OcExwRzZDWDlxWTZuenNVR1d3N3c2Y0VCdTJER05mdTJVZnFhM0tuUmlmY05uNHd0azltTFpGSUItMkRzSHAtcm1TQnd2WXptSjRIUXE1QVJsU0dpQ3RlMlpiY1hmYW1oTm9SSGkwSnhEdjVkV3JtdGg2Ny1peG9GaGczc3AxMlRYdGtvd0xNcDFseGVOcVZqRm5nR1NmWV8?oc=5" target="_blank">Sanctions gap lets Russian-mined nickel flow to Western markets</a>
+        
+        <div class="regions">
+            
+            <span class="region-tag">Russia</span>
+            
+        </div>
+        
+    </div>
+    
+    <div class="article">
+        <div class="article-meta">
+            <span class="badge" style="background:#FF3B30;">Conflict & Instability</span>
+            dw.com · 197d ago
+        </div>
+        <a href="https://news.google.com/rss/articles/CBMisgFBVV95cUxOSGlkQ1JLY3pzRGZDZ2MyMU9YanY0dnRoWTJqWkRLdmt2MUN4MVdCMmdPSnQ3N2djZHRBNmcwcHJwVVFsalgzY1NxUy1wV2hzUy1RNmVVVUNoLUozRGJKS1p6LTJUNXVGekFIelRfaEN0Z1gxQ0VzdjlQV19SOUZfTTgwYS03SmFqZnRiY1MwZjA0SGJkUVhSd2phWHFGT1FQT2o0bUpPZDlCOThwckxVb0ZB?oc=5" target="_blank">Critical minerals contribute to instability in Africa</a>
+        
+    </div>
+    
+    <div class="article">
+        <div class="article-meta">
+            <span class="badge" style="background:#FF3B30;">Conflict & Instability</span>
+            Reuters · 230d ago
+        </div>
+        <a href="https://news.google.com/rss/articles/CBMipwFBVV95cUxQQy1KeElnck5GM3pMbm93U2k2SUlaMzdrbHZGdnpjWEo2Q0FnY05RQy1MdHN5UnctODF6d2psOVJwWU9xQ2RUMmNGWjc0ZktqbHNXSkZONnRRcEpZa0RsNGcxTTZYZXMxMlFhZVdjT0gyNGRuUk1kTHdQT2VHMWZHZ002T2hvYVBSWHZUTFBPMEpXSUMwNW1FVjVqbzZ0aVZMN2FEZlBPOA?oc=5" target="_blank">Inside the mine that feeds the tech world - and funds Congo’s rebels</a>
+        
+        <div class="regions">
+            
+            <span class="region-tag">DRC</span>
+            
+        </div>
+        
+    </div>
+    
+    <div class="article">
+        <div class="article-meta">
+            <span class="badge" style="background:#FF3B30;">Conflict & Instability</span>
+            Mining.com · 237d ago
+        </div>
+        <a href="https://news.google.com/rss/articles/CBMiggFBVV95cUxNX1N3dVVCVVpUbjROQU53cm5wY2lPdkU1WlRWdUpyR1NkMWs4S09QMXh0WG9uZzZMcjc2aDdUZ0s5QXkxajF1aWxDTWkwRmlNcEFKbHdEdnkyUHRrX3NuSU9sai1hUXpWdV9CVHh3SFJ0MmgtZzBwRkZ1UlpFUWpFU3lB?oc=5" target="_blank">Glencore warns of cobalt surplus amid DRC export ban</a>
+        
+        <div class="regions">
+            
+            <span class="region-tag">DRC</span>
+            
+        </div>
+        
+    </div>
+    
+    <div class="article">
+        <div class="article-meta">
+            <span class="badge" style="background:#FF3B30;">Conflict & Instability</span>
+            Genocide Watch · 295d ago
+        </div>
+        <a href="https://news.google.com/rss/articles/CBMijgFBVV95cUxPVzd2ajNNMEdmdXR4dGx3UVFDNGVPNXd1eHpNVTJHX1k0aXJoY2JSNmh3Vmp4RHZ6WXdFQ3AwYVl0OXhDeVN3aVh6VEJsa3JscENfa2dyZk5WS1lQVVhOMFFwWXJkODdBeThjQjVVdzVFNnhpUmpSOGdnLVNJVlIwM1Y5clhSMDBkVU1aSlR3?oc=5" target="_blank">Special Report: Conflict Minerals in the DR Congo</a>
+        
+        <div class="regions">
+            
+            <span class="region-tag">DRC</span>
+            
+        </div>
+        
+    </div>
+    
+    <div class="article">
+        <div class="article-meta">
+            <span class="badge" style="background:#FF3B30;">Conflict & Instability</span>
+            Medium · 328d ago
+        </div>
+        <a href="https://news.google.com/rss/articles/CBMinAFBVV95cUxPS0c3QkJneFBiNENmSnp2Vk5WbmFMZFFGTGtiMUhxSm9VdmJQallJQ2tFNm55cnhnTDd6Q25EcVNsaVRGOTJIQWV2UHJreEhfcTJkeUZoQ0I1S2podE96N3RqOXNwQVdVcEVwU093dWJZQjh2RkNxZkpnRkdHX0V3aWtlVGdMMVQ1eUZpLTVhN1ktT21PTms5ZkliM3c?oc=5" target="_blank">Mineral Dependency in an Age of Trade War | by Michael Barnard | The Future is Electric</a>
+        
+    </div>
+    
+    <div class="article">
+        <div class="article-meta">
+            <span class="badge" style="background:#FF3B30;">Conflict & Instability</span>
+            Universidad de Navarra · 333d ago
+        </div>
+        <a href="https://news.google.com/rss/articles/CBMiiAFBVV95cUxNRV9Pazk4b19hUE1wVzJDN1BlTmhMYnM1VUZrbVBHU3gxQVM2cm90ckpyVlVacERIYzdJeVRDeUNlREl3dEk2enNGSzBRdVZQMkc3dTJfNW1qb25ac3phTlhzRU9SbG5MMVdhTzZGRVI4TGo2dVozRVBlQktNc0F1VzdOUUIzTmZY?oc=5" target="_blank">Who profits from conflict in the Democratic Republic of the Congo?</a>
+        
+        <div class="regions">
+            
+            <span class="region-tag">DRC</span>
+            
+        </div>
+        
+    </div>
+    
+    <div class="article">
+        <div class="article-meta">
+            <span class="badge" style="background:#FF3B30;">Conflict & Instability</span>
+            Bloomberg.com · 349d ago
+        </div>
+        <a href="https://news.google.com/rss/articles/CBMiuwFBVV95cUxNQW83Ukt6TjRVdWZzbTRNaXRzZWt0c1BoV0ZKWm12YTFhMDBvd29vUC1wb241MU9Ma3k5eDh6SW1Bdm1qV2Z5OHRhOWhyWE1IOVV2LUEySUFYRnUwSkw5NEl1SDdoekxjQzc1djZWclJLSE1TZXBpa2tLc3ZZVmdXdDZYMkNZcGZNamRjeUY2T1QtbDBOcEs0SWpIX3pmWWVxTXc2WTJGVk83bDVqd08wUDZtSy1iWW5hMlE0?oc=5" target="_blank">How Trump’s Trade War Is Heating Up Fight for Critical Minerals</a>
+        
+    </div>
+    
+    <div class="article">
+        <div class="article-meta">
+            <span class="badge" style="background:#FF3B30;">Conflict & Instability</span>
+            War on the Rocks · 351d ago
+        </div>
+        <a href="https://news.google.com/rss/articles/CBMixwFBVV95cUxNSDNlMHFUT29RS01hbF9CcGhYVlEwempid3VBMXQ2THZLOE1aZFNLTm5INUJ2bmJhbTNjRHIyc0ZiSmhVN1RnOHNSLTcwa1NRVzBBUkIyd2JHZVdaRk5Ud2RxYS1JTHJNUE9kZ01fUDlQV3hKLUxraDB4cEYzQzEyYjZZbm1uUkVPbWZUcmRLd1ROXzdMYzBKZ0F0bVZ2Z2F0bVgzam15ZEpyZHVlLUFxcHowWkg0ZUZ5M1NGb0VUdlVHc2s4UlBz?oc=5" target="_blank">A Federal Critical Mineral Processing Initiative: Securing U.S. Mineral Independence from China</a>
+        
+    </div>
+    
+    <div class="article">
+        <div class="article-meta">
+            <span class="badge" style="background:#FF3B30;">Conflict & Instability</span>
+            Amnesty International · 518d ago
+        </div>
+        <a href="https://news.google.com/rss/articles/CBMisgFBVV95cUxQTjZvSWtBT2NXeUpUNGpDZGt4N3NGdjE0bV9kNVBEaHE4UTVrS3o1akFTdWNacTNQRXdFRlQwSmZONE1JZXBndXZ1dWNjLUwtbjFLVW92UWJYOEE4UHcwNUdoLWhhcGN6akxtZVNsdjRLUkVmTncwT1lxY0lPUDYxd0QwaUtaSTgwTE5WZmNFb0FLTFh0amp1TUtxQVlLRzRfbFVYZnlUWGhBVjhiM1hZd2Vn?oc=5" target="_blank">Why is the Democratic Republic of Congo wracked by conflict?</a>
+        
+        <div class="regions">
+            
+            <span class="region-tag">DRC</span>
+            
+        </div>
+        
+    </div>
+    
+    <div class="article">
+        <div class="article-meta">
+            <span class="badge" style="background:#FF3B30;">Conflict & Instability</span>
+            Reuters · 617d ago
+        </div>
+        <a href="https://news.google.com/rss/articles/CBMivAFBVV95cUxOZVFfLXJmS3lZV0h0dDFlWjBZTVI3OFFORUJFalE3MmNmX3lKa1FRN1Z1VnRkNXQzcHdaTExRWHExbG82WFNIVlFoU2dQeGg1VXNEN1FwbElYbk5VRzVGT0ZsWXV1UmF4Rks4TEFsRFBVU0hKdXE0Y0JEa2VTcnhJTC1PWWJVbTFxUDRPRVRmZ052QTZTSmJPaW43MmU4R0h1bmZRRHlWM01PX0M3VV9sVHA0QUNJenZrRkVHZg?oc=5" target="_blank">Insight: Western miners push for higher metals prices to ward off Chinese rivals</a>
+        
+    </div>
+    
+    <div class="article">
+        <div class="article-meta">
+            <span class="badge" style="background:#FF3B30;">Conflict & Instability</span>
+            Wood Mackenzie · 671d ago
+        </div>
+        <a href="https://news.google.com/rss/articles/CBMivgFBVV95cUxNSl9BTFNKU01MeHdOSm5ia3ZoLUNxZy1LeDg3YkNqR3FVUHltS005aERlak9oai1LZ3h1SVVkZmFndk1jVXFneDZVWl9BVUc1SFFPOS1sbHhnSi1BalRVaGZqdzhvemhzd0dTRUl6aUstR1FmWnpnQ1RnTmJBdWROeGd3dkNDSWZ1OEhsTDVUMmFJS0hyR3k5ZXR3a3piY2FRNVhUZjdvdEp5UlNrX1ZGXzl0SFc4RjdKcGpDc2Jn?oc=5" target="_blank">How do Western sanctions on Russia impact the global metals, mining and coal markets?</a>
+        
+        <div class="regions">
+            
+            <span class="region-tag">Russia</span>
+            
+        </div>
+        
+    </div>
+    
+    <div class="article">
+        <div class="article-meta">
+            <span class="badge" style="background:#FF3B30;">Conflict & Instability</span>
+            Ropes & Gray LLP · 802d ago
+        </div>
+        <a href="https://news.google.com/rss/articles/CBMirAFBVV95cUxNY2xLN2p6WHJKYzRheEZSd2g3ODZXajN1RmlDRDAtc0NxV1VlWWh4OXg1VjJwQ1J6S1BFUGZQMXNndEFxcnFmQTBZSTJJOWpSQnVoVlVnVi1Yc0xTck5IWHNzeXYwb0FTcjB1aHk1ekJOWmNZdlAtV0ZYLVNkMjcyNkctVWlvX0ppSi11QTlsWG9TVGlpUW54bVRyMC1YMy1waWdsNWhlWEJhOGJ4?oc=5" target="_blank">The UK’s seventh package of sanctions against Russia | Insights</a>
+        
+        <div class="regions">
+            
+            <span class="region-tag">Russia</span>
+            
+        </div>
+        
+    </div>
+    
+    <div class="article">
+        <div class="article-meta">
+            <span class="badge" style="background:#FF3B30;">Conflict & Instability</span>
+            DGAP · 1093d ago
+        </div>
+        <a href="https://news.google.com/rss/articles/CBMipAFBVV95cUxPbWdHQ18xTVBwRFJmUDRJZG1QZFZNUlVBS3dZeXEyWngyU04tVnh0TWo5U0RsUy1sQkd6SHBfUE9UVURkQmNsdFgzbmk3c0ZuMTZaY01rdXQyUVNKTnFfYWNpRGlmQjBXaUpEV2lTeDBDLVJLNW5DMUtwWF9xSWY2OE90QmtMdk85dEVnSHlwV3lXZ0VwQ0g2NVRZRFRYOG9vX3ZwRw?oc=5" target="_blank">Climate and Environmental Security in the Democratic Republic of Congo</a>
+        
+        <div class="regions">
+            
+            <span class="region-tag">DRC</span>
+            
+        </div>
+        
+    </div>
+    
+    <div class="article">
+        <div class="article-meta">
+            <span class="badge" style="background:#FF3B30;">Conflict & Instability</span>
+            New Security Beat · 1274d ago
+        </div>
+        <a href="https://news.google.com/rss/articles/CBMisAFBVV95cUxNTDhBOVpMWFdiQkZ5eWo1SHB0VDRTMjNTMkJfSmJjLXV0c2R6TVJfdjRvM2psOXZneHlLWTR2Qzh1emZIaDFFNllncDQwQVZ2ZmppaVBFNmdXdlFUa0FFRHE4SFlWMzNlWFZFVFlHY29jZE9GaERXcm9ScXlCQklDWmVDRjNMRWRxYkVROHJqU0NkUGhEOG84UW1USE42RHM2V0VvVy12SnBKaUFtMXNUdw?oc=5" target="_blank">Protecting Human Rights in DRC Cobalt Mines: A U.S. Priority in a Green Transition</a>
+        
+        <div class="regions">
+            
+            <span class="region-tag">DRC</span>
+            
+        </div>
+        
+    </div>
+    
+    <div class="article">
+        <div class="article-meta">
+            <span class="badge" style="background:#FF3B30;">Conflict & Instability</span>
+            CGEP · 1442d ago
+        </div>
+        <a href="https://news.google.com/rss/articles/CBMiwAFBVV95cUxNeWdjem5LelA3Zkd6SjhBS1VxWXdTRDlPaFBOTXNVU2VYSmNWakl2NWlrbDh4OVoyR2hqdS04SEpLQjJOMGVjS1BlcW9fUGFwYjJ1ZVMtNENjNVBycnMzVTB0ekVSWDNxazY5bGxISFV5NWVhU1h5aDZaOTZFcTFRQUQtZlRaS2tpejA4dEItQmc2a0FBaGZjc0lhR3BPN2t3anp1TXRrVlRJcTk3ZlBmeWd0di1udmNFMzVQeDVKX3I?oc=5" target="_blank">Supply of Critical Minerals Amid the Russia-Ukraine War and Possible Sanctions</a>
+        
+        <div class="regions">
+            
+            <span class="region-tag">Russia</span>
+            
+        </div>
+        
+    </div>
+    
+    <div class="article">
+        <div class="article-meta">
+            <span class="badge" style="background:#FF3B30;">Conflict & Instability</span>
+            Politico · 1496d ago
+        </div>
+        <a href="https://news.google.com/rss/articles/CBMipAFBVV95cUxOS0s3RE9xZGpGd21jbUJWdjRMTVl1bTdMNHJXY1k2X3ppYlVhc1c3WHpuNFJNTHZ0RkMzbktzVlpCYUp1cFNWdlAzNzBDTGhMYkZTQzdiVzBsYkZ0Mndud08yME1qQktPQm41UGdzVDNlblJ5UjdiTGY3eFNGeVFQYmJKek8xRHRLMm50ZWd1cDV5d25CWFkwOW50MFpHWlNJbTBqQg?oc=5" target="_blank">Could Russian sanctions hobble U.S. clean energy push?</a>
+        
+        <div class="regions">
+            
+            <span class="region-tag">Russia</span>
+            
+        </div>
+        
+    </div>
+    
+    <div class="article">
+        <div class="article-meta">
+            <span class="badge" style="background:#FF3B30;">Conflict & Instability</span>
+            Political Violence at a Glance · 1981d ago
+        </div>
+        <a href="https://news.google.com/rss/articles/CBMiiwFBVV95cUxOQk9HRDBNOXYwNlEzYnpOMlgxdWlVdVBpQVZRbjJ6S1JDWFgyTFFFTGt2N211aXZ0cXgwUjQzTUEzdmlQdFhOWk5KVWh3RDU2eGpNckJHQjRqbDk2WnhUbjgzNGUwVkxEUlBVZi1YbjBBTjltb3JiR1Jid0twQ1ZyVE1YcEJseEtHdV9n?oc=5" target="_blank">The Future of Conflict in Mining</a>
+        
+    </div>
+    
+    
+    <div class="article-group-header" style="color:#FFD700;border-color:#FFD700;">
+        📜 Trade Policy & Sanctions — 57 articles
+    </div>
+    
+    <div class="article">
+        <div class="article-meta">
+            <span class="badge" style="background:#FFD700;">Trade Policy & Sanctions</span>
+            Hinrich Foundation · 14d ago
+        </div>
+        <a href="https://news.google.com/rss/articles/CBMiwgFBVV95cUxQVXZUMlhPbzB0dWFzTGdoUDEtYWIzU0pjSlVnalJ4bG53YkxoV05HU0VsT1VxSU0zd3VNaXRUX2RiUjdIX1Zrb2JsbFdqQW9hWURDcG9EWjJxWk9ITG1uRjZHWjVlNXN0RkJmbGFtRFN2aTFGZ0FHa054Q1B5NDBpZjBiUFF1SHFXMlFhUzF2SXhXV1JZN2dkQ25Lc29UNmc2Q1QxMmFKRVZZeUpmMWZWZnJqQy1Kb2VwSUQ3VU5LUjZldw?oc=5" target="_blank">Trade and domestic effects of export restrictions</a>
+        
+    </div>
+    
+    <div class="article">
+        <div class="article-meta">
+            <span class="badge" style="background:#FFD700;">Trade Policy & Sanctions</span>
+            Farmonaut · 21d ago
+        </div>
+        <a href="https://news.google.com/rss/articles/CBMif0FVX3lxTE8xSEM5TzkwUzEzOG5BTlR0SEc1NkVKODdpTUZtWGEtdFV0bXJHSkljeXNXMnpWejZQOUxaaVN1OWwtT25mMEtYUnhOQlVvQmpidlRZdnJOaElDelRWc2VHSFFjeGlkT25naDJKV2tPeXZpa3M3WUtOX3N3OHNQVmM?oc=5" target="_blank">DRC Cobalt Exports % Of GDP 2026 & World Reserves</a>
+        
+        <div class="regions">
+            
+            <span class="region-tag">DRC</span>
+            
+        </div>
+        
+    </div>
+    
+    <div class="article">
+        <div class="article-meta">
+            <span class="badge" style="background:#FFD700;">Trade Policy & Sanctions</span>
+            CPG Click Petróleo e Gás · 55d ago
+        </div>
+        <a href="https://news.google.com/rss/articles/CBMiwgJBVV95cUxOZExEZHBVa3R1UkhHQ2dWNkRlVnBxLS1BNHhYOFVweGxxSC1IWTdnRmpWTlNfeWVSTTZjUERYMjFnamdXSE1uWjcxVFhwU1RSRnA5ZktYbzVBVnpSaXJqMlB3b3N2ZExJRjBmVXhZeF8xVTE4cVNHU2JwWnpxdFRiZ0ZOVUVqMGpqSTg5TTJXQ29hQmt4VXd3Uk1qZmFTX1pCN09Tc29oZlQzRzhDVkRlRTR1OFpXbFprY3l6V3doNUZSb2s1TGxmb0htVEtRMkdyVkN1ZDJOQkpxYUgtQUZrb2VGYm9YTzRJWEFOZ2hjcWtkRlVPcTBURUJTREY5N0FGUkZGV3NqZEY0dTlPRFRpWFZ3Z3R5Tng5LUtxUVJPeW9YQ2VKUS1GakNTd0FPZkN6QW01V2tpVXZJM1BOa3MzaFFn?oc=5" target="_blank">After restricting exports and attracting billions in foreign investment, Indonesia is transforming itself into a strategic territory in the global race for nickel, cobalt, and batteries that underpin the 21st-century electric, military, and energy automotive industries</a>
+        
+        <div class="regions">
+            
+            <span class="region-tag">Indonesia</span>
+            
+        </div>
+        
+    </div>
+    
+    <div class="article">
+        <div class="article-meta">
+            <span class="badge" style="background:#FFD700;">Trade Policy & Sanctions</span>
+            Reuters · 61d ago
+        </div>
+        <a href="https://news.google.com/rss/articles/CBMivgFBVV95cUxNX0lvSzhHN0UxdUVzT3o4dXlPUlR5cGZDQTk5UzZSbm02YzZTaTc3ajFEVVg2ZW1ZSVdrRlZKSXpYeldjUGd2Umk5RVJTM284Y3dWbktLZy00LTRkMHdwLXRMbFgtSjNyckstLVEzam5BWldaWlZTTXA3Ti1QNDhiRjVCZHJUZnFhNEhDQXBQaXdEMGRVYWJtVk5nZFczRTVDY2tLMVJ5YUVYdk5lVzRqeEd2VnA5VUdvcTF5VHJR?oc=5" target="_blank">Critical minerals: licensing, tariffs, and the new supply-chain risk</a>
+        
+    </div>
+    
+    <div class="article">
+        <div class="article-meta">
+            <span class="badge" style="background:#FFD700;">Trade Policy & Sanctions</span>
+            Discovery Alert · 61d ago
+        </div>
+        <a href="https://news.google.com/rss/articles/CBMif0FVX3lxTFBWcjFzdjdTeHNUZnl3REdYWk1OOGMxdjJWMTBOUnRHYkhHWl9ZdW95bmhCZ3YtTkVGQVlIOGd4N19jbmUtN1ZuVlpJZ3dhaUZBcE9QLUR0NGowQXBTQzNJV3B5bUh0N3lWY3U0SXI5dE13THZwVTNTVmR0dWN3Mk0?oc=5" target="_blank">DR Congo Copper Export to US: Trade Revolution Begins</a>
+        
+        <div class="regions">
+            
+            <span class="region-tag">DRC</span>
+            
+        </div>
+        
+    </div>
+    
+    <div class="article">
+        <div class="article-meta">
+            <span class="badge" style="background:#FFD700;">Trade Policy & Sanctions</span>
+            Recycling Today · 75d ago
+        </div>
+        <a href="https://news.google.com/rss/articles/CBMiywFBVV95cUxPaFp5Slk2TGVZNjVsY2xHUnVQZ3MyVGc3X19oeHRsbWdpMDRPMUZGbnpwTXJyNjNBSWo0OWRMT3pQR2MzRFg0VGx2WnBVODBsU0JOUmVBbXFVYWd3b0FLRTZjcFpvX05LQ1FXdjFLUEhEWjQzd2ljYWFrZTB0bnFrTnlGdUZPRkE3MXlraWstYk9IQV9SdjBSTHNQaHUxY0MyT1A4Wmx1T3c4MHZrZTdnSWY3ZmQ3ZWd0RjBxd1ZJTDVYYmh5MHh4WVpvOA?oc=5" target="_blank">White House seeks critical minerals import reductions</a>
+        
+    </div>
+    
+    <div class="article">
+        <div class="article-meta">
+            <span class="badge" style="background:#FFD700;">Trade Policy & Sanctions</span>
+            ING THINK economic and financial analysis | ING THINK · 75d ago
+        </div>
+        <a href="https://news.google.com/rss/articles/CBMic0FVX3lxTE5ESGptamE2MW53NnltOWZQREZraG9WejBfNk5uT19FMFI4NnBBSTBHRFJndEcwWTRRX01nRG1aVmt1R2VTclQ1VUtaZGNha3k5NmFZX3RUMm1CRjJEd2N6VnFTMEExUnBZQjNYUWxLMktIWHc?oc=5" target="_blank">Trump puts silver, other critical minerals tariffs on hold</a>
+        
+    </div>
+    
+    <div class="article">
+        <div class="article-meta">
+            <span class="badge" style="background:#FFD700;">Trade Policy & Sanctions</span>
+            Kleinman Center for Energy Policy · 77d ago
+        </div>
+        <a href="https://news.google.com/rss/articles/CBMisgFBVV95cUxOajJvTGdkU3J1aDBhQURJTFlzbmxPclZBek9NN3ZHWV90Q0llY3c4RDBBMWpESDc4d2NLQkwtT2tKZElHYzYzb3k1dUNUYnpOTGhteWpEc3F5NVpraDRyOVhIcm9HZG5DTWQ5NU5SMWx4NTVUYUVJVUVXZVRsLVBiV2Z6UVZISDFqMGV2eThGaEZZZWdpcFNSMnp6bURxSnk0bXlCYzIzUlRwT3MyQnVXTG93?oc=5" target="_blank">Unearthing Power: Will the DRC Break Free of the “Resource Curse?”</a>
+        
+        <div class="regions">
+            
+            <span class="region-tag">DRC</span>
+            
+        </div>
+        
+    </div>
+    
+    <div class="article">
+        <div class="article-meta">
+            <span class="badge" style="background:#FFD700;">Trade Policy & Sanctions</span>
+            frontiersin.org · 81d ago
+        </div>
+        <a href="https://news.google.com/rss/articles/CBMioAFBVV95cUxPNjRiWmZTX3A2OUEwUTFVTVp4c2plVFB0QktGQmt0YXF0QU90LXVOWWlpR0NlUXB1X3ZNbTUxMzNjSTd3MmF0TDR5cEFpWU1FQXlMbVdvNWpFczhEOE04LTdYck1yTHhXS1RfNU5uUGVKN3Fsa3NoQlQzU1E3Z25XeEJNOUtVZWp2SnhHWnF6bXBGcnBqTjEwcm9xazY4aU14?oc=5" target="_blank">How does environmental regulation affect the cobalt supply chain resilience: empirical evidence from cross-border data</a>
+        
+    </div>
+    
+    <div class="article">
+        <div class="article-meta">
+            <span class="badge" style="background:#FFD700;">Trade Policy & Sanctions</span>
+            Mining Magazine · 98d ago
+        </div>
+        <a href="https://news.google.com/rss/articles/CBMingFBVV95cUxNbXVra1ktZFhMQlBiYWFaemxRazd2SXFFMXVtdHVKNDkzY1FtdW1Xa2w2eVowMXdLMWlOczR5SENESUk1V29tSjRNN3psdU9lVmJDb1IxeWNZMTAzZ2pPMzR1NnJCVGxjd0tld25WOUFLMnN1RzdtTUF1bGhOZElpOGp2UW5oa0NJbmV3ckJRaGNtNFVMbHdUNElEV21VZw?oc=5" target="_blank">CMOC sampling a good sign for DRC cobalt exports</a>
+        
+        <div class="regions">
+            
+            <span class="region-tag">DRC</span>
+            
+        </div>
+        
+    </div>
+    
+    <div class="article">
+        <div class="article-meta">
+            <span class="badge" style="background:#FFD700;">Trade Policy & Sanctions</span>
+            Discovery Alert · 111d ago
+        </div>
+        <a href="https://news.google.com/rss/articles/CBMiiAFBVV95cUxQRW5ucmZxQ0lXREhlT01zUnR6ZWhqUWJkZFNQX0xBX2FSUWZSVFlsLWZ5eHl1SjZkOHpsZWMxdnhzT2ZGdXVwMXFVaFNkaFZUaHlKWGJ4TFFRcThpVlYyTnIwZkk1bUFXdkVwa0tLeURreGRoMTFTR28xeFdjZjEzRUhSS1NFWjFE?oc=5" target="_blank">Glencore First Cobalt Shipment Congo Quota System Impact</a>
+        
+        <div class="regions">
+            
+            <span class="region-tag">DRC</span>
+            
+        </div>
+        
+    </div>
+    
+    <div class="article">
+        <div class="article-meta">
+            <span class="badge" style="background:#FFD700;">Trade Policy & Sanctions</span>
+            Miningmx · 112d ago
+        </div>
+        <a href="https://news.google.com/rss/articles/CBMioAFBVV95cUxONzJZMEx2NnlmREhvYklUcmljb19FcGlZWC1sZlJGeXhCQjlqYld4Tl9CUDdaakM2eGd4Sm9qbUhnNjV2X1Fhay0tUVhVM2gxZzZGNUFpYzRCTERweEt0a3lOUDZZRExkNDdWanF5QllnS3V1UE84dnNwNFA5SjVQSHFVQ2dzU3RwdFFlX3pUMVdQQlFrRXlJcFZNZm9fUjRE?oc=5" target="_blank">Congo cobalt exporters seek clarity on quota rules</a>
+        
+        <div class="regions">
+            
+            <span class="region-tag">DRC</span>
+            
+        </div>
+        
+    </div>
+    
+    <div class="article">
+        <div class="article-meta">
+            <span class="badge" style="background:#FFD700;">Trade Policy & Sanctions</span>
+            TRT Afrika · 113d ago
+        </div>
+        <a href="https://news.google.com/rss/articles/CBMiZEFVX3lxTE53U2hoQVhWTEtxS2gzbWllcVhpbHZNYnlkcjRhZm9HV3J0ZDZkSkhOelZxd3NYRjNQdXI3ejJlbHh1WVY5QXJUQ1VBRUhVeDJadHU1WGlBZDlTckc0TVFvenBrdnbSAWpBVV95cUxONXFYTndsaHNjTWRiZmk5Z3JOcWpwTjkwUS1ROVRZQ1U4R2FVYXdiWEJJRUxoMGZlQTBsdmljSmVwRi1Qc3ZkME5zWlV5QjZoRXFScTlQaG15MVdXSkpoTWJjb250OTFid0p3?oc=5" target="_blank">DRC miners urge urgent talks to clear cobalt export backlog</a>
+        
+        <div class="regions">
+            
+            <span class="region-tag">DRC</span>
+            
+        </div>
+        
+    </div>
+    
+    <div class="article">
+        <div class="article-meta">
+            <span class="badge" style="background:#FFD700;">Trade Policy & Sanctions</span>
+            Business Day · 113d ago
+        </div>
+        <a href="https://news.google.com/rss/articles/CBMiqwFBVV95cUxQQ2d3ZUg1TldhaW9malBWYXoxbl9rSFVQai12TW5NUjhJTE5WUlNONU9yTkFtT3FITTBwQzFQVjZOSjd5a1JtcGdxNWlwRnlxSWUtc0dYMU01R0ZHeTRRVHI2M3B2ZzNRSkNweGdZcndqSkxNejlZX0pRdFBod3YwaUhZTEx1WENhcEZmM3FNQXByUUMtTUp1RG1QOUNHQlM4RFFWUmhuVmpfNlU?oc=5" target="_blank">DRC miners seek urgent talks to clear cobalt export backlog</a>
+        
+        <div class="regions">
+            
+            <span class="region-tag">DRC</span>
+            
+        </div>
+        
+    </div>
+    
+    <div class="article">
+        <div class="article-meta">
+            <span class="badge" style="background:#FFD700;">Trade Policy & Sanctions</span>
+            Mining Technology · 113d ago
+        </div>
+        <a href="https://news.google.com/rss/articles/CBMihAFBVV95cUxNeXdLZEItVFlBMVUzdlo4R2RDMmhYbjJtdW9fNWg2YlRZTDRVRHVoTkZ3OWtmSTNOcDVtV0RUb0ZYTS1iNzJqckI2cTRBaHctYmpNbkpyeHlaWTdiUkpLR085MXVVcXphNGVsRjVkeUJScWUtZTBMRUVFZlNDbGxuNFJVUXc?oc=5" target="_blank">DRC cobalt export conditions tighten with new quota and royalty rules</a>
+        
+        <div class="regions">
+            
+            <span class="region-tag">DRC</span>
+            
+        </div>
+        
+    </div>
+    
+    <div class="article">
+        <div class="article-meta">
+            <span class="badge" style="background:#FFD700;">Trade Policy & Sanctions</span>
+            Reuters · 114d ago
+        </div>
+        <a href="https://news.google.com/rss/articles/CBMipwFBVV95cUxNbnFRR0RSWllqb0hwX29hei1xcUE0c3EzdkRyWlktS3luQl9BMVlsQW50ejBKdEtDZFNPLTU5MkRLcmJ1Qm9xRjVnYlVLb1V6NFRXV1RDdVowaVlnMTNhaDRSakxmbEVmY3FvdXBFb0U3aTNWelpwRkJSYkdBYjVEUlJBUy1DU21rT3pGdl9GcjhvVE5BMWhUWFo2TTlQZV82QlhvM1VRWQ?oc=5" target="_blank">Exclusive: Congo sets new export conditions to keep tight grip on cobalt</a>
+        
+        <div class="regions">
+            
+            <span class="region-tag">DRC</span>
+            
+        </div>
+        
+    </div>
+    
+    <div class="article">
+        <div class="article-meta">
+            <span class="badge" style="background:#FFD700;">Trade Policy & Sanctions</span>
+            CEPR · 126d ago
+        </div>
+        <a href="https://news.google.com/rss/articles/CBMif0FVX3lxTE1YTG9QbkJYVDFXM3FVMlR4bUc1UGR2ZTEyeXlVd0NzVnFZX0JuMm5rNDVBSFFBajUxeU96TkMwLTJ2N3JpTXJVZnFORElaTDg5S2c2WFNXLWR5dUp4RHVmdHItMkd1X3V0a1psdy00c2xoRE15M05SalpQT0N3X0U?oc=5" target="_blank">The (un)intended consequences of export restrictions</a>
+        
+    </div>
+    
+    <div class="article">
+        <div class="article-meta">
+            <span class="badge" style="background:#FFD700;">Trade Policy & Sanctions</span>
+            The Barents Observer · 127d ago
+        </div>
+        <a href="https://news.google.com/rss/articles/CBMivgFBVV95cUxOZ3I1U1Q3dWFpVVJEcDN2RDV5R2Z3cm50QkJnTUd4X1J0ZjVvRjZyeWdfbkZxeEhUeDRWdjBCcm9UUVg4NFgwWGYtLVZBUlpvSExjV280QXJ6blZ6MUlxdlpHN2dXZ1dqQ2MtNVNhT0VGSEhQUU5aOS14YnFhbnRDclhKYWVJUklZR2hFOEVmZHV0WWt4ZlEyeXI3a3ZMZTZYblB2eW4zQmM0M3oyUnk3RHBqM3kwc1pGRmd5YVln?oc=5" target="_blank">Potanin admits trouble as Russia’s war-torn economy suffers due to sanctions</a>
+        
+        <div class="regions">
+            
+            <span class="region-tag">Russia</span>
+            
+        </div>
+        
+    </div>
+    
+    <div class="article">
+        <div class="article-meta">
+            <span class="badge" style="background:#FFD700;">Trade Policy & Sanctions</span>
+            Reuters · 134d ago
+        </div>
+        <a href="https://news.google.com/rss/articles/CBMiogFBVV95cUxORGh2Sm96cDZDeFNCTVZTc0EwYzNZUnhzckh6czlUQ1FfRmRnQ3NnNV9zTDI5c19IdUxfSU5OcXZWdFNzMzRzYmdPanJfZms3TmMxRnhDcE9udHNGcHk0ZjVUU1pldzBGTjNaVnkyWUk2NkwxVHczTFNDX0lHejN5X2tHdlVneDZGLW9RYkRzYml0c0wwRmh0N09pZkhtRjRLckE?oc=5" target="_blank">Congo extends ban on trade in minerals from sites in war-hit east</a>
+        
+        <div class="regions">
+            
+            <span class="region-tag">DRC</span>
+            
+        </div>
+        
+    </div>
+    
+    <div class="article">
+        <div class="article-meta">
+            <span class="badge" style="background:#FFD700;">Trade Policy & Sanctions</span>
+            China Briefing · 141d ago
+        </div>
+        <a href="https://news.google.com/rss/articles/CBMilwFBVV95cUxOYTVvRWMyT3NPQlRfbFhmcHNSRjgzSGlOTzRPbUFLTU5lWTllNVJkdEJRS1FWbVFWdFZIa1YzdEw4eFc2UVo0TklQb3pWbzdaMjNyWVN2Nkdnc3JLYTlnLWtqRkIxdG9JT2Z1ZUNZZnVHbmVpZVcyTXFpTmEtdFNROVFLdmtDT1c5YWFXNklwdjVIX2FUZ0xv?oc=5" target="_blank">How Will China’s Rare Earth Export Controls Impact Industries and Businesses?</a>
+        
+    </div>
+    
+    <div class="article">
+        <div class="article-meta">
+            <span class="badge" style="background:#FFD700;">Trade Policy & Sanctions</span>
+            Discovery Alert · 146d ago
+        </div>
+        <a href="https://news.google.com/rss/articles/CBMijwFBVV95cUxNemd2QkU4WUlNWTZrVnVJdGpmVUM2SmJMQUcyTXVzV21OeVNhTmZTcFRBck1VWkx1RTZfWFRlZ0duUUVIRjRLblhYeHlLZzR1TjZDa3RBLUUyeENEbklReG5sdy1lTkRKbFhWNlFPTmlHNWVzZ3dwbk5keXFRb0pBc1VsVklja1E1Ry1kYU5RWQ?oc=5" target="_blank">DRC Cobalt Export Quotas: Strategic Mineral Control</a>
+        
+        <div class="regions">
+            
+            <span class="region-tag">DRC</span>
+            
+        </div>
+        
+    </div>
+    
+    <div class="article">
+        <div class="article-meta">
+            <span class="badge" style="background:#FFD700;">Trade Policy & Sanctions</span>
+            African Business · 147d ago
+        </div>
+        <a href="https://news.google.com/rss/articles/CBMiowFBVV95cUxOV0g3NGhWX01taFE5bjVTUnJWT0xjVzVUdE02bWdpcS1ha1VMNk14alFzYWQyUVV2enJNbTU1eE9fOGFJckdHWnY0QktHc0RKQVpUY1JuUkhmXzBmdGJrUnhJVGloLVhtWE0wclhTOGh1Zkd5VWZBa3c3eml1TWhaMUJ3aW13TUhfNktfOTF5eVlYNjFWNDktUkhyLVJoc3A2YUc0?oc=5" target="_blank">Fears that DR Congo’s cobalt quotas could deepen corruption</a>
+        
+        <div class="regions">
+            
+            <span class="region-tag">DRC</span>
+            
+        </div>
+        
+    </div>
+    
+    <div class="article">
+        <div class="article-meta">
+            <span class="badge" style="background:#FFD700;">Trade Policy & Sanctions</span>
+            Mining Weekly · 153d ago
+        </div>
+        <a href="https://news.google.com/rss/articles/CBMivAFBVV95cUxNTzhHQW1WS3VVT0RwYjJPWERma195RWhqR1RGNGdVQU92dnhKNFA5WVV0cWh3TUNFZUJNWW4yRGZwbkp2Z1BodGRqQ1Nva2txLWNmMEhZcFYxSkVrcVlIbmFsZVQ3RmVPR3lJWG1WdW02QVZqVEwxcm55OWdsdzhJT281NzdtNjhOSERpVmpBckQ3WWpKNjVzQnNUNUFmN2ZRZW5hdExsWG5BcEZhSFZGSHNhVUlicUxLVC1EUg?oc=5" target="_blank">Glencore outlines cobalt strategy amid lifting of DRC’s cobalt export ban</a>
+        
+        <div class="regions">
+            
+            <span class="region-tag">DRC</span>
+            
+        </div>
+        
+    </div>
+    
+    <div class="article">
+        <div class="article-meta">
+            <span class="badge" style="background:#FFD700;">Trade Policy & Sanctions</span>
+            Walk Free · 159d ago
+        </div>
+        <a href="https://news.google.com/rss/articles/CBMiogFBVV95cUxNZjFKUkV4bHl1S2FqckNzWU8zeldkcEN0VWZuSW45VjdubHFEbEFmNEpTQUJrVUJudThILWVGY3VuUW9wcUFOSnRtUGRWRWZKWk0tdDc1R0p2Wmt6LU9WMDRaS0dSRWswdkxSUFQ4ZjY2OVJTbkRIa3NTTE83UFA2N25zbjFnNzduNlhnbHZjTWQ0U2RrRy1vZ1FIeGV2T25UZVE?oc=5" target="_blank">Stronger laws proposed to stop forced labour in UK supply chains</a>
+        
+    </div>
+    
+    <div class="article">
+        <div class="article-meta">
+            <span class="badge" style="background:#FFD700;">Trade Policy & Sanctions</span>
+            The Hub | More Signal. Less Noise. · 162d ago
+        </div>
+        <a href="https://news.google.com/rss/articles/CBMi0wFBVV95cUxPSmNEclI1X2NjX3Nqazh1VGtLRFJhNjJ5OFY0cEpEYmh5WFlCaW0wTF9yUWg3ZTBLa191RnZVdnNTMHBBVWoyaUh0MXNVbTd3STRvaElpNHIzLXNTZDBFa3FxQ3VFV25yR2RYUk9LN1FvcGtOSGhNdkxHU1kzME9pTFJ3SThFWXRJYjRvb1hITmVKamRqV0NydHNvYkIzZ2dtTFFCSU9ZVWhZUm9FVVRRdElLSmlpVFk3TDg4SEFPblJjTmwzelVSQ0dlRHZ1T2RDd1c0?oc=5" target="_blank">Canada’s secret leverage in U.S.-trade war: How lithium and cobalt could reshape trade negotiations with Trump</a>
+        
+        <div class="regions">
+            
+            <span class="region-tag">Canada</span>
+            
+        </div>
+        
+    </div>
+    
+    <div class="article">
+        <div class="article-meta">
+            <span class="badge" style="background:#FFD700;">Trade Policy & Sanctions</span>
+            S&P Global · 166d ago
+        </div>
+        <a href="https://news.google.com/rss/articles/CBMi5gFBVV95cUxNeWdxTHVuVzJ4bzc2UUZDU1JSLVFOVVdqNkxXd09mdTYxUEtkMGxDTm1QMFRhUHQ3UGlJUmpQaXZyZGtzekZxdC0zekVQdWpjeUhmR0dlZUFQQWVSQkc0S0hqdWt2dHNyYzZsTXFGUjFHSXgwdkZvV1VXMzF6U01BQzdjVFBSeEdNYVdFSDhtbmg1Uy1odGJ1SGVxZ1g0dEkxcFlDa0xhY3dWQjVGWnotOExhLXJzZzk4bGo1Zi1iTWRHS3FZUEEzSW5fcE1BQnJGQVJGUnhFSjFUU2VOaTd6VFdJUEN1Zw?oc=5" target="_blank">DRC cobalt export quotas to support cobalt prices, though challenges loom</a>
+        
+        <div class="regions">
+            
+            <span class="region-tag">DRC</span>
+            
+        </div>
+        
+    </div>
+    
+    <div class="article">
+        <div class="article-meta">
+            <span class="badge" style="background:#FFD700;">Trade Policy & Sanctions</span>
+            Automotive News · 168d ago
+        </div>
+        <a href="https://news.google.com/rss/articles/CBMifkFVX3lxTE5NOG5VeVN0RVpqRWdDX1MxZm42eDFYV2stS3p5RnFSVEI0YU1JNzQzQU5MTllXVnllY0tjcTlhMXB3bmFRQ0Rpb0xicEdzN3k1SnN5cE55c2F6cm1TT20tODBMQ1ZJc2ZRakZsR3p2aVRfMklVVXNjeURkUTVYZw?oc=5" target="_blank">How a renewed U.S.-China trade war could scramble auto supply chains</a>
+        
+    </div>
+    
+    <div class="article">
+        <div class="article-meta">
+            <span class="badge" style="background:#FFD700;">Trade Policy & Sanctions</span>
+            Mysteel · 168d ago
+        </div>
+        <a href="https://news.google.com/rss/articles/CBMiywFBVV95cUxOOFZRZnMtWjlCOEs4cFl2aGI2ZmRJVVRnUTJUNXowOFlMN1NpdVY4RENRLTZJWndhUVRLd250RjhuandnRlJDaFBsTkctX2tPWXRRSGVaWTdacDNEZWV1WDdXVjltOHhVOEh4Qm03bnlOUDZ5NDM3Z2VpLW55MHFHaTcyZFB6RzR0bVVXSEplNUNOQzdhODZqTzh2SVNBY1dvWmVGMHhKQWZWRjhrVjJUdUxyVW1na2JtVTlNVTUxa2xHeGotT09TRlgzOA?oc=5" target="_blank">Analysis of DRC's cobalt export quo...</a>
+        
+        <div class="regions">
+            
+            <span class="region-tag">DRC</span>
+            
+        </div>
+        
+    </div>
+    
+    <div class="article">
+        <div class="article-meta">
+            <span class="badge" style="background:#FFD700;">Trade Policy & Sanctions</span>
+            OPB · 173d ago
+        </div>
+        <a href="https://news.google.com/rss/articles/CBMiqwFBVV95cUxOS01EVnVxMGU2aTMxWXprWDJlNTZqN1NpSEdxbU9MZWRTYVJfNzlVX0xLREF6VVpTcXdQTXVBcFEyWWU5b0hKMjJCSDZZbEo5QklzX1lpWDhNX29obGc0dUltVVduWFlxNFYwYlFOUE1BZkwxVVZRSkViYVhDYVpSVmJPVE53ckozSFotcjRFN3B5M2p5SVRISkVzMEZ5OHZKajBMcWRVTnZXckE?oc=5" target="_blank">China curbs rare earth exports, raising stakes before Trump-Xi talks - Oregon Public Broadcasting</a>
+        
+    </div>
+    
+    <div class="article">
+        <div class="article-meta">
+            <span class="badge" style="background:#FFD700;">Trade Policy & Sanctions</span>
+            Global Witness · 186d ago
+        </div>
+        <a href="https://news.google.com/rss/articles/CBMiwAFBVV95cUxOQ25qVkdJN2VjYlliM0ZsSktfWGFlYURjN0VOdVlyek5OcExwRzZDWDlxWTZuenNVR1d3N3c2Y0VCdTJER05mdTJVZnFhM0tuUmlmY05uNHd0azltTFpGSUItMkRzSHAtcm1TQnd2WXptSjRIUXE1QVJsU0dpQ3RlMlpiY1hmYW1oTm9SSGkwSnhEdjVkV3JtdGg2Ny1peG9GaGczc3AxMlRYdGtvd0xNcDFseGVOcVZqRm5nR1NmWV8?oc=5" target="_blank">Sanctions gap lets Russian-mined nickel flow to Western markets</a>
+        
+        <div class="regions">
+            
+            <span class="region-tag">Russia</span>
+            
+        </div>
+        
+    </div>
+    
+    <div class="article">
+        <div class="article-meta">
+            <span class="badge" style="background:#FFD700;">Trade Policy & Sanctions</span>
+            APRI – Africa Policy Research Institute · 187d ago
+        </div>
+        <a href="https://news.google.com/rss/articles/CBMipgFBVV95cUxNTjRsZjk0MmZwMWdXZHZtMWpjeWk1Tl9IVWJXakN0NmRZbUZsUWlad0o2dWROM1RhSmxkNmZGQ2pxWFRCSjR5NUdlMm11M1o1VUEyZzVOcVNvREl6RnR4QXdJQUppMXZvTVpSaVFTV09McWVzVDBnS0xKTllPUnl3TElYNF9KTmM2LTFOenlOQWlhaUtMb0pkZElSeVN5OS0wU2JSZTBB?oc=5" target="_blank">Developing Nigeria’s Critical Minerals Industry to support Global Energy Transition</a>
+        
+    </div>
+    
+    <div class="article">
+        <div class="article-meta">
+            <span class="badge" style="background:#FFD700;">Trade Policy & Sanctions</span>
+            Fastmarkets · 190d ago
+        </div>
+        <a href="https://news.google.com/rss/articles/CBMidkFVX3lxTE1uTE9IaS1FMXJkR2VxXzYzMFl5dHhwbG90XzI3NGRlcHQzVmp5UzMtMF9PZzdMVlgyZUNWYVJQLTlYLVB5MTY3ZkxiRTZrQjBna0xWNnNGTXRvRGN6YWlfSW9JUDM0YnhWTFl0eC0tM2ZyYVdvRGc?oc=5" target="_blank">Cobalt export quotas: DRC sets limits to rebalance global supply</a>
+        
+        <div class="regions">
+            
+            <span class="region-tag">DRC</span>
+            
+        </div>
+        
+    </div>
+    
+    <div class="article">
+        <div class="article-meta">
+            <span class="badge" style="background:#FFD700;">Trade Policy & Sanctions</span>
+            Benchmark Mineral Intelligence · 190d ago
+        </div>
+        <a href="https://news.google.com/rss/articles/CBMiqAFBVV95cUxNOUptci1XeDhsSjdhZ05MbHhYSXNrUk5kdGxtNWtCZEJyeGVsRGItSHlBUTlmWGxZQTE2d0Ryd0RZcGxoa2RwWlE0MnA0NDQ0WG1HQkttTjN1SXdacXlkQld4dVJwX2xQSDVESG9DdUR3YXpvRmd2YU9VRHBsR005dXdwWHdEUnBoZDVGWEJNY0VCa2Q0XzN2MFFGdVQtWWEyRVluUEw1R1o?oc=5" target="_blank">DRC to lift cobalt export ban and impose quotas through 2027</a>
+        
+        <div class="regions">
+            
+            <span class="region-tag">DRC</span>
+            
+        </div>
+        
+    </div>
+    
+    <div class="article">
+        <div class="article-meta">
+            <span class="badge" style="background:#FFD700;">Trade Policy & Sanctions</span>
+            Mining.com · 237d ago
+        </div>
+        <a href="https://news.google.com/rss/articles/CBMiggFBVV95cUxNX1N3dVVCVVpUbjROQU53cm5wY2lPdkU1WlRWdUpyR1NkMWs4S09QMXh0WG9uZzZMcjc2aDdUZ0s5QXkxajF1aWxDTWkwRmlNcEFKbHdEdnkyUHRrX3NuSU9sai1hUXpWdV9CVHh3SFJ0MmgtZzBwRkZ1UlpFUWpFU3lB?oc=5" target="_blank">Glencore warns of cobalt surplus amid DRC export ban</a>
+        
+        <div class="regions">
+            
+            <span class="region-tag">DRC</span>
+            
+        </div>
+        
+    </div>
+    
+    <div class="article">
+        <div class="article-meta">
+            <span class="badge" style="background:#FFD700;">Trade Policy & Sanctions</span>
+            Progressive Policy Institute · 272d ago
+        </div>
+        <a href="https://news.google.com/rss/articles/CBMingFBVV95cUxPSFVTaTdpU1BFU0NQRFg2Y2Z5U2pqLV9PLU5aZi1hZ3FCdTV2emg0OG03LWRyWUFqRjhqOUVQUVpsb0kyTUo2eE9zekF6TTdBNXVCOVpsc3RGM1RIT2J6YlpyQ2VadHhHTDJYbVo2d2U0eUNZQlJLSWxpdy1nRmNzZmF0ZDF3LUFrWlVNbEl3MkpnalJHcUZSUFpmODZDdw?oc=5" target="_blank">The U.S. Needs 8,000 Tons of Cobalt a Year, and Produces 300 Tons</a>
+        
+    </div>
+    
+    <div class="article">
+        <div class="article-meta">
+            <span class="badge" style="background:#FFD700;">Trade Policy & Sanctions</span>
+            Shanghai Metals Market · 275d ago
+        </div>
+        <a href="https://news.google.com/rss/articles/CBMi-AFBVV95cUxOYzZoVTYxX1V5OVhLeDc1czRGcnI2UGZRWjJkVUFDdjVGYnpuNkVwbXUyTldaZnplUDg1aE14TW96NGVYUjJ2bE91NHRyWGlySW5XcDJSdTlFVFlITXUtT1F2VkE0dmRGbkp2a0d0anhxUzdxWmVfX3RIdmVwNlRaYlFyR1ZTTTEzUnZOMXNmM2oyWDBaNWw3aWlTU1FnNWdCanhJRmxVQ01aYzN6dzMwZXh4bzRaa0ppdEJtSjRjMmwzVENZSG1lamNXT3lvM2FMc2s2V2VtUGY3NGpscVNib3J0Z0ZXQlJ4Vk5kQTJYSG54YlNQTlo0cA?oc=5" target="_blank">Current Status and Outlook of Philippine Nickel Ore: Its Role in the Global Supply Chain and the Impact of Export Ban [Indonesia Conference]</a>
+        
+        <div class="regions">
+            
+            <span class="region-tag">Indonesia</span>
+            
+        </div>
+        
+    </div>
+    
+    <div class="article">
+        <div class="article-meta">
+            <span class="badge" style="background:#FFD700;">Trade Policy & Sanctions</span>
+            KCUR · 279d ago
+        </div>
+        <a href="https://news.google.com/rss/articles/CBMixAFBVV95cUxPQmVhSlE0OEdUblo2TmZGWjhjNHJmY3VJaGYzR1gxdTVWVkpVQUNSbWhSekEzYlBscHd5TzVVem4wTV9wU3NERi1KdG84dDFmcEY4anVNYndzMVZIWjJVUWpVVUh3SkdDd2hZZGM4QzlyM2tUNXZidHlPMV9tSUpqYWlGalVmckxuOWMxOFQ2VWRlVERiYlhrUmZaSVVLbmc5aURRZEczSW5wQk9JOC1hbDctLTVJYXQ3Slo3eUFnRk1rcXpE?oc=5" target="_blank">Missouri mining could get a boost from Trump tariffs and trade tiffs with China and Congo</a>
+        
+        <div class="regions">
+            
+            <span class="region-tag">DRC</span>
+            
+        </div>
+        
+    </div>
+    
+    <div class="article">
+        <div class="article-meta">
+            <span class="badge" style="background:#FFD700;">Trade Policy & Sanctions</span>
+            JD Supra · 298d ago
+        </div>
+        <a href="https://news.google.com/rss/articles/CBMihgFBVV95cUxNSl9YMUZMR09Cb3F1dGVDVktDaGtTNmhTLXJEVVJwVDlPcU5rYm0tSHpjZktYdDhndDh6UjJYMlJ3MDZFY0Vwdk9yblZVa1dCRDh2ZURiWUtQVXMteG44MGN0UnV4dElrcWpMMURlUmFtTXNIQjkzTU5hdFF5OXlxYkpEc3REQQ?oc=5" target="_blank">Key Changes to the DRC Mining Code: A New Era for Investors and National Development</a>
+        
+        <div class="regions">
+            
+            <span class="region-tag">DRC</span>
+            
+        </div>
+        
+    </div>
+    
+    <div class="article">
+        <div class="article-meta">
+            <span class="badge" style="background:#FFD700;">Trade Policy & Sanctions</span>
+            Medium · 328d ago
+        </div>
+        <a href="https://news.google.com/rss/articles/CBMinAFBVV95cUxPS0c3QkJneFBiNENmSnp2Vk5WbmFMZFFGTGtiMUhxSm9VdmJQallJQ2tFNm55cnhnTDd6Q25EcVNsaVRGOTJIQWV2UHJreEhfcTJkeUZoQ0I1S2podE96N3RqOXNwQVdVcEVwU093dWJZQjh2RkNxZkpnRkdHX0V3aWtlVGdMMVQ1eUZpLTVhN1ktT21PTms5ZkliM3c?oc=5" target="_blank">Mineral Dependency in an Age of Trade War | by Michael Barnard | The Future is Electric</a>
+        
+    </div>
+    
+    <div class="article">
+        <div class="article-meta">
+            <span class="badge" style="background:#FFD700;">Trade Policy & Sanctions</span>
+            Bloomberg.com · 349d ago
+        </div>
+        <a href="https://news.google.com/rss/articles/CBMiuwFBVV95cUxNQW83Ukt6TjRVdWZzbTRNaXRzZWt0c1BoV0ZKWm12YTFhMDBvd29vUC1wb241MU9Ma3k5eDh6SW1Bdm1qV2Z5OHRhOWhyWE1IOVV2LUEySUFYRnUwSkw5NEl1SDdoekxjQzc1djZWclJLSE1TZXBpa2tLc3ZZVmdXdDZYMkNZcGZNamRjeUY2T1QtbDBOcEs0SWpIX3pmWWVxTXc2WTJGVk83bDVqd08wUDZtSy1iWW5hMlE0?oc=5" target="_blank">How Trump’s Trade War Is Heating Up Fight for Critical Minerals</a>
+        
+    </div>
+    
+    <div class="article">
+        <div class="article-meta">
+            <span class="badge" style="background:#FFD700;">Trade Policy & Sanctions</span>
+            marketplace.org · 357d ago
+        </div>
+        <a href="https://news.google.com/rss/articles/CBMipAFBVV95cUxQZnZfYlpHWUJ6ZVpvcjN2ZkZ3RlpwWlhtLTlWSlV2U05BQm5EbVM0SkZISG9CQmNfNzFrWTdacldSUS1CTm9jYVMyZTVMUV9veXJCbVVJWHQ5OWExb1ZZQjJ4QWFiS0dyVVQyeHMyanBQaWRtLTZwY090UERFYjRCQkp5c1lXZUFvZDQycVZEbWlMYjhxSHhRS0lNdEM0ZGc4RVlQWQ?oc=5" target="_blank">The Democratic Republic of the Congo is a top cobalt producer. So why would it ban exports?</a>
+        
+        <div class="regions">
+            
+            <span class="region-tag">DRC</span>
+            
+        </div>
+        
+    </div>
+    
+    <div class="article">
+        <div class="article-meta">
+            <span class="badge" style="background:#FFD700;">Trade Policy & Sanctions</span>
+            Fastmarkets · 361d ago
+        </div>
+        <a href="https://news.google.com/rss/articles/CBMilAFBVV95cUxQMUVXdDdac0JTNk5ucWVOTi04dHBTbTdlMHlOMHZ0bGZGYnpFb1NsT1gzVGJZLU9PNUZueGNHaVNfeFJ1eGRvNEc1ODcwdVhQeEZ5ZWpkd0psNGNPQTVMS0R2dVJ4bnBXOTM4bGN6RWp2MzlnVER5UjFMLU9LVXo4ZnVrOEl2YU40SmNYUlBtYjg4NThJ?oc=5" target="_blank">Critical minerals sidestep US ‘Liberation Day’ reciprocal tariffs</a>
+        
+    </div>
+    
+    <div class="article">
+        <div class="article-meta">
+            <span class="badge" style="background:#FFD700;">Trade Policy & Sanctions</span>
+            Fastmarkets · 375d ago
+        </div>
+        <a href="https://news.google.com/rss/articles/CBMifkFVX3lxTE5aU1pSbDBVVWd3alhTUXU5YXJaRE96S185SDg5aXY3TU1TNzNIVlU1NG9WZ1N6V210NHJTU0NtRVh3ZWNFaWVJcW9FVmV0T2ZyRFFaSUJGZ3lxc3VpbjZDOG0wV3JabW5YVFNNMFNJOU5pX3U5MzVCZU9CbmJZZw?oc=5" target="_blank">Cobalt market split over wider ramifications of DRC export suspension</a>
+        
+        <div class="regions">
+            
+            <span class="region-tag">DRC</span>
+            
+        </div>
+        
+    </div>
+    
+    <div class="article">
+        <div class="article-meta">
+            <span class="badge" style="background:#FFD700;">Trade Policy & Sanctions</span>
+            Reuters · 376d ago
+        </div>
+        <a href="https://news.google.com/rss/articles/CBMixgFBVV95cUxOWkpjeHB3NGFUWERhSDBXS0lFcmdfR1dKNTg2QzRPa0JzNExMWXRmQ3RxQ1dPSV9VbEJXNEhuSzAyZVV4bnoycUw3X1pfWmRXTENLT0p2Mkx0ZVowRzBPOE1CTFZmbS1CVWpNZ0t6eWFwcndsandSaEdianFUeUpuQm5mVjJockstWHVKN2xyM0Y0TFVxa1FYTEQyREZCRDB2SEZLUV9BNnpGYzFPZEZ4WmZXaEVBX2lNZWZmOVViQ1BOT1FPLUE?oc=5" target="_blank">Congo plans cobalt export quotas, partnership with Indonesia to tackle glut</a>
+        
+        <div class="regions">
+            
+            <span class="region-tag">DRC</span>
+            
+            <span class="region-tag">Indonesia</span>
+            
+        </div>
+        
+    </div>
+    
+    <div class="article">
+        <div class="article-meta">
+            <span class="badge" style="background:#FFD700;">Trade Policy & Sanctions</span>
+            Environment+Energy Leader · 397d ago
+        </div>
+        <a href="https://news.google.com/rss/articles/CBMiyAFBVV95cUxONFJsdUljZ3EzZi02M0VIR0dCT1JDY2lpZ01rVjZQdE5PbWxZOTcwUWhOd2tPTG1ReEJSWEFMcFp1amRDQnZwc1k2a0VhSHdORUFMaXBMTGhYaWl4dkNvS3JUZFNEMHRzSjJFYnNDZjdRSHFad19JN2tOTkN0QnVBNEh4ZW4zUldxdVVEc2JsWEhtNUVubzhIWWFtOWhqUFRvVVo5dG04MmtfMjhtM2RWMnozVmc5SVduQnY2Mkk4WUpzZmRLRjc1TQ?oc=5" target="_blank">Cobalt Supply Chain Disrupted as Democratic Republic of Congo Halts Exports</a>
+        
+        <div class="regions">
+            
+            <span class="region-tag">DRC</span>
+            
+        </div>
+        
+    </div>
+    
+    <div class="article">
+        <div class="article-meta">
+            <span class="badge" style="background:#FFD700;">Trade Policy & Sanctions</span>
+            Wood Mackenzie · 671d ago
+        </div>
+        <a href="https://news.google.com/rss/articles/CBMivgFBVV95cUxNSl9BTFNKU01MeHdOSm5ia3ZoLUNxZy1LeDg3YkNqR3FVUHltS005aERlak9oai1LZ3h1SVVkZmFndk1jVXFneDZVWl9BVUc1SFFPOS1sbHhnSi1BalRVaGZqdzhvemhzd0dTRUl6aUstR1FmWnpnQ1RnTmJBdWROeGd3dkNDSWZ1OEhsTDVUMmFJS0hyR3k5ZXR3a3piY2FRNVhUZjdvdEp5UlNrX1ZGXzl0SFc4RjdKcGpDc2Jn?oc=5" target="_blank">How do Western sanctions on Russia impact the global metals, mining and coal markets?</a>
+        
+        <div class="regions">
+            
+            <span class="region-tag">Russia</span>
+            
+        </div>
+        
+    </div>
+    
+    <div class="article">
+        <div class="article-meta">
+            <span class="badge" style="background:#FFD700;">Trade Policy & Sanctions</span>
+            Ropes & Gray LLP · 802d ago
+        </div>
+        <a href="https://news.google.com/rss/articles/CBMirAFBVV95cUxNY2xLN2p6WHJKYzRheEZSd2g3ODZXajN1RmlDRDAtc0NxV1VlWWh4OXg1VjJwQ1J6S1BFUGZQMXNndEFxcnFmQTBZSTJJOWpSQnVoVlVnVi1Yc0xTck5IWHNzeXYwb0FTcjB1aHk1ekJOWmNZdlAtV0ZYLVNkMjcyNkctVWlvX0ppSi11QTlsWG9TVGlpUW54bVRyMC1YMy1waWdsNWhlWEJhOGJ4?oc=5" target="_blank">The UK’s seventh package of sanctions against Russia | Insights</a>
+        
+        <div class="regions">
+            
+            <span class="region-tag">Russia</span>
+            
+        </div>
+        
+    </div>
+    
+    <div class="article">
+        <div class="article-meta">
+            <span class="badge" style="background:#FFD700;">Trade Policy & Sanctions</span>
+            The China-Global South Project · 1441d ago
+        </div>
+        <a href="https://news.google.com/rss/articles/CBMi1AFBVV95cUxNRlo5TWJ0UktFdXR6cGIzWVhpeGtfdW5MdnRkcUZZVEFLV0tDWXV2aXYxUmhxWDlIMTUzNkpuSlNoV1Y2YmJjcE5oUzFTcnZvQVV0aEF1YXhOX2ZkamJjc3kwdkZHUGJWTjhKaTl2bDZBZExPRDBRZk5wbjNkbmw1a3VBVkQtOUJpdHRQLVJ6NW4xajA2a3E5eEpDekd6V2JQR2g2ZnM0WHQ5ZmZJcm9MaEF4c1k2cFBEX3FIckVUa0NXYkxNUGtKM0NJVFNWNjVnR1NsQQ?oc=5" target="_blank">Glencore Calls Force Majeure on Cobalt Exports as Durban Flooding Worsens Chinese Shipping Crisis</a>
+        
+    </div>
+    
+    <div class="article">
+        <div class="article-meta">
+            <span class="badge" style="background:#FFD700;">Trade Policy & Sanctions</span>
+            CGEP · 1442d ago
+        </div>
+        <a href="https://news.google.com/rss/articles/CBMiwAFBVV95cUxNeWdjem5LelA3Zkd6SjhBS1VxWXdTRDlPaFBOTXNVU2VYSmNWakl2NWlrbDh4OVoyR2hqdS04SEpLQjJOMGVjS1BlcW9fUGFwYjJ1ZVMtNENjNVBycnMzVTB0ekVSWDNxazY5bGxISFV5NWVhU1h5aDZaOTZFcTFRQUQtZlRaS2tpejA4dEItQmc2a0FBaGZjc0lhR3BPN2t3anp1TXRrVlRJcTk3ZlBmeWd0di1udmNFMzVQeDVKX3I?oc=5" target="_blank">Supply of Critical Minerals Amid the Russia-Ukraine War and Possible Sanctions</a>
+        
+        <div class="regions">
+            
+            <span class="region-tag">Russia</span>
+            
+        </div>
+        
+    </div>
+    
+    <div class="article">
+        <div class="article-meta">
+            <span class="badge" style="background:#FFD700;">Trade Policy & Sanctions</span>
+            The World Economic Forum · 1474d ago
+        </div>
+        <a href="https://news.google.com/rss/articles/CBMifkFVX3lxTE1aYWUzNHNudGxIX0ZEc3R2MzIwVC1FX2luSFN6dXNVZUFocl94V3NJNFNOSGkybUttbzZKcWhJU3FuVm1iR2RzdDhLUml2d3VxUjhfbXFFX0FqdHhCcnpYR2VVNWpnV0hURmttVFdrb3NtYmdkYU1WYW0zaUVtZw?oc=5" target="_blank">What else does Russia export, beyond oil and gas?</a>
+        
+        <div class="regions">
+            
+            <span class="region-tag">Russia</span>
+            
+        </div>
+        
+    </div>
+    
+    <div class="article">
+        <div class="article-meta">
+            <span class="badge" style="background:#FFD700;">Trade Policy & Sanctions</span>
+            Politico · 1496d ago
+        </div>
+        <a href="https://news.google.com/rss/articles/CBMipAFBVV95cUxOS0s3RE9xZGpGd21jbUJWdjRMTVl1bTdMNHJXY1k2X3ppYlVhc1c3WHpuNFJNTHZ0RkMzbktzVlpCYUp1cFNWdlAzNzBDTGhMYkZTQzdiVzBsYkZ0Mndud08yME1qQktPQm41UGdzVDNlblJ5UjdiTGY3eFNGeVFQYmJKek8xRHRLMm50ZWd1cDV5d25CWFkwOW50MFpHWlNJbTBqQg?oc=5" target="_blank">Could Russian sanctions hobble U.S. clean energy push?</a>
+        
+        <div class="regions">
+            
+            <span class="region-tag">Russia</span>
+            
+        </div>
+        
+    </div>
+    
+    <div class="article">
+        <div class="article-meta">
+            <span class="badge" style="background:#FFD700;">Trade Policy & Sanctions</span>
+            Amnesty International · 1859d ago
+        </div>
+        <a href="https://news.google.com/rss/articles/CBMitAFBVV95cUxQQUxSMmpNa1BRVlRvMWJhZVhITl9sbGlSM0J6MTR0cWhRcmhWMmJfTTVSZlhTRG5vZV9SdUJpTVo3NXhrUzNPVnQ5YWVsQ3NXT3pDdTR2NEFfYkFsWnB2TG43SWdYVGMwNXlWRHpUd0xUeEV0U3ZoWG5GelRLMnVMUm1TT0hJNmxXU1B0MzZOTzJoSVluaXg4QjJPWTJJY2tnY1ZYZVRoTWpYR2gzRlllTUYtRnU?oc=5" target="_blank">The EU law that could change the future of green energy</a>
+        
+    </div>
+    
+    <div class="article">
+        <div class="article-meta">
+            <span class="badge" style="background:#FFD700;">Trade Policy & Sanctions</span>
+            The Guardian · 2297d ago
+        </div>
+        <a href="https://news.google.com/rss/articles/CBMi0wFBVV95cUxNX2FCQ2szbHZjbHhfNnMtQkNfR1pyZlBFSWNCQnZ2bW5uY2FHWnNjUU90NmloY0gyQkNCZVoxOTE4ZmItWTB5SllSYUwwNjY2SmdIb0RoOXQxdXBTcGVRM2hKVDdqX0wyXzBHLUVjYnMtYjFfSnEyRU00eHc4SzViY0tsNXg1bkVvMmh2dXVSaTZHQWNWbEp6MU1XUU9DNVFWbG9GYklYOFJxRG5vQ1FnLXNxSko4QU5tVFdoSVRCX0R2TzNYWkotcUROR1pOc3NPaWZj?oc=5" target="_blank">Apple and Google named in US lawsuit over Congolese child cobalt mining deaths</a>
+        
+        <div class="regions">
+            
+            <span class="region-tag">DRC</span>
+            
+        </div>
+        
+    </div>
+    
+    <div class="article">
+        <div class="article-meta">
+            <span class="badge" style="background:#FFD700;">Trade Policy & Sanctions</span>
+            Dentons · 2367d ago
+        </div>
+        <a href="https://news.google.com/rss/articles/CBMi5wFBVV95cUxPWTJzWWtUWHl0bG85OXppX281bFRWS25fZExGMlJmMU8tSEVsbGpzSVZGWkpfeGx6TFB4MTQtMGlFdU1VWmM0aHFZQnhGRS01R2R4RDd2WVQ5VF9iNjJHOVlyd1Y3cVpMRk5aOVljT1M0cExsSjlsNnhIM2psakdJcFRJVWdwM2tiaEJwcGcwYzFvRlFQaXpSczVXbVJwUlkwU0pJLXF3ZWtjZnBIamhEUUQ2VlRfNHg0aUZJTnlmYk15Y0FVX3BBSWxkVlIwNjhHVlU1ZHlyaUJyS0RLVWhSTmo3Z1ZLOEE?oc=5" target="_blank">Democratic Republic of Congo: Revision of the Mining Code and Regulations</a>
+        
+        <div class="regions">
+            
+            <span class="region-tag">DRC</span>
+            
+        </div>
+        
+    </div>
+    
+    <div class="article">
+        <div class="article-meta">
+            <span class="badge" style="background:#FFD700;">Trade Policy & Sanctions</span>
+            Oxfam · 2903d ago
+        </div>
+        <a href="https://news.google.com/rss/articles/CBMivwFBVV95cUxOT0tHWnJyVzBYM0ZvV0JSUl9rVHIxWHQ3MVZUR0MtYzl3QUxtNGZURnlLUFd0anRsZkxEUENJT2RxUldDQlB1dW1QYmJRdGdLRUZlNlI4S0FCUkgxeFl6enVCYmNFRmR0V1ZXRDlvM21tNjhJZy1ja2JaYXNyQnlrMC1yYmszN2VveENMSXhFUnVQMFlYVjZuSk5FX3k1cnJNbXRac0t3V29ZOHV0ZTJ2NEZSblFNQU5CdkZVcF9CRQ?oc=5" target="_blank">Understanding DRC’s new mining law power play: Will the Congolese people benefit?</a>
+        
+        <div class="regions">
+            
+            <span class="region-tag">DRC</span>
+            
+        </div>
+        
+    </div>
+    
+    <div class="article">
+        <div class="article-meta">
+            <span class="badge" style="background:#FFD700;">Trade Policy & Sanctions</span>
+            BBC · 2943d ago
+        </div>
+        <a href="https://news.google.com/rss/articles/CBMiWkFVX3lxTE1yVHJkdHpEZm5XMzk1S0h4akZVMUdMSFhrZ3BxWlRRdXRvcGl0cE9YR3F6Y05reWphcEM4RWctOVpMSkw4ZU5pZXh5cGFOTUVpZ21EVDNuSFllZw?oc=5" target="_blank">DR Congo signs new mining law despite companies' opposition</a>
+        
+        <div class="regions">
+            
+            <span class="region-tag">DRC</span>
+            
+        </div>
+        
+    </div>
+    
+    <div class="article">
+        <div class="article-meta">
+            <span class="badge" style="background:#FFD700;">Trade Policy & Sanctions</span>
+            cambridge.org · 3049d ago
+        </div>
+        <a href="https://news.google.com/rss/articles/CBMirgFBVV95cUxNZDRiMGR2b0x4akJmODVqZXhIekc3V2NVR2prcXpUT2hBNC05U2RkN0VzTHZkT05MVkZpZU5ObUlvaElrNVlpaHdGbXhUbHVmRTY5VHM1XzBIWDgtZ19wS2pCV2xEdmNjdl9lM1pCVzVlQXJuY3k2RXk1UjZYMllzcDJMRU16MHRkUG5rQWxyWS1KVGRzejVJaGk2UGFFcEVQdVFHLVdnSDAzZjIyWVE?oc=5" target="_blank">A practical step to remedying the cobalt child-labour problem « Law# « Cambridge Core Blog</a>
+        
+    </div>
+    
+    
+    <div class="article-group-header" style="color:#00FF88;border-color:#00FF88;">
+        🌍 Environmental Regulation — 28 articles
+    </div>
+    
+    <div class="article">
+        <div class="article-meta">
+            <span class="badge" style="background:#00FF88;">Environmental Regulation</span>
+            Jamaica Gleaner · 12d ago
+        </div>
+        <a href="https://news.google.com/rss/articles/CBMikwFBVV95cUxPeG13RHdIV0p1VmZmeGVGVkNZd0c5ajU5NU5maUZyLUlIcllwV3R1eWFEdzBiNGFYUFZEckNGeHdBNXpnX2FwUm05RXVYTmpJS2N0RFY3Sld3N3dTWVhxaEdhT3BmSktyWXlEMkhtNzJpUDN6YWpHTFh3SlhxR1NWaVIwOGd5SVpQYzdkSmNZRnh4UkE?oc=5" target="_blank">Earth Today | ‘Zero waste starts on your plate’</a>
+        
+    </div>
+    
+    <div class="article">
+        <div class="article-meta">
+            <span class="badge" style="background:#00FF88;">Environmental Regulation</span>
+            Devdiscourse · 21d ago
+        </div>
+        <a href="https://news.google.com/rss/articles/CBMitgFBVV95cUxOVVNwNlM1SkR6TkN2ZVlmSEkzdExiVS1yZWlJUEl5eU1tN1NRY3hZZ3U5bmJBcG84UFlmUmJMNnRoQ3V4ZGVSeFlZdlJPc0VxLUhBc3V2Q2U1ZEJzVi1RX3dwbnhlc2YtVEdtaWZDaWpuWFQyX1JRTi1HQzBJaFdKNDNQSjVxZEkxYUswNVJUV29rSDhlYzF2YWtXTmZtbVRSUzlfWHNfQ2JIN2F0OWI5MFdrSlJxUdIBuwFBVV95cUxNSUVxMGRiRzRlZUZrdmhwUVA5TXprQjZ3WVlzeUQyTWxaZzFpank4WHFiRUZ2Rks5eFlJR09EN1hYZExfS1Zzbnk0Vl9DSDJzTjNDdXBqZkpzcmYzNWgxMlZvN0FyRGsybUR5c255UWJZM1NRN1Rkek9acTdZNm8yNWhKd3NQamc2LTVvYTI3TURuMTVzLWwzZktMQ2JkZUpiU2JRajljLXR0SVVyYnJQS0YtN2pUTDk2VmhN?oc=5" target="_blank">Cobalt Controversy: Environmental and Human Impact in the DRC</a>
+        
+        <div class="regions">
+            
+            <span class="region-tag">DRC</span>
+            
+        </div>
+        
+    </div>
+    
+    <div class="article">
+        <div class="article-meta">
+            <span class="badge" style="background:#00FF88;">Environmental Regulation</span>
+            JD Supra · 60d ago
+        </div>
+        <a href="https://news.google.com/rss/articles/CBMihgFBVV95cUxPTDRBR1YtRTVSYnVLSG9kcDBlT3ZGVkdFRmN1eFVDckd3VXN2dnpZYXRGWVJDNlFoVmV1VF90Z1ZRTk1MMHJFakxVODVVb2htTVNrTGFTTlRudHdOOHFvbXdIaW5EOUhaaUt6X3pvYmZrZnJIYzBfNF8zV0ZhUVpiMDE2MXMzZw?oc=5" target="_blank">The DRC’s Cobalt Conundrum: Balancing Strategic Resources, ESG Demands and Supply Chain Transparency</a>
+        
+        <div class="regions">
+            
+            <span class="region-tag">DRC</span>
+            
+        </div>
+        
+    </div>
+    
+    <div class="article">
+        <div class="article-meta">
+            <span class="badge" style="background:#00FF88;">Environmental Regulation</span>
+            Global Voices · 61d ago
+        </div>
+        <a href="https://news.google.com/rss/articles/CBMi1wFBVV95cUxNT0FrOElQV1dsN09TZmtHakNVbDBMUlNWNHVTS2J3U0dRS2RTbHlvYWNqOEg3cDR0MXRiSml6SGpvaElPWmJ2ZHJPOW9pdzV3RmZ6eWZwNVp5azlLLTMxaC1xV0lZOWVlaFlQck1UTUkwQmU3UXY0b0czdjNodkRFb2J3cWdyM09TTkI3UEVnaC13LUhxM0JqN25QbzBXY09xRWlkVXhmM0E5UHkzMFUxSUtXc3FUX25SV0FGZ1B3SmNmc1duUVBRbWFTNFEyMnhkOUxvbmN2Zw?oc=5" target="_blank">Tensions high in DRC, the global cobalt capital, between artisanal miners and industrial mining companies</a>
+        
+        <div class="regions">
+            
+            <span class="region-tag">DRC</span>
+            
+        </div>
+        
+    </div>
+    
+    <div class="article">
+        <div class="article-meta">
+            <span class="badge" style="background:#00FF88;">Environmental Regulation</span>
+            frontiersin.org · 81d ago
+        </div>
+        <a href="https://news.google.com/rss/articles/CBMioAFBVV95cUxPNjRiWmZTX3A2OUEwUTFVTVp4c2plVFB0QktGQmt0YXF0QU90LXVOWWlpR0NlUXB1X3ZNbTUxMzNjSTd3MmF0TDR5cEFpWU1FQXlMbVdvNWpFczhEOE04LTdYck1yTHhXS1RfNU5uUGVKN3Fsa3NoQlQzU1E3Z25XeEJNOUtVZWp2SnhHWnF6bXBGcnBqTjEwcm9xazY4aU14?oc=5" target="_blank">How does environmental regulation affect the cobalt supply chain resilience: empirical evidence from cross-border data</a>
+        
+    </div>
+    
+    <div class="article">
+        <div class="article-meta">
+            <span class="badge" style="background:#00FF88;">Environmental Regulation</span>
+            Kuwait Times · 115d ago
+        </div>
+        <a href="https://news.google.com/rss/articles/CBMinwFBVV95cUxOUFRlTDNEeDhWOFV2QkRZSG5PUHhIR1d6MXBoR2gySGltZmhVTnUyandDSl91Y1dabExzakYtU3NHOHhOT3U2cTgzcUxRRk1kdk11MFY0a0NndmdRMW91akpQaXZwdlVDSHAySFg4WGtHdUcwdkpBWWpScG04SmhwcnA5ckRDUDZSeExfUXVsT29hYzRIeW41LTFlSTBPQ2PSAaMBQVVfeXFMT0RvYnQtN3piRHltcTlZb29GSzdoYi1PM25FUnlGaW9ZTzlUR3c5a0ZOQWEtOFAzVmxnQVZmcU9wSVdaTVNhU3cyQU43R19DVUQ4UmRfWC15TlJXeVdkTzZIeF9QR3BFNFNUZzdPMGNNa0tkMElWbmZwNGhidTN5cnBqRGxJMElzZno1Q2h4S2hmdUJISEQ5YVhiREswVzJZNXg2aw?oc=5" target="_blank">Unchecked mining waste taints DR Congo communities</a>
+        
+        <div class="regions">
+            
+            <span class="region-tag">DRC</span>
+            
+        </div>
+        
+    </div>
+    
+    <div class="article">
+        <div class="article-meta">
+            <span class="badge" style="background:#00FF88;">Environmental Regulation</span>
+            Human Rights Research Center | HRRC · 118d ago
+        </div>
+        <a href="https://news.google.com/rss/articles/CBMiqwFBVV95cUxOZ1g2blhidFNMTzFzS0FoRWhmQ21lNk51NkpNY2E3ZThyU1dDZ2xabGdRSkdsRVh1STVYbVB3QTVZYVlQOXJiYm9HZ3J5RFdQeF9TWk5nSF9YUTlndVpLZUdRRVNHSFFfelNYMy1VdUFKLWFDOWtxSy1TWDExR1NhRlRMWERQTERsdHNZRTJNZ1F4RVlLdHIwRV9yZ2ttUGR5Y19tanc2TUVUMmM?oc=5" target="_blank">The devastating toll of cobalt mining leaves over 32 dead in Congo</a>
+        
+        <div class="regions">
+            
+            <span class="region-tag">DRC</span>
+            
+        </div>
+        
+    </div>
+    
+    <div class="article">
+        <div class="article-meta">
+            <span class="badge" style="background:#00FF88;">Environmental Regulation</span>
+            Global Voices · 122d ago
+        </div>
+        <a href="https://news.google.com/rss/articles/CBMinAFBVV95cUxNVVJodHVzdTlDVWhEcTlmZHRvRFVrMTdOQmlzdldZbHdxRUVvLS1iazZtV2M5M3NMUk9zN2h6QWFJZHdUZWhpTVV5NjhnbkJKMTZmQjZlMkxnSFdNM1lVaTZBOHExVFJIYlZvWHU0UDVrR2wyNmhqc3Z0UXZUMTdvUHFTU3lTNklFR094ZFhyY0E4NVVKbDljSHAxakI?oc=5" target="_blank">Water pollution in DRC attributed to Chinese mining company</a>
+        
+        <div class="regions">
+            
+            <span class="region-tag">DRC</span>
+            
+        </div>
+        
+    </div>
+    
+    <div class="article">
+        <div class="article-meta">
+            <span class="badge" style="background:#00FF88;">Environmental Regulation</span>
+            InvestorNews · 135d ago
+        </div>
+        <a href="https://news.google.com/rss/articles/CBMinwFBVV95cUxNS0ViM3JfX0tCM0pJVGJnNXpUWWxhTXo2anc5OVRfUjU5bGlEYlM4RTYwMVA5SlpQdy1KelJmNm9LX1hlWk1ES2ZWamJvNlY3WUF6RXMxM2NhVEpqT3o4UWxvUk1mcjNHWEpzdFA5YUtaUEh5dlNzcktWcGlBRElwVll2SkYyV1hWbDhMdnBMcHpJeV9JcDYtTlFsa0VMcnM?oc=5" target="_blank">Congo, Cobalt and Children — A Tailings Dam Fails in Kolwezi</a>
+        
+        <div class="regions">
+            
+            <span class="region-tag">DRC</span>
+            
+        </div>
+        
+    </div>
+    
+    <div class="article">
+        <div class="article-meta">
+            <span class="badge" style="background:#00FF88;">Environmental Regulation</span>
+            Business and Human Rights Centre · 142d ago
+        </div>
+        <a href="https://news.google.com/rss/articles/CBMiwgJBVV95cUxNT3FDZll0cHFDQlZnLUpHaVdMZmJ5ZF9SbFFBZmtidmpDNF9DdkEtYTFvT3Njbk9EdU8xSU40Q1pEQnExSVpibkFwQmVXQTJSei1NTlpkZEV0eDY3SVFMV1pKcFpIcUxpLWt3eVZ3NjZFZUhXQWNQclZ3b1RKMU9kT0RDVXF6d00yR0ptemJXNnN2UnZqYVZDSG1mZW9YTm5WenRkenZhdzI2MzZfVDkxTXFBejkwU1pDS01YUHF0UktGTmc1Vy1BNVFMb3lNbDlpaG5ad0FPLWw0d1Ixc2ZtVFoyS09sNXo4S2F1RklSbF9LTzlFblQ1TDZXaXpaUlYzajRvZWV6Q2Z3dXpWaGp0ZzE4aXROQ3Zab05nUWZQX3FLMjc5ejRMUVcwYTA3NndkQmdwc254eXhDNEJ5dWNQM2tR?oc=5" target="_blank">DRC: Copper and cobalt mine suspended after dam collapse spilled contaminated water into Lubumbashi</a>
+        
+        <div class="regions">
+            
+            <span class="region-tag">DRC</span>
+            
+        </div>
+        
+    </div>
+    
+    <div class="article">
+        <div class="article-meta">
+            <span class="badge" style="background:#00FF88;">Environmental Regulation</span>
+            Discovery Alert · 143d ago
+        </div>
+        <a href="https://news.google.com/rss/articles/CBMif0FVX3lxTE1JaXlVTU1kaEhacmZ2MFVWV2RRWkg3ZzNTLTBTWDhVV01zSDI5elZxTDhGYkFFc3lJYjRKVi05cDBjbWRjMmx0bS1SS2NWS0hIdlFfZVV6OWIyQ1BtQjE1bTU4S2kwbnB2NFdnSkFwQ25tRXRtSU10b25iZVl0cEU?oc=5" target="_blank">Congo Suspends Chinese Mine After Environmental Spill</a>
+        
+        <div class="regions">
+            
+            <span class="region-tag">DRC</span>
+            
+        </div>
+        
+    </div>
+    
+    <div class="article">
+        <div class="article-meta">
+            <span class="badge" style="background:#00FF88;">Environmental Regulation</span>
+            White & Case LLP · 155d ago
+        </div>
+        <a href="https://news.google.com/rss/articles/CBMiwwFBVV95cUxNQVFReHMxQVVGQjNqY21qZTYtN0JwNjYyME05ekJ6RHVHRjZLUzRaTV9xSUZQUEcyakhqQWJ5M1NadExGbWowa3ozRTk5cUgzUXloRjZ3QmF3X3ZtWGJkaF81T0RUZ0pUVVZxUTNaWktILWUxa0I1R0NCdk04SUNnbjZDWndmZTllNVdoWm1EVHZSdzN4dXF5RUltUUp6blNCeGlUNEMyNU9DRGZ6LUNwMC1kSldFMno5TmJNWWZZTDBxOGM?oc=5" target="_blank">Extracting value amid rising risk: Compliance and M&A pressures in the global resources sector</a>
+        
+    </div>
+    
+    <div class="article">
+        <div class="article-meta">
+            <span class="badge" style="background:#00FF88;">Environmental Regulation</span>
+            Environment+Energy Leader · 397d ago
+        </div>
+        <a href="https://news.google.com/rss/articles/CBMiyAFBVV95cUxONFJsdUljZ3EzZi02M0VIR0dCT1JDY2lpZ01rVjZQdE5PbWxZOTcwUWhOd2tPTG1ReEJSWEFMcFp1amRDQnZwc1k2a0VhSHdORUFMaXBMTGhYaWl4dkNvS3JUZFNEMHRzSjJFYnNDZjdRSHFad19JN2tOTkN0QnVBNEh4ZW4zUldxdVVEc2JsWEhtNUVubzhIWWFtOWhqUFRvVVo5dG04MmtfMjhtM2RWMnozVmc5SVduQnY2Mkk4WUpzZmRLRjc1TQ?oc=5" target="_blank">Cobalt Supply Chain Disrupted as Democratic Republic of Congo Halts Exports</a>
+        
+        <div class="regions">
+            
+            <span class="region-tag">DRC</span>
+            
+        </div>
+        
+    </div>
+    
+    <div class="article">
+        <div class="article-meta">
+            <span class="badge" style="background:#00FF88;">Environmental Regulation</span>
+            IBM · 530d ago
+        </div>
+        <a href="https://news.google.com/rss/articles/CBMimAFBVV95cUxObmVoNlFyV1oxT1hHdW13MzFMOVg5bklFVGFIMXdXSERRQ2l0UHFzQ1h4VWx5cWIzQWNfUk02UlVnbzNmUTFSeWFaSnBTVmZKNktqemlXcy1VX3dsLVBCLWZkUFJGTTdjTmtSMGRlUWRma01Kb3hfaTNGaGdEeVRTbkNxRkQ3aFc2SVZOQXpMZHNheGpuRU9KdA?oc=5" target="_blank">Blockchain and sustainability through responsible sourcing</a>
+        
+    </div>
+    
+    <div class="article">
+        <div class="article-meta">
+            <span class="badge" style="background:#00FF88;">Environmental Regulation</span>
+            Mongabay · 734d ago
+        </div>
+        <a href="https://news.google.com/rss/articles/CBMijwFBVV95cUxQbkdHcmhETjRDUzdGNUtSejEwRjVvaElTMXlWdXJtWC1XQVptWUZmOTJvekI1clRneGVObVZTaWtwQjk3c3dNMldJZ0NHWlJKZERPQWhmWDR6MWRDREpnQTZpbkszOHI5T2xKVGlkT2xFc2hpT01acnJJU3lEUnVHVzdlOFBHNXotSGRjanhySdIBlAFBVV95cUxPMjYxSGxBeE02dFpyZERrNWQ5OE80MDYtQUxhTjY4cUdqUHlNYVNTZHZuT2pzUGlMV0VtWlZacHpRS2xxN3RyUjdGLUM5QTUxaFprMWN1TjBLMlR5eEk3cHpXNGZ1bHlCNjJGdDlURU91VEVOQzd6YlFDTktvOXVoRms3ZGswMGxmRzQtLUQwNmpwMk5r?oc=5" target="_blank">Global cobalt rush drives toxic toll near DRC mines</a>
+        
+        <div class="regions">
+            
+            <span class="region-tag">DRC</span>
+            
+        </div>
+        
+    </div>
+    
+    <div class="article">
+        <div class="article-meta">
+            <span class="badge" style="background:#00FF88;">Environmental Regulation</span>
+            Business and Human Rights Centre · 754d ago
+        </div>
+        <a href="https://news.google.com/rss/articles/CBMi9AFBVV95cUxOckpyY3pJd2l0Y2FHYTVISHdPenRDZWJfVE5JcWFhMjdQZ3dTWEd1NmU0b1IyZWlXdkRJRkJIamtlbEdmcFFEUzhFamp1c0pkNUJLRzBEdTVVNG1WNzc1WE1ZaXVmZDlzMjdQd0NicURCbnExY09PZ2FJSmpOTmJSM1dod0tPcTYxcDQwRXQwYWRJSmc5Zm1PUGJOSTdqcEYtT0RwLURYNUVGSDhEMnY1MG9LM1lHNVZmVTFtbEhNbWFNUXJ1R2RFQl9sUW9KYzBhR2JaYmdZOXVwSVhpRmdpM0JaR3gxdURkQmRZVXFXQVR5ZEpT?oc=5" target="_blank">USA: 5 major tech companies not liable over alleged support of child labour in DRC cobalt mining operations, Appeals Court rules</a>
+        
+        <div class="regions">
+            
+            <span class="region-tag">DRC</span>
+            
+        </div>
+        
+    </div>
+    
+    <div class="article">
+        <div class="article-meta">
+            <span class="badge" style="background:#00FF88;">Environmental Regulation</span>
+            Al Jazeera · 931d ago
+        </div>
+        <a href="https://news.google.com/rss/articles/CBMirgFBVV95cUxOOGJENVI4YmNBUWZZTndfSEVhaFFmY3hHWGpoTFFVTkJDYWx1TnhmV1k3bWtraUppcmJtc09pZGN3Y0xIZ3NZd3FabkloTGFPN256RGp3blN5X2x1U3F4TjI3SkZodDhDbEZNcEJNejRGcjBldlByWjhJU0RzU1F6NjMzNDNkUkhYNFlzRFJGeHh3UVlHajlSQUJiOFU4eElKbHNHTTJnZldKR2VxWkHSAbMBQVVfeXFMTkh6aXV2N2ZPaW9rOGtqLXNnYjBmWVZpOTFnYzE2M2U4UnlNSWtyX3hPc29jWV9oRm9uUlhfM1djNmlna001eGpMYy0yTm9ZQ0lUaFc1dEFzZlNCano3clNjamtCUkEwZFk1LUNDa3FCRWVSWEtkeUNiMmgzcDM1M0VYT3VuT0lpZkFCb1BIU0JRWjlOUk1LaERheWRBWWlkWnJ0ZHVMUkQ1T3pFaktLQ3RXX3M?oc=5" target="_blank">Mining of cobalt, copper in DRC leading to human rights abuses: Report</a>
+        
+        <div class="regions">
+            
+            <span class="region-tag">DRC</span>
+            
+        </div>
+        
+    </div>
+    
+    <div class="article">
+        <div class="article-meta">
+            <span class="badge" style="background:#00FF88;">Environmental Regulation</span>
+            Amnesty International · 942d ago
+        </div>
+        <a href="https://news.google.com/rss/articles/CBMi1wFBVV95cUxNR21jekhuZ29YeW9tQnZ1ZkhQa3U5VWVRajN3b3p3eV9vSFI5TDZEY1BLeDd0YkRwcE1qMTlQZS1ZbUc5UHhTZzlVaEpfQ3RGQzRya0s2RUpabWotRUZ6QVZFZkdvSUxDX3pkZ2xSMU1nYm9xZHAxZlpiYnE4eWl5bV9YVmc4Tk9waXBROENnNGhRSDFwV05HOFpwTUJoSkFwSVYtX3otaXpHZmx5SUoyUFBUREJaS1N2dmIwMFNPLXBnYUFVN2lCeDN4bkZ3bF94NTdfVWlHRQ?oc=5" target="_blank">Africa: Leaders at key Climate Summit and week must place human rights at centre of ambitious, bold action</a>
+        
+    </div>
+    
+    <div class="article">
+        <div class="article-meta">
+            <span class="badge" style="background:#00FF88;">Environmental Regulation</span>
+            The Borgen Project · 1076d ago
+        </div>
+        <a href="https://news.google.com/rss/articles/CBMiZEFVX3lxTE1jTnhabXdVUWlxM2lSLWN3NHJMS2VkTW5BM0lmcnBEOGl1cEVTT0ZHaWNya0JOazQ1NUlLaWpEQUI0MXFhTWkwRmptWjY2MVVmRld5cER0NnV5eTh5a2k5eXNjTmc?oc=5" target="_blank">Child Labor in Cobalt Mines of the DRC</a>
+        
+        <div class="regions">
+            
+            <span class="region-tag">DRC</span>
+            
+        </div>
+        
+    </div>
+    
+    <div class="article">
+        <div class="article-meta">
+            <span class="badge" style="background:#00FF88;">Environmental Regulation</span>
+            DGAP · 1093d ago
+        </div>
+        <a href="https://news.google.com/rss/articles/CBMipAFBVV95cUxPbWdHQ18xTVBwRFJmUDRJZG1QZFZNUlVBS3dZeXEyWngyU04tVnh0TWo5U0RsUy1sQkd6SHBfUE9UVURkQmNsdFgzbmk3c0ZuMTZaY01rdXQyUVNKTnFfYWNpRGlmQjBXaUpEV2lTeDBDLVJLNW5DMUtwWF9xSWY2OE90QmtMdk85dEVnSHlwV3lXZ0VwQ0g2NVRZRFRYOG9vX3ZwRw?oc=5" target="_blank">Climate and Environmental Security in the Democratic Republic of Congo</a>
+        
+        <div class="regions">
+            
+            <span class="region-tag">DRC</span>
+            
+        </div>
+        
+    </div>
+    
+    <div class="article">
+        <div class="article-meta">
+            <span class="badge" style="background:#00FF88;">Environmental Regulation</span>
+            Earth.Org · 1096d ago
+        </div>
+        <a href="https://news.google.com/rss/articles/CBMiV0FVX3lxTFA4LVR3b0tha184alNMTzlibTVPcGRoMlFILUs2bEYyQWdlRjhUbTlaN0p4MnBlSTcxUUdQU3RlZTBHWjBTTUZ2OGhGUHJjeTZyaU5uSmJJUQ?oc=5" target="_blank">The Environmental Impacts of Lithium and Cobalt Mining</a>
+        
+    </div>
+    
+    <div class="article">
+        <div class="article-meta">
+            <span class="badge" style="background:#00FF88;">Environmental Regulation</span>
+            Earth.Org · 1099d ago
+        </div>
+        <a href="https://news.google.com/rss/articles/CBMiU0FVX3lxTFBMQnZCSW03TjlNeEZlRERiNkNqNTJ2SWFqNjlrVVg1TmZCbGxWX2hUMFV1Uks0enhsTjJRTU5uN2Zka2dMdVJnVHhVLW8yWHZWeWVz?oc=5" target="_blank">The Environmental Impacts of Cobalt Mining in Congo</a>
+        
+        <div class="regions">
+            
+            <span class="region-tag">DRC</span>
+            
+        </div>
+        
+    </div>
+    
+    <div class="article">
+        <div class="article-meta">
+            <span class="badge" style="background:#00FF88;">Environmental Regulation</span>
+            New Security Beat · 1274d ago
+        </div>
+        <a href="https://news.google.com/rss/articles/CBMisAFBVV95cUxNTDhBOVpMWFdiQkZ5eWo1SHB0VDRTMjNTMkJfSmJjLXV0c2R6TVJfdjRvM2psOXZneHlLWTR2Qzh1emZIaDFFNllncDQwQVZ2ZmppaVBFNmdXdlFUa0FFRHE4SFlWMzNlWFZFVFlHY29jZE9GaERXcm9ScXlCQklDWmVDRjNMRWRxYkVROHJqU0NkUGhEOG84UW1USE42RHM2V0VvVy12SnBKaUFtMXNUdw?oc=5" target="_blank">Protecting Human Rights in DRC Cobalt Mines: A U.S. Priority in a Green Transition</a>
+        
+        <div class="regions">
+            
+            <span class="region-tag">DRC</span>
+            
+        </div>
+        
+    </div>
+    
+    <div class="article">
+        <div class="article-meta">
+            <span class="badge" style="background:#00FF88;">Environmental Regulation</span>
+            Human Rights Watch · 1356d ago
+        </div>
+        <a href="https://news.google.com/rss/articles/CBMiuAFBVV95cUxPaFpRc2w0SHp4NmlaTVByZGFJZVFKRHFmVHhkZDRXOUVZVWlUVTVBZGw2MzV5NDloXzhMV3pIY0lYTERTMW9LWlhhLWEzUkRQamJXTS1kWUo3eko5ZTAwQ1NXZFRKX2d4R2hpYVJEamlIRExvTjB6QnZ1bXhKTnRfbEx1YS16RWtPZ1haaDFtdkxPdHIwRGR1azF2b3E1VlZrd2RYc0hwQWRydW0zOU1kdURzTGxBbHJK?oc=5" target="_blank">Child Labor and Human Rights Violations in the Mining Industry of the Democratic Republic of Congo</a>
+        
+        <div class="regions">
+            
+            <span class="region-tag">DRC</span>
+            
+        </div>
+        
+    </div>
+    
+    <div class="article">
+        <div class="article-meta">
+            <span class="badge" style="background:#00FF88;">Environmental Regulation</span>
+            Wilson Center · 1672d ago
+        </div>
+        <a href="https://news.google.com/rss/articles/CBMiqwFBVV95cUxOZWtzeEI3QVNkcDgyV2xrUVA5SnhDRThSZDdrSXBFWGJxd2VtdTQwMThoX2dTWjczU2h1SVc5ZVNMXzlEQkxJVG1fN1FtQkVKTmpwa0NQTnEwNVBKdkd1bkh2alhxQVJWYi0zVWRwUmJoQXlwMHh1cWgxTTVOdE1ua1J0MWE2bS1tdllzWlNKemw4VU14M241ZW10VUhsREJQbXNFMUhEcklNYTg?oc=5" target="_blank">The DRC Mining Industry: Child Labor and Formalization of Small-Scale Mining</a>
+        
+        <div class="regions">
+            
+            <span class="region-tag">DRC</span>
+            
+        </div>
+        
+    </div>
+    
+    <div class="article">
+        <div class="article-meta">
+            <span class="badge" style="background:#00FF88;">Environmental Regulation</span>
+            CSRwire · 1684d ago
+        </div>
+        <a href="https://news.google.com/rss/articles/CBMipwFBVV95cUxNc0h5N2hrM1B6dmxzQXJBSTRQUTdUU0RiN0lPUldoSVByNVJTdXhtdjlBVjUzaGs3SjlveUtTaDZqeU8tQVllN0ZVMjFjYmhHcGxQQ1I0eXlucVAwQU9DX0NNanRRODQ3T0MwRWxXaHI2WU5IZWJpS1VNNkNwLVBvZkFoeXRWUzlXZS03Z0VLeVgxREVCd1pQbkppbXBjdWJUWEltS2dKcw?oc=5" target="_blank">RMI and RCI Publish Revised Cobalt Refiner Supply Chain Due Diligence Standard</a>
+        
+    </div>
+    
+    <div class="article">
+        <div class="article-meta">
+            <span class="badge" style="background:#00FF88;">Environmental Regulation</span>
+            Dentons · 2367d ago
+        </div>
+        <a href="https://news.google.com/rss/articles/CBMi5wFBVV95cUxPWTJzWWtUWHl0bG85OXppX281bFRWS25fZExGMlJmMU8tSEVsbGpzSVZGWkpfeGx6TFB4MTQtMGlFdU1VWmM0aHFZQnhGRS01R2R4RDd2WVQ5VF9iNjJHOVlyd1Y3cVpMRk5aOVljT1M0cExsSjlsNnhIM2psakdJcFRJVWdwM2tiaEJwcGcwYzFvRlFQaXpSczVXbVJwUlkwU0pJLXF3ZWtjZnBIamhEUUQ2VlRfNHg0aUZJTnlmYk15Y0FVX3BBSWxkVlIwNjhHVlU1ZHlyaUJyS0RLVWhSTmo3Z1ZLOEE?oc=5" target="_blank">Democratic Republic of Congo: Revision of the Mining Code and Regulations</a>
+        
+        <div class="regions">
+            
+            <span class="region-tag">DRC</span>
+            
+        </div>
+        
+    </div>
+    
+    <div class="article">
+        <div class="article-meta">
+            <span class="badge" style="background:#00FF88;">Environmental Regulation</span>
+            Sustainable Brands · 3380d ago
+        </div>
+        <a href="https://news.google.com/rss/articles/CBMitwFBVV95cUxQNEV3OVNsQ2ltSDhIeGdrSTNDSExjVU0xa1hqVERYakE2dHlGY3d5UFZ5Y0NmeTJMWGthUldlRElqTjhKclVtUWRMS213dlh6RzBHd2Zpck9tMTR3eGxWWTQxaDVKci1la2h1ZjlBWWVQWGc0bWhBRjlnRnFRdUJvMGdaY2t3LUowLVVNLUhtS1JrWTBjUjBleG1WQV82SC03YkRyX3NYZWdGQ0F2R25LZGhjUG9tUU0?oc=5" target="_blank">Apple, HP, Samsung, Sony Join Effort to Keep Child Labor Out of Cobalt Supply Chains</a>
+        
+    </div>
+    
+    
+    <div class="article-group-header" style="color:#FF9500;border-color:#FF9500;">
+        🚢 Supply Chain & Logistics — 104 articles
+    </div>
+    
+    <div class="article">
+        <div class="article-meta">
+            <span class="badge" style="background:#FF9500;">Supply Chain & Logistics</span>
+            SciTechDaily · 9d ago
+        </div>
+        <a href="https://news.google.com/rss/articles/CBMiSkFVX3lxTE5id1N1bUVabVNRZjhILU1uUjViRExLLTZkUXpCVE5lMHRZM2hYTWxsNE8tZE1yd0NmNkFwXzRvS2F0ZGlkYVhLek9n?oc=5" target="_blank">Global Cobalt Supply Chain at Risk of Sudden, System-Wide Collapse, Study Warns</a>
+        
+    </div>
+    
+    <div class="article">
+        <div class="article-meta">
+            <span class="badge" style="background:#FF9500;">Supply Chain & Logistics</span>
+            Discovery Alert · 9d ago
+        </div>
+        <a href="https://news.google.com/rss/articles/CBMikwFBVV95cUxQYWM3d3BXSE4tQlhJMnd5RGJ1ZkNOSlVLbGdvSTJwaEgyelhXY21DRDN4UjBOcnB0T2dUSmthbmhEZEJremk3R1pRVWppTi1naS1Xb1VUWmVQSHE3ZWVUTjcyanZqbHExV3Y1NkFwaGF3Y2txdzRMWUkxWjd4bFE2Q0RNbzB0TXg1RW9qU3hQSlJ5SjQ?oc=5" target="_blank">Congo Cobalt Mining Crisis: Ethics & Supply Chains</a>
+        
+        <div class="regions">
+            
+            <span class="region-tag">DRC</span>
+            
+        </div>
+        
+    </div>
+    
+    <div class="article">
+        <div class="article-meta">
+            <span class="badge" style="background:#FF9500;">Supply Chain & Logistics</span>
+            Hinrich Foundation · 14d ago
+        </div>
+        <a href="https://news.google.com/rss/articles/CBMiwgFBVV95cUxQVXZUMlhPbzB0dWFzTGdoUDEtYWIzU0pjSlVnalJ4bG53YkxoV05HU0VsT1VxSU0zd3VNaXRUX2RiUjdIX1Zrb2JsbFdqQW9hWURDcG9EWjJxWk9ITG1uRjZHWjVlNXN0RkJmbGFtRFN2aTFGZ0FHa054Q1B5NDBpZjBiUFF1SHFXMlFhUzF2SXhXV1JZN2dkQ25Lc29UNmc2Q1QxMmFKRVZZeUpmMWZWZnJqQy1Kb2VwSUQ3VU5LUjZldw?oc=5" target="_blank">Trade and domestic effects of export restrictions</a>
+        
+    </div>
+    
+    <div class="article">
+        <div class="article-meta">
+            <span class="badge" style="background:#FF9500;">Supply Chain & Logistics</span>
+            Discovery Alert · 14d ago
+        </div>
+        <a href="https://news.google.com/rss/articles/CBMigAFBVV95cUxPS0t0SVVmeTdfZUhabmlTYmY3XzlINExGUGQycXd5VmQ3bFJZY05JTDJ3N0VhYmJIRUdOelNQWHNtd04wUjlVZXM4MTBfYTEtMXIzQnBUNlBxY2ljYmlXcWdKMUN4dFNDUWVkdUdEcm9ITnBVTWdCTVhhanVHVkpNdw?oc=5" target="_blank">Glencore Cobalt China Exchange Trading Infrastructure</a>
+        
+    </div>
+    
+    <div class="article">
+        <div class="article-meta">
+            <span class="badge" style="background:#FF9500;">Supply Chain & Logistics</span>
+            Devdiscourse · 21d ago
+        </div>
+        <a href="https://news.google.com/rss/articles/CBMitgFBVV95cUxOVVNwNlM1SkR6TkN2ZVlmSEkzdExiVS1yZWlJUEl5eU1tN1NRY3hZZ3U5bmJBcG84UFlmUmJMNnRoQ3V4ZGVSeFlZdlJPc0VxLUhBc3V2Q2U1ZEJzVi1RX3dwbnhlc2YtVEdtaWZDaWpuWFQyX1JRTi1HQzBJaFdKNDNQSjVxZEkxYUswNVJUV29rSDhlYzF2YWtXTmZtbVRSUzlfWHNfQ2JIN2F0OWI5MFdrSlJxUdIBuwFBVV95cUxNSUVxMGRiRzRlZUZrdmhwUVA5TXprQjZ3WVlzeUQyTWxaZzFpank4WHFiRUZ2Rks5eFlJR09EN1hYZExfS1Zzbnk0Vl9DSDJzTjNDdXBqZkpzcmYzNWgxMlZvN0FyRGsybUR5c255UWJZM1NRN1Rkek9acTdZNm8yNWhKd3NQamc2LTVvYTI3TURuMTVzLWwzZktMQ2JkZUpiU2JRajljLXR0SVVyYnJQS0YtN2pUTDk2VmhN?oc=5" target="_blank">Cobalt Controversy: Environmental and Human Impact in the DRC</a>
+        
+        <div class="regions">
+            
+            <span class="region-tag">DRC</span>
+            
+        </div>
+        
+    </div>
+    
+    <div class="article">
+        <div class="article-meta">
+            <span class="badge" style="background:#FF9500;">Supply Chain & Logistics</span>
+            Farmonaut · 21d ago
+        </div>
+        <a href="https://news.google.com/rss/articles/CBMif0FVX3lxTE8xSEM5TzkwUzEzOG5BTlR0SEc1NkVKODdpTUZtWGEtdFV0bXJHSkljeXNXMnpWejZQOUxaaVN1OWwtT25mMEtYUnhOQlVvQmpidlRZdnJOaElDelRWc2VHSFFjeGlkT25naDJKV2tPeXZpa3M3WUtOX3N3OHNQVmM?oc=5" target="_blank">DRC Cobalt Exports % Of GDP 2026 & World Reserves</a>
+        
+        <div class="regions">
+            
+            <span class="region-tag">DRC</span>
+            
+        </div>
+        
+    </div>
+    
+    <div class="article">
+        <div class="article-meta">
+            <span class="badge" style="background:#FF9500;">Supply Chain & Logistics</span>
+            The Fayetteville Observer · 24d ago
+        </div>
+        <a href="https://news.google.com/rss/articles/CBMiuwFBVV95cUxQQjVMaEYxVUs2VFJXVXIzNnVjN0x2VVhfLW5EU01QQXJyU1N1cVFCcVA2RDVmNmt5OTBZLUZLeDVHVzctU1A5bnpmVjd1eGpNOVJkMGxUVi01VzBMeTBCZ2hwcGtvSFowRmlRVXFnN1VJZVBraXU4M0ltNjE5M0o4T3YxRnNaU3lRcDl6Y1dyLXFTODRDQzU2RVM1YU9vMmFnTHQ4Z1UzS0xvTDdyWHhsLWR2TjZ3UVhSNVdZ?oc=5" target="_blank">Why the world’s cobalt supply chain is more fragile than it looks</a>
+        
+    </div>
+    
+    <div class="article">
+        <div class="article-meta">
+            <span class="badge" style="background:#FF9500;">Supply Chain & Logistics</span>
+            Reuters · 28d ago
+        </div>
+        <a href="https://news.google.com/rss/articles/CBMiwAFBVV95cUxOZzFBN3pxaGZLMURocjhKbE11M1NGUGJjSzZxZmxsLVJfMXpZRzRXWkhqUF9jRUtjSGNvWC1IMVhodEtHV3pjM1ZaeGc2blhGNkVySEF3dFdmRDFUaHRlM2R4NlBENUlPd0otNGhVRXhqa21YMzJRN2Zaci0zRHRTQllaeU41NmZuQjJEY095dlVpbk56RnQzbWFZNnY1NUNUbUl0VTMxTXpBZXVwN21HTTBXdjJHMXI0X21QeENUb0E?oc=5" target="_blank">US struggling to de-risk Congo's 'war zone minerals' even after pact, sources say</a>
+        
+        <div class="regions">
+            
+            <span class="region-tag">DRC</span>
+            
+        </div>
+        
+    </div>
+    
+    <div class="article">
+        <div class="article-meta">
+            <span class="badge" style="background:#FF9500;">Supply Chain & Logistics</span>
+            Kings Research · 33d ago
+        </div>
+        <a href="https://news.google.com/rss/articles/CBMipgFBVV95cUxQWW1jdDVWZ3Fma1BYMzRqeWJmVkNDREctV01xajRKd2VUdkNYUmlFcGo1UVNkWlhxU3dhQ1NmUWtPYUJYa0RvaHdqMHJvejNyUTNldFRJZ3h2MDJwb2plUm5vZXE3ZUctcGxwVTZKSGJPZ0ZleHlfemMweW5PdjRSWGl3MXlfbkpFWk5LMVlRazdveURWaWw5Ym41TEhsc2xvUlJpeEdR?oc=5" target="_blank">Cobalt-Free EV Batteries: Technology, Benefits & Future</a>
+        
+    </div>
+    
+    <div class="article">
+        <div class="article-meta">
+            <span class="badge" style="background:#FF9500;">Supply Chain & Logistics</span>
+            Mining.com · 43d ago
+        </div>
+        <a href="https://news.google.com/rss/articles/CBMiggFBVV95cUxNblNjNWl3QmV6SV9CWE5OcnZCVlg0MG5YMFlNTHdOdmlDbmUwMHlXUS1nc09tdTd2cjZWY2N3VVU3cmJhaGlzZXNWNUlERmlmSjhBYUhUS09xNFd3VzhrWWFkMGlGWEtydGdhd0dNMmg0X3dER0NNRlU0cU9Ua1JYU2Nn?oc=5" target="_blank">CHART: EV battery metals index jumps to 27-month high</a>
+        
+    </div>
+    
+    <div class="article">
+        <div class="article-meta">
+            <span class="badge" style="background:#FF9500;">Supply Chain & Logistics</span>
+            smallcaps.com.au · 48d ago
+        </div>
+        <a href="https://news.google.com/rss/articles/CBMiswFBVV95cUxOdEoxelN6bWd6VVl5NnU4OUt4TlJfWnFOV2FiUG5mQ2RWZzlMMnBUSDNnZEI1YUVJTkdPWFhkWDcySXlWejkxUHNqM3hxejZtdDJ0UDN6LVYzRDBuZHdTSnVGOE9RcF9WUVNnRGx2ZG1JWk50TDBNNGdZT0xZR3NFVHBhdXBzdmt4aWRXaTlZazFOQXFNemFpRzd1SEMxcUpMQzVmN2tqTl81UFBQeXYyQVRSbw?oc=5" target="_blank">Australia's Strategic Play for Secure Cobalt Supply in the Global Battery Market</a>
+        
+        <div class="regions">
+            
+            <span class="region-tag">Australia</span>
+            
+        </div>
+        
+    </div>
+    
+    <div class="article">
+        <div class="article-meta">
+            <span class="badge" style="background:#FF9500;">Supply Chain & Logistics</span>
+            Fastmarkets · 48d ago
+        </div>
+        <a href="https://news.google.com/rss/articles/CBMirwFBVV95cUxOM1ZfNFhqSG9pcHl2eDhaQVBNOVZCTEp1a09VMnNXUjB0eHMzNUdVel9EdWdqSjRmT2dUcmFCTDR2MjRkdGJPWjJDYzY0TllWSWtsVFpCSndBcTc0WVFPQzU2T3hYVjFpRDFlTjh4MHJxTmZDU1A0UWxWM0daR05TR2M2UXI0bnhhTFgxRXYwZDZnQS02Y2NzaTItSlJhOERTYmNzUlhyOFpfSV9ITHIw?oc=5" target="_blank">From Kinshasa to Kansas: US lays out its plan to reshape cobalt supply chains</a>
+        
+    </div>
+    
+    <div class="article">
+        <div class="article-meta">
+            <span class="badge" style="background:#FF9500;">Supply Chain & Logistics</span>
+            CPG Click Petróleo e Gás · 55d ago
+        </div>
+        <a href="https://news.google.com/rss/articles/CBMiwgJBVV95cUxOZExEZHBVa3R1UkhHQ2dWNkRlVnBxLS1BNHhYOFVweGxxSC1IWTdnRmpWTlNfeWVSTTZjUERYMjFnamdXSE1uWjcxVFhwU1RSRnA5ZktYbzVBVnpSaXJqMlB3b3N2ZExJRjBmVXhZeF8xVTE4cVNHU2JwWnpxdFRiZ0ZOVUVqMGpqSTg5TTJXQ29hQmt4VXd3Uk1qZmFTX1pCN09Tc29oZlQzRzhDVkRlRTR1OFpXbFprY3l6V3doNUZSb2s1TGxmb0htVEtRMkdyVkN1ZDJOQkpxYUgtQUZrb2VGYm9YTzRJWEFOZ2hjcWtkRlVPcTBURUJTREY5N0FGUkZGV3NqZEY0dTlPRFRpWFZ3Z3R5Tng5LUtxUVJPeW9YQ2VKUS1GakNTd0FPZkN6QW01V2tpVXZJM1BOa3MzaFFn?oc=5" target="_blank">After restricting exports and attracting billions in foreign investment, Indonesia is transforming itself into a strategic territory in the global race for nickel, cobalt, and batteries that underpin the 21st-century electric, military, and energy automotive industries</a>
+        
+        <div class="regions">
+            
+            <span class="region-tag">Indonesia</span>
+            
+        </div>
+        
+    </div>
+    
+    <div class="article">
+        <div class="article-meta">
+            <span class="badge" style="background:#FF9500;">Supply Chain & Logistics</span>
+            Watching the world evolve and transform · 59d ago
+        </div>
+        <a href="https://news.google.com/rss/articles/CBMizAFBVV95cUxNTE5zZ1FTTE5xRFRLcWdwcnFvVTkxQkp5UUhGaWNpQkJ0Z1dNYllGMzIyaDdWMk0xN2oxaXBrUXphUlEwS05KbFo5bDZOSFNTekFhNHh5cmpLQUFzRThXbnJWTlZLaUU1OE9WdWpoeVUwOTJSOW42U3hJZlRoTGJlOUZwV1lQSjhIbEpSMkZzMlJsdWN6cWo2OVU5b2dlNGY3ZjRUOVdCWEhtLV9lWVJySFpmMWNvN2tfT2dKUE10ZjJLbEV4MmcwT3ZqSmo?oc=5" target="_blank">Landslide-triggered mine collapse kills more than 200 at Rubaya coltan site in North Kivu, DR Congo - The Watchers</a>
+        
+        <div class="regions">
+            
+            <span class="region-tag">DRC</span>
+            
+        </div>
+        
+    </div>
+    
+    <div class="article">
+        <div class="article-meta">
+            <span class="badge" style="background:#FF9500;">Supply Chain & Logistics</span>
+            Discovery Alert · 59d ago
+        </div>
+        <a href="https://news.google.com/rss/articles/CBMiiwFBVV95cUxNdlRZb05TZXBaa3RzNzVWVXJvZHh3MWY5ZER2dHQzZ3BJQ05wcGxpVWo4Wi15dW1PYVpyc2xiS3FMMTFKcXZPSnFZSFg2b0dWVGk1dXFKN3BCR0dydUI0Vm1RWkhkcGxxTkhpbmlNdklkbFBQR0JJakNHcURNN0Y2MTRGX09QZHlPeHJj?oc=5" target="_blank">Mine Collapse Eastern DR Congo: Safety & Prevention Guide</a>
+        
+        <div class="regions">
+            
+            <span class="region-tag">DRC</span>
+            
+        </div>
+        
+    </div>
+    
+    <div class="article">
+        <div class="article-meta">
+            <span class="badge" style="background:#FF9500;">Supply Chain & Logistics</span>
+            JD Supra · 60d ago
+        </div>
+        <a href="https://news.google.com/rss/articles/CBMihgFBVV95cUxPTDRBR1YtRTVSYnVLSG9kcDBlT3ZGVkdFRmN1eFVDckd3VXN2dnpZYXRGWVJDNlFoVmV1VF90Z1ZRTk1MMHJFakxVODVVb2htTVNrTGFTTlRudHdOOHFvbXdIaW5EOUhaaUt6X3pvYmZrZnJIYzBfNF8zV0ZhUVpiMDE2MXMzZw?oc=5" target="_blank">The DRC’s Cobalt Conundrum: Balancing Strategic Resources, ESG Demands and Supply Chain Transparency</a>
+        
+        <div class="regions">
+            
+            <span class="region-tag">DRC</span>
+            
+        </div>
+        
+    </div>
+    
+    <div class="article">
+        <div class="article-meta">
+            <span class="badge" style="background:#FF9500;">Supply Chain & Logistics</span>
+            Discovery Alert · 61d ago
+        </div>
+        <a href="https://news.google.com/rss/articles/CBMif0FVX3lxTFBWcjFzdjdTeHNUZnl3REdYWk1OOGMxdjJWMTBOUnRHYkhHWl9ZdW95bmhCZ3YtTkVGQVlIOGd4N19jbmUtN1ZuVlpJZ3dhaUZBcE9QLUR0NGowQXBTQzNJV3B5bUh0N3lWY3U0SXI5dE13THZwVTNTVmR0dWN3Mk0?oc=5" target="_blank">DR Congo Copper Export to US: Trade Revolution Begins</a>
+        
+        <div class="regions">
+            
+            <span class="region-tag">DRC</span>
+            
+        </div>
+        
+    </div>
+    
+    <div class="article">
+        <div class="article-meta">
+            <span class="badge" style="background:#FF9500;">Supply Chain & Logistics</span>
+            Discovery Alert · 74d ago
+        </div>
+        <a href="https://news.google.com/rss/articles/CBMiigFBVV95cUxNNjMwQUxqcjMyXzZZLVJ2Q2tFTGlsZ0VKSXBHckJNUGRUU0N2NWxUNEptTTNIVWFMNXJIU2Z6aUtJRE5vQnN2Z1hUOVRfNHpQSUtiLXVQbFRrSjRHaUlPMk14RzdhM2FwV0tBaGJxS1Z3S19QRHBYSGVTdEJ3a21XTnpoUE9sYkNMYlE?oc=5" target="_blank">Heavy Rainfall Disrupts Australian Metallurgical Coal Supply Chains</a>
+        
+        <div class="regions">
+            
+            <span class="region-tag">Australia</span>
+            
+        </div>
+        
+    </div>
+    
+    <div class="article">
+        <div class="article-meta">
+            <span class="badge" style="background:#FF9500;">Supply Chain & Logistics</span>
+            Recycling Today · 75d ago
+        </div>
+        <a href="https://news.google.com/rss/articles/CBMiywFBVV95cUxPaFp5Slk2TGVZNjVsY2xHUnVQZ3MyVGc3X19oeHRsbWdpMDRPMUZGbnpwTXJyNjNBSWo0OWRMT3pQR2MzRFg0VGx2WnBVODBsU0JOUmVBbXFVYWd3b0FLRTZjcFpvX05LQ1FXdjFLUEhEWjQzd2ljYWFrZTB0bnFrTnlGdUZPRkE3MXlraWstYk9IQV9SdjBSTHNQaHUxY0MyT1A4Wmx1T3c4MHZrZTdnSWY3ZmQ3ZWd0RjBxd1ZJTDVYYmh5MHh4WVpvOA?oc=5" target="_blank">White House seeks critical minerals import reductions</a>
+        
+    </div>
+    
+    <div class="article">
+        <div class="article-meta">
+            <span class="badge" style="background:#FF9500;">Supply Chain & Logistics</span>
+            frontiersin.org · 81d ago
+        </div>
+        <a href="https://news.google.com/rss/articles/CBMioAFBVV95cUxPNjRiWmZTX3A2OUEwUTFVTVp4c2plVFB0QktGQmt0YXF0QU90LXVOWWlpR0NlUXB1X3ZNbTUxMzNjSTd3MmF0TDR5cEFpWU1FQXlMbVdvNWpFczhEOE04LTdYck1yTHhXS1RfNU5uUGVKN3Fsa3NoQlQzU1E3Z25XeEJNOUtVZWp2SnhHWnF6bXBGcnBqTjEwcm9xazY4aU14?oc=5" target="_blank">How does environmental regulation affect the cobalt supply chain resilience: empirical evidence from cross-border data</a>
+        
+    </div>
+    
+    <div class="article">
+        <div class="article-meta">
+            <span class="badge" style="background:#FF9500;">Supply Chain & Logistics</span>
+            Discovery Alert · 87d ago
+        </div>
+        <a href="https://news.google.com/rss/articles/CBMimgFBVV95cUxQckVwRFlUYjh3ZG1ZbUlmaG5RZnNHdHRBTWlnV3Q3SHlHSFBBWG1lNlBzUWMwdmVfcEg4M09sYXctZFFFNzU4NlVocVdZQWZheUhaU2Z0WlZ4cDFMRzF4SVFfdV93bGZIQ3BhWXVtdmhocWR3WmM0ZDVCQUlIRVAxaVZsZ1RkeF9iTGlTQ1VYaGRUbkJsc1NxenVR?oc=5" target="_blank">Critical Minerals Supply Chain Risks: Strategic Threats</a>
+        
+    </div>
+    
+    <div class="article">
+        <div class="article-meta">
+            <span class="badge" style="background:#FF9500;">Supply Chain & Logistics</span>
+            Discovery Alert · 94d ago
+        </div>
+        <a href="https://news.google.com/rss/articles/CBMieEFVX3lxTE5ZTWVlUHVxdXBxU2NlOWNYNE1odGFLejV5NXJ4SkV6MURld2hpbHZ6VWlnMzR5bmJlWVdla2xnd3NESHk0LWxQVVlZSjVRR3JYUFBZLUI5aGFwWURkbEdrMVFDRXNndFNWS0JEUVNpMnhXSjRMVHg5cw?oc=5" target="_blank">Congo Cobalt Processing Suspension: What You Need to Know</a>
+        
+        <div class="regions">
+            
+            <span class="region-tag">DRC</span>
+            
+        </div>
+        
+    </div>
+    
+    <div class="article">
+        <div class="article-meta">
+            <span class="badge" style="background:#FF9500;">Supply Chain & Logistics</span>
+            Discovery Alert · 96d ago
+        </div>
+        <a href="https://news.google.com/rss/articles/CBMiiAFBVV95cUxQeUVOLTNzcTNmekxJTDlfbmlzTjlBSE81Y3BHbFFoaGREbDU1QXRLb0JVQXBQLUtIVTlaU3plZWdBZHFHRExEOFpLeEFkaFAwRGRrNVV1QmhXdDFHamxlTWkycmItdGtPcUluVDhlWU1hbFctczRfdUJXNmVfU3VYalAtUmVqTjdy?oc=5" target="_blank">Congo Halts Cobalt Processing in Corruption Crackdown</a>
+        
+        <div class="regions">
+            
+            <span class="region-tag">DRC</span>
+            
+        </div>
+        
+    </div>
+    
+    <div class="article">
+        <div class="article-meta">
+            <span class="badge" style="background:#FF9500;">Supply Chain & Logistics</span>
+            Mining Magazine · 98d ago
+        </div>
+        <a href="https://news.google.com/rss/articles/CBMingFBVV95cUxNbXVra1ktZFhMQlBiYWFaemxRazd2SXFFMXVtdHVKNDkzY1FtdW1Xa2w2eVowMXdLMWlOczR5SENESUk1V29tSjRNN3psdU9lVmJDb1IxeWNZMTAzZ2pPMzR1NnJCVGxjd0tld25WOUFLMnN1RzdtTUF1bGhOZElpOGp2UW5oa0NJbmV3ckJRaGNtNFVMbHdUNElEV21VZw?oc=5" target="_blank">CMOC sampling a good sign for DRC cobalt exports</a>
+        
+        <div class="regions">
+            
+            <span class="region-tag">DRC</span>
+            
+        </div>
+        
+    </div>
+    
+    <div class="article">
+        <div class="article-meta">
+            <span class="badge" style="background:#FF9500;">Supply Chain & Logistics</span>
+            The New York Times · 99d ago
+        </div>
+        <a href="https://news.google.com/rss/articles/CBMimwFBVV95cUxNUURvckd6U0NUbFRodkNVRkswOGVucVNNcWVidHFiQWhfUWpGTHFqbzRXMTI4V2ZSczdXV2V6RDd5cTh0U04yRjVNcU1hdGF4THZvcWtMS3Q0Z25fcFg5Tm9NMVlKSVprXzNrNDJiOU85aDl2UU96YWd4OVhWc3Y4VU5ZcW80Njk3bVBOT3JydzkxSHRGSnI3NWNFbw?oc=5" target="_blank">How U.S. Defense Industry Dodged a Rare-Earth Shortage After China’s Curbs</a>
+        
+    </div>
+    
+    <div class="article">
+        <div class="article-meta">
+            <span class="badge" style="background:#FF9500;">Supply Chain & Logistics</span>
+            Farmonaut · 108d ago
+        </div>
+        <a href="https://news.google.com/rss/articles/CBMiggFBVV95cUxPWTJ5LXlYdzNVYzNlTlpQUDN3blRzdzZlX3l4Q0YzNC1CUzFJc2ZnQUg2S3p4aC1yQ3dwUUhyNU9zUEVFVDQtOU05cWRVQlFzMTA3dGwzRFN2VEpxNlJxdWhtWHhVSjI3dHNpTE1iSkROLTVscHdmZHpXNVk5ZV91Qmx3?oc=5" target="_blank">Cobalt Mining USA: 2026 Stocks & Growth Opportunities</a>
+        
+    </div>
+    
+    <div class="article">
+        <div class="article-meta">
+            <span class="badge" style="background:#FF9500;">Supply Chain & Logistics</span>
+            Miningmx · 112d ago
+        </div>
+        <a href="https://news.google.com/rss/articles/CBMioAFBVV95cUxONzJZMEx2NnlmREhvYklUcmljb19FcGlZWC1sZlJGeXhCQjlqYld4Tl9CUDdaakM2eGd4Sm9qbUhnNjV2X1Fhay0tUVhVM2gxZzZGNUFpYzRCTERweEt0a3lOUDZZRExkNDdWanF5QllnS3V1UE84dnNwNFA5SjVQSHFVQ2dzU3RwdFFlX3pUMVdQQlFrRXlJcFZNZm9fUjRE?oc=5" target="_blank">Congo cobalt exporters seek clarity on quota rules</a>
+        
+        <div class="regions">
+            
+            <span class="region-tag">DRC</span>
+            
+        </div>
+        
+    </div>
+    
+    <div class="article">
+        <div class="article-meta">
+            <span class="badge" style="background:#FF9500;">Supply Chain & Logistics</span>
+            Crux Investor · 113d ago
+        </div>
+        <a href="https://news.google.com/rss/articles/CBMivAFBVV95cUxOTExiTDVwZmVBNk10NW40UnJnLTBPSkxrY2YtV3pqa0pYVzQ5Q3hrQ28tcFpzUHBUSDZoUDB0dUFueFlVVm5uYjkwLUdYUnBDU2ZCUDlwZ0JuV1o2OEZyRzFnZ3pYYUVWbkhJZkdLU19MQVVxQnVHSUpkOUg3OW96aUU4SFVxOHpDaW54Y1lxZEJUd2tIVWJldjRjWDN1U3ZXdVFaeGU2ZGFCbk9Fb0NzOFhWcWhEMTk0Y3NGVg?oc=5" target="_blank">Electra Battery Materials Secures $82.5M to Build North America's First Cobalt Refinery</a>
+        
+    </div>
+    
+    <div class="article">
+        <div class="article-meta">
+            <span class="badge" style="background:#FF9500;">Supply Chain & Logistics</span>
+            TRT Afrika · 113d ago
+        </div>
+        <a href="https://news.google.com/rss/articles/CBMiZEFVX3lxTE53U2hoQVhWTEtxS2gzbWllcVhpbHZNYnlkcjRhZm9HV3J0ZDZkSkhOelZxd3NYRjNQdXI3ejJlbHh1WVY5QXJUQ1VBRUhVeDJadHU1WGlBZDlTckc0TVFvenBrdnbSAWpBVV95cUxONXFYTndsaHNjTWRiZmk5Z3JOcWpwTjkwUS1ROVRZQ1U4R2FVYXdiWEJJRUxoMGZlQTBsdmljSmVwRi1Qc3ZkME5zWlV5QjZoRXFScTlQaG15MVdXSkpoTWJjb250OTFid0p3?oc=5" target="_blank">DRC miners urge urgent talks to clear cobalt export backlog</a>
+        
+        <div class="regions">
+            
+            <span class="region-tag">DRC</span>
+            
+        </div>
+        
+    </div>
+    
+    <div class="article">
+        <div class="article-meta">
+            <span class="badge" style="background:#FF9500;">Supply Chain & Logistics</span>
+            Business Day · 113d ago
+        </div>
+        <a href="https://news.google.com/rss/articles/CBMiqwFBVV95cUxQQ2d3ZUg1TldhaW9malBWYXoxbl9rSFVQai12TW5NUjhJTE5WUlNONU9yTkFtT3FITTBwQzFQVjZOSjd5a1JtcGdxNWlwRnlxSWUtc0dYMU01R0ZHeTRRVHI2M3B2ZzNRSkNweGdZcndqSkxNejlZX0pRdFBod3YwaUhZTEx1WENhcEZmM3FNQXByUUMtTUp1RG1QOUNHQlM4RFFWUmhuVmpfNlU?oc=5" target="_blank">DRC miners seek urgent talks to clear cobalt export backlog</a>
+        
+        <div class="regions">
+            
+            <span class="region-tag">DRC</span>
+            
+        </div>
+        
+    </div>
+    
+    <div class="article">
+        <div class="article-meta">
+            <span class="badge" style="background:#FF9500;">Supply Chain & Logistics</span>
+            Mining Technology · 113d ago
+        </div>
+        <a href="https://news.google.com/rss/articles/CBMihAFBVV95cUxNeXdLZEItVFlBMVUzdlo4R2RDMmhYbjJtdW9fNWg2YlRZTDRVRHVoTkZ3OWtmSTNOcDVtV0RUb0ZYTS1iNzJqckI2cTRBaHctYmpNbkpyeHlaWTdiUkpLR085MXVVcXphNGVsRjVkeUJScWUtZTBMRUVFZlNDbGxuNFJVUXc?oc=5" target="_blank">DRC cobalt export conditions tighten with new quota and royalty rules</a>
+        
+        <div class="regions">
+            
+            <span class="region-tag">DRC</span>
+            
+        </div>
+        
+    </div>
+    
+    <div class="article">
+        <div class="article-meta">
+            <span class="badge" style="background:#FF9500;">Supply Chain & Logistics</span>
+            Reuters · 114d ago
+        </div>
+        <a href="https://news.google.com/rss/articles/CBMipwFBVV95cUxNbnFRR0RSWllqb0hwX29hei1xcUE0c3EzdkRyWlktS3luQl9BMVlsQW50ejBKdEtDZFNPLTU5MkRLcmJ1Qm9xRjVnYlVLb1V6NFRXV1RDdVowaVlnMTNhaDRSakxmbEVmY3FvdXBFb0U3aTNWelpwRkJSYkdBYjVEUlJBUy1DU21rT3pGdl9GcjhvVE5BMWhUWFo2TTlQZV82QlhvM1VRWQ?oc=5" target="_blank">Exclusive: Congo sets new export conditions to keep tight grip on cobalt</a>
+        
+        <div class="regions">
+            
+            <span class="region-tag">DRC</span>
+            
+        </div>
+        
+    </div>
+    
+    <div class="article">
+        <div class="article-meta">
+            <span class="badge" style="background:#FF9500;">Supply Chain & Logistics</span>
+            Global Mining Review · 116d ago
+        </div>
+        <a href="https://news.google.com/rss/articles/CBMikgFBVV95cUxNRG0wQUFscERJOW9xVlVsMnZDemstTjJRWGJzRmhmOWM4VDliMklXVnEyZXZmczJPSS1LWFZCbzZoalM2b2ZkSVRCSWZjUWdyS0s0MTdvLUxObUllYXR2ZXFneTVzdi1ySklENXVBMWVyOUxGd3NzMS1RZkp0OXU3eDRQNEhRSjI2NTI1UGZ6TUFGQdIBlwFBVV95cUxOUlktZHNvZVpvSExPWkZaUXZOVXE2ZGViUUtoODRRaWF4WlpaeXZGVnpKRlZidlVyOERab1MtNmpUaVk3NDFnVVV2TVhQLWFvUlU4X2NkY3EyVGE5Q1g5QWdQNlhmdEpfdElGRlg4Vms5Qnk0SFZUM1dXVzFKX3pSMGktQkpRTEpIVmRDV1phWVFBeHZtYWRr?oc=5" target="_blank">The dual threat facing modern mining</a>
+        
+    </div>
+    
+    <div class="article">
+        <div class="article-meta">
+            <span class="badge" style="background:#FF9500;">Supply Chain & Logistics</span>
+            Human Rights Research Center | HRRC · 118d ago
+        </div>
+        <a href="https://news.google.com/rss/articles/CBMiqwFBVV95cUxOZ1g2blhidFNMTzFzS0FoRWhmQ21lNk51NkpNY2E3ZThyU1dDZ2xabGdRSkdsRVh1STVYbVB3QTVZYVlQOXJiYm9HZ3J5RFdQeF9TWk5nSF9YUTlndVpLZUdRRVNHSFFfelNYMy1VdUFKLWFDOWtxSy1TWDExR1NhRlRMWERQTERsdHNZRTJNZ1F4RVlLdHIwRV9yZ2ttUGR5Y19tanc2TUVUMmM?oc=5" target="_blank">The devastating toll of cobalt mining leaves over 32 dead in Congo</a>
+        
+        <div class="regions">
+            
+            <span class="region-tag">DRC</span>
+            
+        </div>
+        
+    </div>
+    
+    <div class="article">
+        <div class="article-meta">
+            <span class="badge" style="background:#FF9500;">Supply Chain & Logistics</span>
+            CEPR · 126d ago
+        </div>
+        <a href="https://news.google.com/rss/articles/CBMif0FVX3lxTE1YTG9QbkJYVDFXM3FVMlR4bUc1UGR2ZTEyeXlVd0NzVnFZX0JuMm5rNDVBSFFBajUxeU96TkMwLTJ2N3JpTXJVZnFORElaTDg5S2c2WFNXLWR5dUp4RHVmdHItMkd1X3V0a1psdy00c2xoRE15M05SalpQT0N3X0U?oc=5" target="_blank">The (un)intended consequences of export restrictions</a>
+        
+    </div>
+    
+    <div class="article">
+        <div class="article-meta">
+            <span class="badge" style="background:#FF9500;">Supply Chain & Logistics</span>
+            Mining.com · 127d ago
+        </div>
+        <a href="https://news.google.com/rss/articles/CBMioAFBVV95cUxNdjVqdi1qMlg2OHRBczZWa25UM0hSWFB4Rk9JOXp2VWI3cnZZR2F1SEtQaGV0elU2V2dIR3NHdGZ2SGFoeXpCQTF1Y2g4NXpYYzJNdzNybkFvRFItMXRjOHkzWHZuVF9HWEt2STd0M29CVGVvNEdlb2Z5ejc0ZzNhNnl1cFMxdTQyS1E0Qk9DWDFCYkQ2S2w2Z1dRaWhUTU9K?oc=5" target="_blank">Value of EV battery nickel second highest on record, cobalt at 30-month high</a>
+        
+    </div>
+    
+    <div class="article">
+        <div class="article-meta">
+            <span class="badge" style="background:#FF9500;">Supply Chain & Logistics</span>
+            Breakbulk Events & Media · 138d ago
+        </div>
+        <a href="https://news.google.com/rss/articles/CBMickFVX3lxTE9VUTlyTnEyMWNEcUptRGZKYWtvbDZjXzhRTzNVOGRsOENIUFJQcldrWUZpOHdMY0t2d0xaVjJZdVduczFMNm5JYWVWckFCWDZCU0JteWJLc0UzY3cyTjgtajNoT1Vtd0FxWEd0dWVDeTRzdw?oc=5" target="_blank">Indonesia’s Nickel Gamble Pays Off</a>
+        
+        <div class="regions">
+            
+            <span class="region-tag">Indonesia</span>
+            
+        </div>
+        
+    </div>
+    
+    <div class="article">
+        <div class="article-meta">
+            <span class="badge" style="background:#FF9500;">Supply Chain & Logistics</span>
+            Business Insider Africa · 139d ago
+        </div>
+        <a href="https://news.google.com/rss/articles/CBMi2wFBVV95cUxQb013c1l3VmlXYTltNHRXOUdtYTdKeWpicUo4RnZzWXJBNE5DaTVMOG1oZk9HTkdjREZGQmJuenpTZWpkM3MwQ0J3eUs5ei0yR2ZwSEl5Nno0aGZwS3JCelR3Y2RRVFpwVTJ6SWJlUmFZSkx5OWRnOVJUdVhOb09hbWJGcjdRRE1SbUFObnpJZTdGYzdIcEVWcVFKTDEwa3hWODdDbEZkTDIyQlFVV0tpc0loSm5MOVFnOExLMW9RWGFGTTJIWGdTSnJ5ZVhCaTBBSE1odmpxSGR2Nmc?oc=5" target="_blank">DR Congo suspends Chinese-owned cobalt mine after dam collapse devastates one of its major cities</a>
+        
+        <div class="regions">
+            
+            <span class="region-tag">DRC</span>
+            
+        </div>
+        
+    </div>
+    
+    <div class="article">
+        <div class="article-meta">
+            <span class="badge" style="background:#FF9500;">Supply Chain & Logistics</span>
+            China Briefing · 141d ago
+        </div>
+        <a href="https://news.google.com/rss/articles/CBMilwFBVV95cUxOYTVvRWMyT3NPQlRfbFhmcHNSRjgzSGlOTzRPbUFLTU5lWTllNVJkdEJRS1FWbVFWdFZIa1YzdEw4eFc2UVo0TklQb3pWbzdaMjNyWVN2Nkdnc3JLYTlnLWtqRkIxdG9JT2Z1ZUNZZnVHbmVpZVcyTXFpTmEtdFNROVFLdmtDT1c5YWFXNklwdjVIX2FUZ0xv?oc=5" target="_blank">How Will China’s Rare Earth Export Controls Impact Industries and Businesses?</a>
+        
+    </div>
+    
+    <div class="article">
+        <div class="article-meta">
+            <span class="badge" style="background:#FF9500;">Supply Chain & Logistics</span>
+            Resources for the Future · 141d ago
+        </div>
+        <a href="https://news.google.com/rss/articles/CBMitgFBVV95cUxQanF1THRSVFZBQWxHMm5NRTNnQzZNRzNaOUN4ZlBaQ19OcTJmakM2MG9lMFdiUGdoWkMxbnRpN0w3djRJeThWRHNTNVdzaDdvWm5CTGdoaVJaTXpjT2x0UDZsOVZPWUJEQzJqZ0hwMC1xbHdDS1V5Zmpic2o3MGVpa181cTRJanNJVjc4UlpaMC1KWHlXd2dKaDJKcC0td2MxWmI4aXNuQ1hEb2o5WDZFNFBoQkt1Zw?oc=5" target="_blank">Resource Nationalism and the Resilience of Critical Mineral Supply Chains</a>
+        
+    </div>
+    
+    <div class="article">
+        <div class="article-meta">
+            <span class="badge" style="background:#FF9500;">Supply Chain & Logistics</span>
+            Discovery Alert · 146d ago
+        </div>
+        <a href="https://news.google.com/rss/articles/CBMijwFBVV95cUxNemd2QkU4WUlNWTZrVnVJdGpmVUM2SmJMQUcyTXVzV21OeVNhTmZTcFRBck1VWkx1RTZfWFRlZ0duUUVIRjRLblhYeHlLZzR1TjZDa3RBLUUyeENEbklReG5sdy1lTkRKbFhWNlFPTmlHNWVzZ3dwbk5keXFRb0pBc1VsVklja1E1Ry1kYU5RWQ?oc=5" target="_blank">DRC Cobalt Export Quotas: Strategic Mineral Control</a>
+        
+        <div class="regions">
+            
+            <span class="region-tag">DRC</span>
+            
+        </div>
+        
+    </div>
+    
+    <div class="article">
+        <div class="article-meta">
+            <span class="badge" style="background:#FF9500;">Supply Chain & Logistics</span>
+            Mining Weekly · 153d ago
+        </div>
+        <a href="https://news.google.com/rss/articles/CBMivAFBVV95cUxNTzhHQW1WS3VVT0RwYjJPWERma195RWhqR1RGNGdVQU92dnhKNFA5WVV0cWh3TUNFZUJNWW4yRGZwbkp2Z1BodGRqQ1Nva2txLWNmMEhZcFYxSkVrcVlIbmFsZVQ3RmVPR3lJWG1WdW02QVZqVEwxcm55OWdsdzhJT281NzdtNjhOSERpVmpBckQ3WWpKNjVzQnNUNUFmN2ZRZW5hdExsWG5BcEZhSFZGSHNhVUlicUxLVC1EUg?oc=5" target="_blank">Glencore outlines cobalt strategy amid lifting of DRC’s cobalt export ban</a>
+        
+        <div class="regions">
+            
+            <span class="region-tag">DRC</span>
+            
+        </div>
+        
+    </div>
+    
+    <div class="article">
+        <div class="article-meta">
+            <span class="badge" style="background:#FF9500;">Supply Chain & Logistics</span>
+            Canadian Mining Journal · 155d ago
+        </div>
+        <a href="https://news.google.com/rss/articles/CBMingFBVV95cUxNblFHMzBaZVZfRWRRQ280RTZnLUZHblpuNHdBQ0tLUXZPOFgwSGpmcFQ1LUkwXzFTVHNCYmltbW5IUzVrMEY2dFFuTUZBNEhmdHk1WklOVUhYcWYxQmF3a0N2NU0xVzE0Vmgyb2RlN1J3Wi12Q0RYZEZ1aHcyRG02MUJvamlSbjV2dlh6b3REdk5ZZzJ3OGgzd0I4VWhHUQ?oc=5" target="_blank">Fraser Mine starts shutdown, final ore due in December</a>
+        
+    </div>
+    
+    <div class="article">
+        <div class="article-meta">
+            <span class="badge" style="background:#FF9500;">Supply Chain & Logistics</span>
+            Sudbury News · 157d ago
+        </div>
+        <a href="https://news.google.com/rss/articles/CBMikAFBVV95cUxQU1RydXhvWEVmS0lSTW1sWmNqWmFmbmR3VE5mSnVOSjBYczlFeXF4Z0NRdzJRbTdQZ3ktdnVCVzNsSUVENGVpVHlNZmJoeXdpRU5uY2I1bWc1NzQwSFpaVjNkWE5aRlFtYVIydTFqYmZaTm45Smo5Z3ZyQkQxamdvVmVOTXlIXzRjSG5PUHE2TWE?oc=5" target="_blank">Sudbury’s Fraser Mine has begun closure process</a>
+        
+        <div class="regions">
+            
+            <span class="region-tag">Canada</span>
+            
+        </div>
+        
+    </div>
+    
+    <div class="article">
+        <div class="article-meta">
+            <span class="badge" style="background:#FF9500;">Supply Chain & Logistics</span>
+            Walk Free · 159d ago
+        </div>
+        <a href="https://news.google.com/rss/articles/CBMiogFBVV95cUxNZjFKUkV4bHl1S2FqckNzWU8zeldkcEN0VWZuSW45VjdubHFEbEFmNEpTQUJrVUJudThILWVGY3VuUW9wcUFOSnRtUGRWRWZKWk0tdDc1R0p2Wmt6LU9WMDRaS0dSRWswdkxSUFQ4ZjY2OVJTbkRIa3NTTE83UFA2N25zbjFnNzduNlhnbHZjTWQ0U2RrRy1vZ1FIeGV2T25UZVE?oc=5" target="_blank">Stronger laws proposed to stop forced labour in UK supply chains</a>
+        
+    </div>
+    
+    <div class="article">
+        <div class="article-meta">
+            <span class="badge" style="background:#FF9500;">Supply Chain & Logistics</span>
+            Global Mining Review · 161d ago
+        </div>
+        <a href="https://news.google.com/rss/articles/CBMi6gFBVV95cUxQdGZobnhOaTZKbjlfV3hLdmpGd2VwTV9BU0hZOW1FZTIxb3Y2RWxNNWV0ejlETktuczBoN01WSFgtY3lXZUJ0ckVDYnlTUzFiOTljV204azN5WFFZazJ0S3Y1dEpoekFldml5QUoyTDdqWEhmMTJ2STVUdmtVZXpidXhJX0JRdGx3a3Vzem91TUNvbUpkX2xBN0gxcVVQMHphbkFFSDVPRGxqNVhEZXBlM25BdFgzVGRTdXhyX2lhSS1pcm5sUkpIcDZfUXZ1dFZ0S21RYk1DMXJETnpzUnE4NG4tVlE5TWFRalHSAe8BQVVfeXFMT1EyVUFaTVB0aWpVWS1lSnh5bUJmeFlmU0dZMDVKMUE5QzJsX0pnOWtNU3JtdzV1ZWZBVUFWWXZiU2I0NWZKT25SWWlybW9sU2ZIZ3MtQmN6TldlVDZZWEh3eUVSX3NpLUVkVmthV1dWdGxCRFRwV3Q4Tlh5THVkWDVWRWVKd1pPUVROeENFRHdZNlFKcGg2aXVReV9KbnVxUzdCTmk2SjZ4QjBQTWl0NVZHQUViN3VMWFZIU29oaGVoRjBwVkZNX2dYU054WXhmQTZqQUkzYzZlWWhUVjVQMnh2VVBGODVCSlJwak92cFU?oc=5" target="_blank">Minespider and Rare Earth Ventures to boost traceability in Australia’s critical minerals supply chains</a>
+        
+        <div class="regions">
+            
+            <span class="region-tag">Australia</span>
+            
+        </div>
+        
+    </div>
+    
+    <div class="article">
+        <div class="article-meta">
+            <span class="badge" style="background:#FF9500;">Supply Chain & Logistics</span>
+            The Hub | More Signal. Less Noise. · 162d ago
+        </div>
+        <a href="https://news.google.com/rss/articles/CBMi0wFBVV95cUxPSmNEclI1X2NjX3Nqazh1VGtLRFJhNjJ5OFY0cEpEYmh5WFlCaW0wTF9yUWg3ZTBLa191RnZVdnNTMHBBVWoyaUh0MXNVbTd3STRvaElpNHIzLXNTZDBFa3FxQ3VFV25yR2RYUk9LN1FvcGtOSGhNdkxHU1kzME9pTFJ3SThFWXRJYjRvb1hITmVKamRqV0NydHNvYkIzZ2dtTFFCSU9ZVWhZUm9FVVRRdElLSmlpVFk3TDg4SEFPblJjTmwzelVSQ0dlRHZ1T2RDd1c0?oc=5" target="_blank">Canada’s secret leverage in U.S.-trade war: How lithium and cobalt could reshape trade negotiations with Trump</a>
+        
+        <div class="regions">
+            
+            <span class="region-tag">Canada</span>
+            
+        </div>
+        
+    </div>
+    
+    <div class="article">
+        <div class="article-meta">
+            <span class="badge" style="background:#FF9500;">Supply Chain & Logistics</span>
+            Farmonaut · 162d ago
+        </div>
+        <a href="https://news.google.com/rss/articles/CBMiiwFBVV95cUxPUFZwUjEySGxYcjM3eFM3cHZNM09NODVVVkdwdmxxT2hDWFNrZjh2bERSNkttNG8tVVM5a2VsRjRnQU00ek5GVEc1UjZIQ1RVOHExWlBEVXh3QllTNUlXUDIzT3BGY3IxY2dSMXZwY0NJLVBZaFZVRV96MjRwRmgxU0dPMWxPbmVhZE1n?oc=5" target="_blank">Tesla Cobalt Mines: 7 Shifts For Ethical EV Supply 2026</a>
+        
+    </div>
+    
+    <div class="article">
+        <div class="article-meta">
+            <span class="badge" style="background:#FF9500;">Supply Chain & Logistics</span>
+            S&P Global · 166d ago
+        </div>
+        <a href="https://news.google.com/rss/articles/CBMi5gFBVV95cUxNeWdxTHVuVzJ4bzc2UUZDU1JSLVFOVVdqNkxXd09mdTYxUEtkMGxDTm1QMFRhUHQ3UGlJUmpQaXZyZGtzekZxdC0zekVQdWpjeUhmR0dlZUFQQWVSQkc0S0hqdWt2dHNyYzZsTXFGUjFHSXgwdkZvV1VXMzF6U01BQzdjVFBSeEdNYVdFSDhtbmg1Uy1odGJ1SGVxZ1g0dEkxcFlDa0xhY3dWQjVGWnotOExhLXJzZzk4bGo1Zi1iTWRHS3FZUEEzSW5fcE1BQnJGQVJGUnhFSjFUU2VOaTd6VFdJUEN1Zw?oc=5" target="_blank">DRC cobalt export quotas to support cobalt prices, though challenges loom</a>
+        
+        <div class="regions">
+            
+            <span class="region-tag">DRC</span>
+            
+        </div>
+        
+    </div>
+    
+    <div class="article">
+        <div class="article-meta">
+            <span class="badge" style="background:#FF9500;">Supply Chain & Logistics</span>
+            Automotive News · 168d ago
+        </div>
+        <a href="https://news.google.com/rss/articles/CBMifkFVX3lxTE5NOG5VeVN0RVpqRWdDX1MxZm42eDFYV2stS3p5RnFSVEI0YU1JNzQzQU5MTllXVnllY0tjcTlhMXB3bmFRQ0Rpb0xicEdzN3k1SnN5cE55c2F6cm1TT20tODBMQ1ZJc2ZRakZsR3p2aVRfMklVVXNjeURkUTVYZw?oc=5" target="_blank">How a renewed U.S.-China trade war could scramble auto supply chains</a>
+        
+    </div>
+    
+    <div class="article">
+        <div class="article-meta">
+            <span class="badge" style="background:#FF9500;">Supply Chain & Logistics</span>
+            Mysteel · 168d ago
+        </div>
+        <a href="https://news.google.com/rss/articles/CBMiywFBVV95cUxOOFZRZnMtWjlCOEs4cFl2aGI2ZmRJVVRnUTJUNXowOFlMN1NpdVY4RENRLTZJWndhUVRLd250RjhuandnRlJDaFBsTkctX2tPWXRRSGVaWTdacDNEZWV1WDdXVjltOHhVOEh4Qm03bnlOUDZ5NDM3Z2VpLW55MHFHaTcyZFB6RzR0bVVXSEplNUNOQzdhODZqTzh2SVNBY1dvWmVGMHhKQWZWRjhrVjJUdUxyVW1na2JtVTlNVTUxa2xHeGotT09TRlgzOA?oc=5" target="_blank">Analysis of DRC's cobalt export quo...</a>
+        
+        <div class="regions">
+            
+            <span class="region-tag">DRC</span>
+            
+        </div>
+        
+    </div>
+    
+    <div class="article">
+        <div class="article-meta">
+            <span class="badge" style="background:#FF9500;">Supply Chain & Logistics</span>
+            OPB · 173d ago
+        </div>
+        <a href="https://news.google.com/rss/articles/CBMiqwFBVV95cUxOS01EVnVxMGU2aTMxWXprWDJlNTZqN1NpSEdxbU9MZWRTYVJfNzlVX0xLREF6VVpTcXdQTXVBcFEyWWU5b0hKMjJCSDZZbEo5QklzX1lpWDhNX29obGc0dUltVVduWFlxNFYwYlFOUE1BZkwxVVZRSkViYVhDYVpSVmJPVE53ckozSFotcjRFN3B5M2p5SVRISkVzMEZ5OHZKajBMcWRVTnZXckE?oc=5" target="_blank">China curbs rare earth exports, raising stakes before Trump-Xi talks - Oregon Public Broadcasting</a>
+        
+    </div>
+    
+    <div class="article">
+        <div class="article-meta">
+            <span class="badge" style="background:#FF9500;">Supply Chain & Logistics</span>
+            APRI – Africa Policy Research Institute · 187d ago
+        </div>
+        <a href="https://news.google.com/rss/articles/CBMipgFBVV95cUxNTjRsZjk0MmZwMWdXZHZtMWpjeWk1Tl9IVWJXakN0NmRZbUZsUWlad0o2dWROM1RhSmxkNmZGQ2pxWFRCSjR5NUdlMm11M1o1VUEyZzVOcVNvREl6RnR4QXdJQUppMXZvTVpSaVFTV09McWVzVDBnS0xKTllPUnl3TElYNF9KTmM2LTFOenlOQWlhaUtMb0pkZElSeVN5OS0wU2JSZTBB?oc=5" target="_blank">Developing Nigeria’s Critical Minerals Industry to support Global Energy Transition</a>
+        
+    </div>
+    
+    <div class="article">
+        <div class="article-meta">
+            <span class="badge" style="background:#FF9500;">Supply Chain & Logistics</span>
+            Fastmarkets · 190d ago
+        </div>
+        <a href="https://news.google.com/rss/articles/CBMidkFVX3lxTE1uTE9IaS1FMXJkR2VxXzYzMFl5dHhwbG90XzI3NGRlcHQzVmp5UzMtMF9PZzdMVlgyZUNWYVJQLTlYLVB5MTY3ZkxiRTZrQjBna0xWNnNGTXRvRGN6YWlfSW9JUDM0YnhWTFl0eC0tM2ZyYVdvRGc?oc=5" target="_blank">Cobalt export quotas: DRC sets limits to rebalance global supply</a>
+        
+        <div class="regions">
+            
+            <span class="region-tag">DRC</span>
+            
+        </div>
+        
+    </div>
+    
+    <div class="article">
+        <div class="article-meta">
+            <span class="badge" style="background:#FF9500;">Supply Chain & Logistics</span>
+            Benchmark Mineral Intelligence · 190d ago
+        </div>
+        <a href="https://news.google.com/rss/articles/CBMiqAFBVV95cUxNOUptci1XeDhsSjdhZ05MbHhYSXNrUk5kdGxtNWtCZEJyeGVsRGItSHlBUTlmWGxZQTE2d0Ryd0RZcGxoa2RwWlE0MnA0NDQ0WG1HQkttTjN1SXdacXlkQld4dVJwX2xQSDVESG9DdUR3YXpvRmd2YU9VRHBsR005dXdwWHdEUnBoZDVGWEJNY0VCa2Q0XzN2MFFGdVQtWWEyRVluUEw1R1o?oc=5" target="_blank">DRC to lift cobalt export ban and impose quotas through 2027</a>
+        
+        <div class="regions">
+            
+            <span class="region-tag">DRC</span>
+            
+        </div>
+        
+    </div>
+    
+    <div class="article">
+        <div class="article-meta">
+            <span class="badge" style="background:#FF9500;">Supply Chain & Logistics</span>
+            McKinsey & Company · 217d ago
+        </div>
+        <a href="https://news.google.com/rss/articles/CBMi4wFBVV95cUxQdkVhTE5tWnE5ZVpYUHdqV0xWYmVabTZNcWR4NEppemVYaVhTLXVOUDRkZEdTaXhhQ3BNeFNQakJsVGI5VzZSejZLZ0xOcUZRVFpmdGpIQzFpVjZJWkhMeEdzSjJ5VUtlTGt1ZDNEamd1V0lJZmxINVlGRjlybF9UVmxtTFoxQ2s3S01RTXo2ZF9taGhkU3R5WVpxT2ktUVdsUVpGbjhkODZIUldBNGJCRUlYSFNYRi1HUEtfTXloNUFnd19ELVhuUzFtWUdOMVZPc3pfLVNGajVyc3dVSXRJWjMtMA?oc=5" target="_blank">The hidden trends in battery supply and demand: A regional analysis</a>
+        
+    </div>
+    
+    <div class="article">
+        <div class="article-meta">
+            <span class="badge" style="background:#FF9500;">Supply Chain & Logistics</span>
+            Transport Topics · 232d ago
+        </div>
+        <a href="https://news.google.com/rss/articles/CBMiZ0FVX3lxTE92XzJDQjJrSGZpWVYyOVFBYzJwQUJTN19oTlQ3RG1USlFmbEp6YWw4MkRBcUJ4MllDU0xNejZsZ244SV9wbFEwTUt2SlNybHlBeFRXVUxEbzQ3a3J1X3FMN3N0c0NDNWc?oc=5" target="_blank">CATL Mine Shutdown in China Sparks Global Lithium Rally</a>
+        
+    </div>
+    
+    <div class="article">
+        <div class="article-meta">
+            <span class="badge" style="background:#FF9500;">Supply Chain & Logistics</span>
+            Fastmarkets · 235d ago
+        </div>
+        <a href="https://news.google.com/rss/articles/CBMinAFBVV95cUxOcWNSQUI4Q2tLWEJ0eUt1NDdyNTREc19NdXBvblEzTTd0YTFzYW5vTmRJMG1iclpxRGxabE1VRWVhTWh4SGRDaFVEQUF3R1hUSjJ6WHZzR04zVGJ6S2hobDBuaExtcVY0NUtnVVFQbHVUam51bTF6ZkdYMHd4YUo3WXd0ZGk4OHVwV1M2SXM3N2pyMTM5WnhiWG5ZUlo?oc=5" target="_blank">Electra’s cobalt feedstock tests aim to expand NA supply for EV batteries</a>
+        
+    </div>
+    
+    <div class="article">
+        <div class="article-meta">
+            <span class="badge" style="background:#FF9500;">Supply Chain & Logistics</span>
+            Mining.com · 237d ago
+        </div>
+        <a href="https://news.google.com/rss/articles/CBMiggFBVV95cUxNX1N3dVVCVVpUbjROQU53cm5wY2lPdkU1WlRWdUpyR1NkMWs4S09QMXh0WG9uZzZMcjc2aDdUZ0s5QXkxajF1aWxDTWkwRmlNcEFKbHdEdnkyUHRrX3NuSU9sai1hUXpWdV9CVHh3SFJ0MmgtZzBwRkZ1UlpFUWpFU3lB?oc=5" target="_blank">Glencore warns of cobalt surplus amid DRC export ban</a>
+        
+        <div class="regions">
+            
+            <span class="region-tag">DRC</span>
+            
+        </div>
+        
+    </div>
+    
+    <div class="article">
+        <div class="article-meta">
+            <span class="badge" style="background:#FF9500;">Supply Chain & Logistics</span>
+            The Africa Report · 244d ago
+        </div>
+        <a href="https://news.google.com/rss/articles/CBMiogFBVV95cUxQQnNfalVNRG1oblduR2pSX1c3MV9kbWtielZlSi1GdngyM0JNUkljY3VxYURfdk42UjMwMl8yQm9fOTlYVHRVaHFzR2JUemx5UmdvLV9MQ3pRTUZkVHVpVlo3STNSQlJJSHhBaDNJTXhvdmpIeDh6NGxsbnNVY2RaN3BOcW5OWTNLZ1lKNmpqcWg2QU1aZFZZNmctT0tJdVFkM1E?oc=5" target="_blank">Cobalt showdown: Can the DRC bring the multinationals to heel?</a>
+        
+        <div class="regions">
+            
+            <span class="region-tag">DRC</span>
+            
+        </div>
+        
+    </div>
+    
+    <div class="article">
+        <div class="article-meta">
+            <span class="badge" style="background:#FF9500;">Supply Chain & Logistics</span>
+            Atlantic Council · 273d ago
+        </div>
+        <a href="https://news.google.com/rss/articles/CBMi1AFBVV95cUxPNV91UUlDbzZkV1NtQ0xYcXpDRzByVm8xOU8yTVd2TnRCbllGems5UFU0Rl9vT20yVlQ1SDVldWlnRFlPYzBVbktQbjZac3k3QU1UdmFWVE5Ya3ZJLXJIaUY5Ui1BcVRUMS15dmFBTTlaeTVZVmFUbzNfNFZ0M01CRk9uUEl1bUJhVlF4VmNZSmozVzhfTmhPaWlBMXJXREFFTERQMU9oaVM0eER4ZE5tcF8xVG1uUTk2cl9KWEd3U1Q4VzAzN2pEWjBhUEl1NEc3OXpqUQ?oc=5" target="_blank">A US framework for assessing risk in critical mineral supply chains</a>
+        
+    </div>
+    
+    <div class="article">
+        <div class="article-meta">
+            <span class="badge" style="background:#FF9500;">Supply Chain & Logistics</span>
+            Shanghai Metals Market · 275d ago
+        </div>
+        <a href="https://news.google.com/rss/articles/CBMi-AFBVV95cUxOYzZoVTYxX1V5OVhLeDc1czRGcnI2UGZRWjJkVUFDdjVGYnpuNkVwbXUyTldaZnplUDg1aE14TW96NGVYUjJ2bE91NHRyWGlySW5XcDJSdTlFVFlITXUtT1F2VkE0dmRGbkp2a0d0anhxUzdxWmVfX3RIdmVwNlRaYlFyR1ZTTTEzUnZOMXNmM2oyWDBaNWw3aWlTU1FnNWdCanhJRmxVQ01aYzN6dzMwZXh4bzRaa0ppdEJtSjRjMmwzVENZSG1lamNXT3lvM2FMc2s2V2VtUGY3NGpscVNib3J0Z0ZXQlJ4Vk5kQTJYSG54YlNQTlo0cA?oc=5" target="_blank">Current Status and Outlook of Philippine Nickel Ore: Its Role in the Global Supply Chain and the Impact of Export Ban [Indonesia Conference]</a>
+        
+        <div class="regions">
+            
+            <span class="region-tag">Indonesia</span>
+            
+        </div>
+        
+    </div>
+    
+    <div class="article">
+        <div class="article-meta">
+            <span class="badge" style="background:#FF9500;">Supply Chain & Logistics</span>
+            Genocide Watch · 295d ago
+        </div>
+        <a href="https://news.google.com/rss/articles/CBMijgFBVV95cUxPVzd2ajNNMEdmdXR4dGx3UVFDNGVPNXd1eHpNVTJHX1k0aXJoY2JSNmh3Vmp4RHZ6WXdFQ3AwYVl0OXhDeVN3aVh6VEJsa3JscENfa2dyZk5WS1lQVVhOMFFwWXJkODdBeThjQjVVdzVFNnhpUmpSOGdnLVNJVlIwM1Y5clhSMDBkVU1aSlR3?oc=5" target="_blank">Special Report: Conflict Minerals in the DR Congo</a>
+        
+        <div class="regions">
+            
+            <span class="region-tag">DRC</span>
+            
+        </div>
+        
+    </div>
+    
+    <div class="article">
+        <div class="article-meta">
+            <span class="badge" style="background:#FF9500;">Supply Chain & Logistics</span>
+            JD Supra · 298d ago
+        </div>
+        <a href="https://news.google.com/rss/articles/CBMihgFBVV95cUxNSl9YMUZMR09Cb3F1dGVDVktDaGtTNmhTLXJEVVJwVDlPcU5rYm0tSHpjZktYdDhndDh6UjJYMlJ3MDZFY0Vwdk9yblZVa1dCRDh2ZURiWUtQVXMteG44MGN0UnV4dElrcWpMMURlUmFtTXNIQjkzTU5hdFF5OXlxYkpEc3REQQ?oc=5" target="_blank">Key Changes to the DRC Mining Code: A New Era for Investors and National Development</a>
+        
+        <div class="regions">
+            
+            <span class="region-tag">DRC</span>
+            
+        </div>
+        
+    </div>
+    
+    <div class="article">
+        <div class="article-meta">
+            <span class="badge" style="background:#FF9500;">Supply Chain & Logistics</span>
+            Modern Diplomacy · 309d ago
+        </div>
+        <a href="https://news.google.com/rss/articles/CBMivwFBVV95cUxQcWdfNnhmakxkalpTSXpGbkJiVUVTRXZ4NzN2cWJXRFhQc0FoTXRQSlhmWHlQMThBbmVKNkJSaG1QbnNwQ3dzcGx2TU5yWnFoMmhXOGJNR0FlT2dRbFBfVzdfek0xNkt0a3FwLWhBYVZJQnRhd2MzNDlwMzFTYnVpdng1NS1pM2U3VGhFRDFBZW5JZ0VTdWFSMlVLVmlwQXlKRjRXQWpyRFBPNDBWVFlTREVyRVBjOWMtT0ZwVFhHRQ?oc=5" target="_blank">Cobalt Crossroads: Why Indonesia Still Trails Behind the DRC in the Tech Supply Race?</a>
+        
+        <div class="regions">
+            
+            <span class="region-tag">DRC</span>
+            
+            <span class="region-tag">Indonesia</span>
+            
+        </div>
+        
+    </div>
+    
+    <div class="article">
+        <div class="article-meta">
+            <span class="badge" style="background:#FF9500;">Supply Chain & Logistics</span>
+            Ropes & Gray LLP · 309d ago
+        </div>
+        <a href="https://news.google.com/rss/articles/CBMi1AFBVV95cUxNZkZrOWFDbW5aYWpBMzRXcjFpbkFtMEtKNEFqR1RTWGhBUGdiU1Y1S2laS0FCakxFd0dOcTk0Zk1nb1BKNTRPajdoUlBieFkxRm05Y29ZUWVTS2Y0X0ZrQWVVLVZYYm9LZk9aQkl6dmJJRUVvQTdZTWxkTGhKUmhickxMZTNkbmFvUDlMcHpLOFJUSUprZk5UR3JwaFB5dl9vdnMxQVFDM0Q5YjJCd3RkeGlCOHhpZ2pfWWhNdlFGYmlyOVAwTTdILVhvaFlfZW9YRlFwTg?oc=5" target="_blank">Two Bills Targeting Forced Labor in Chinese Supply Chains Reintroduced in US Congress</a>
+        
+    </div>
+    
+    <div class="article">
+        <div class="article-meta">
+            <span class="badge" style="background:#FF9500;">Supply Chain & Logistics</span>
+            Atlantic Council · 312d ago
+        </div>
+        <a href="https://news.google.com/rss/articles/CBMizwFBVV95cUxNSFJTNHpybXlZdzRBMlY1TWdWMUNzck9oRWdSNm9DZ0Y0TG5tM2YtMHJhTjFYZHQxb2JmNnNkbmRMYWJodkNXcHdOZTlRODE0Zml0NEtqTGJSd2pPaTNjUTFpVW9LLXZJZDBfT3FLbkRaR2hxYVM4YWtCNlFpUlAyNkppbXBMR0NxRVk4Y3RpMkgwODBnSmpxUU1qVjRQUWZwTTkyVmswTm9GZ0NjVk92T2dEeXBwWl9ZbUNqRG5QVG9mTDEydzFsWkU2WXdFbkE?oc=5" target="_blank">Beyond critical minerals: Capitalizing on the DRC’s vast opportunities</a>
+        
+        <div class="regions">
+            
+            <span class="region-tag">DRC</span>
+            
+        </div>
+        
+    </div>
+    
+    <div class="article">
+        <div class="article-meta">
+            <span class="badge" style="background:#FF9500;">Supply Chain & Logistics</span>
+            U.S. Energy Information Administration (EIA) (.gov) · 314d ago
+        </div>
+        <a href="https://news.google.com/rss/articles/CBMiY0FVX3lxTE9MWmt1dExteGRsOHNuZlpORFlTbmI5TDVmX0tVb0p5QjA3WDkwSkhsYlJQalhXSzNFS3ZLX01aVFBfdU5jYl9sX2VGYTNEM1lwcmhfRkg2SG5GWExyUDh3eC1jbw?oc=5" target="_blank">China dominates global trade of battery minerals</a>
+        
+    </div>
+    
+    <div class="article">
+        <div class="article-meta">
+            <span class="badge" style="background:#FF9500;">Supply Chain & Logistics</span>
+            Discovery Alert · 321d ago
+        </div>
+        <a href="https://news.google.com/rss/articles/CBMidEFVX3lxTE5WM1kwU0lPS0RBSWtyR2xIbzA0QjQxVGIzdHRESDQ5bnkwcHgwMThJTTlkUlNTcmFYOE15YTU3TVZZNzU4QU9WMGxyMTlPa2otYmJTQVE3MXd3RnpLQXlXbE9JYjBST3k4bXRZbXo2OW53aURp?oc=5" target="_blank">Cobalt Supply Deficit: Rising Demand Outpaces Production</a>
+        
+    </div>
+    
+    <div class="article">
+        <div class="article-meta">
+            <span class="badge" style="background:#FF9500;">Supply Chain & Logistics</span>
+            Mining Technology · 321d ago
+        </div>
+        <a href="https://news.google.com/rss/articles/CBMikgFBVV95cUxQMklxQ1pSbnVGVVJTNjJxYnZtclNZNzAtbEFVRkhYeFB5SHVSNHVrRTR2bEZoWXJCNTRoeWN0YXF6enpnWU1lOW5FeG1ENWljcTFHbUJIbHFCNVdyeUdYRW1jRlhZUC1fcHBDMUNNWXdnVC1GOFNnWjhsUEtBOTZhLVhUYXRmMloyX0lHc1dVMHJxdw?oc=5" target="_blank">Cobalt demand to outpace supply, market deficit projected in early 2030s</a>
+        
+    </div>
+    
+    <div class="article">
+        <div class="article-meta">
+            <span class="badge" style="background:#FF9500;">Supply Chain & Logistics</span>
+            CSIS | Center for Strategic and International Studies · 321d ago
+        </div>
+        <a href="https://news.google.com/rss/articles/CBMiakFVX3lxTFBBd1c3VjNtV2RYQXFZa3NfZ1RNSnNycHlHZEM2a2w4Y0xneGxrNm5rcm5McXY4ZlZmNlRjMHFqbkxFQU1uRWM2RTZPYm9uSWlCMm9rTkVMU1I4UllqVGZpck9OTEFPWVZWYUE?oc=5" target="_blank">Trade in Critical Supply Chains</a>
+        
+    </div>
+    
+    <div class="article">
+        <div class="article-meta">
+            <span class="badge" style="background:#FF9500;">Supply Chain & Logistics</span>
+            Reuters · 322d ago
+        </div>
+        <a href="https://news.google.com/rss/articles/CBMirwFBVV95cUxOc2xxZlU0YXM1bXZqQ09xMldMc1dhTVFkOVJTMmhNZnJzZDVmWjJ4cklsUGVQOC1QYi1Ccnk4U0VkVV94RGlpaDdCcUJMOXRUMXZyS1dIaTdGR0VXT1ktMHlvMUdpRGtLai1Sd2FTb2Y4M1dSMElUQnhVZU5DbDZvelpsNTQ3MmpuTVQwU2lHTEdudEFSMVgwZWs4OUxjdzNMc0s5YzVXRzJtamxPRHNz?oc=5" target="_blank">Global cobalt market seen swinging to deficit from surplus in early 2030s</a>
+        
+    </div>
+    
+    <div class="article">
+        <div class="article-meta">
+            <span class="badge" style="background:#FF9500;">Supply Chain & Logistics</span>
+            War on the Rocks · 351d ago
+        </div>
+        <a href="https://news.google.com/rss/articles/CBMixwFBVV95cUxNSDNlMHFUT29RS01hbF9CcGhYVlEwempid3VBMXQ2THZLOE1aZFNLTm5INUJ2bmJhbTNjRHIyc0ZiSmhVN1RnOHNSLTcwa1NRVzBBUkIyd2JHZVdaRk5Ud2RxYS1JTHJNUE9kZ01fUDlQV3hKLUxraDB4cEYzQzEyYjZZbm1uUkVPbWZUcmRLd1ROXzdMYzBKZ0F0bVZ2Z2F0bVgzam15ZEpyZHVlLUFxcHowWkg0ZUZ5M1NGb0VUdlVHc2s4UlBz?oc=5" target="_blank">A Federal Critical Mineral Processing Initiative: Securing U.S. Mineral Independence from China</a>
+        
+    </div>
+    
+    <div class="article">
+        <div class="article-meta">
+            <span class="badge" style="background:#FF9500;">Supply Chain & Logistics</span>
+            marketplace.org · 357d ago
+        </div>
+        <a href="https://news.google.com/rss/articles/CBMipAFBVV95cUxQZnZfYlpHWUJ6ZVpvcjN2ZkZ3RlpwWlhtLTlWSlV2U05BQm5EbVM0SkZISG9CQmNfNzFrWTdacldSUS1CTm9jYVMyZTVMUV9veXJCbVVJWHQ5OWExb1ZZQjJ4QWFiS0dyVVQyeHMyanBQaWRtLTZwY090UERFYjRCQkp5c1lXZUFvZDQycVZEbWlMYjhxSHhRS0lNdEM0ZGc4RVlQWQ?oc=5" target="_blank">The Democratic Republic of the Congo is a top cobalt producer. So why would it ban exports?</a>
+        
+        <div class="regions">
+            
+            <span class="region-tag">DRC</span>
+            
+        </div>
+        
+    </div>
+    
+    <div class="article">
+        <div class="article-meta">
+            <span class="badge" style="background:#FF9500;">Supply Chain & Logistics</span>
+            Fastmarkets · 375d ago
+        </div>
+        <a href="https://news.google.com/rss/articles/CBMifkFVX3lxTE5aU1pSbDBVVWd3alhTUXU5YXJaRE96S185SDg5aXY3TU1TNzNIVlU1NG9WZ1N6V210NHJTU0NtRVh3ZWNFaWVJcW9FVmV0T2ZyRFFaSUJGZ3lxc3VpbjZDOG0wV3JabW5YVFNNMFNJOU5pX3U5MzVCZU9CbmJZZw?oc=5" target="_blank">Cobalt market split over wider ramifications of DRC export suspension</a>
+        
+        <div class="regions">
+            
+            <span class="region-tag">DRC</span>
+            
+        </div>
+        
+    </div>
+    
+    <div class="article">
+        <div class="article-meta">
+            <span class="badge" style="background:#FF9500;">Supply Chain & Logistics</span>
+            Reuters · 376d ago
+        </div>
+        <a href="https://news.google.com/rss/articles/CBMixgFBVV95cUxOWkpjeHB3NGFUWERhSDBXS0lFcmdfR1dKNTg2QzRPa0JzNExMWXRmQ3RxQ1dPSV9VbEJXNEhuSzAyZVV4bnoycUw3X1pfWmRXTENLT0p2Mkx0ZVowRzBPOE1CTFZmbS1CVWpNZ0t6eWFwcndsandSaEdianFUeUpuQm5mVjJockstWHVKN2xyM0Y0TFVxa1FYTEQyREZCRDB2SEZLUV9BNnpGYzFPZEZ4WmZXaEVBX2lNZWZmOVViQ1BOT1FPLUE?oc=5" target="_blank">Congo plans cobalt export quotas, partnership with Indonesia to tackle glut</a>
+        
+        <div class="regions">
+            
+            <span class="region-tag">DRC</span>
+            
+            <span class="region-tag">Indonesia</span>
+            
+        </div>
+        
+    </div>
+    
+    <div class="article">
+        <div class="article-meta">
+            <span class="badge" style="background:#FF9500;">Supply Chain & Logistics</span>
+            Carnegie Endowment for International Peace · 377d ago
+        </div>
+        <a href="https://news.google.com/rss/articles/CBMisAFBVV95cUxNMHpWcU1ZbnlXQVVKN1hCMGtoeUJzWU51c3Fqblg0RGpyUUhFLVQtRE5US1BMd0FvcWl4OFEyMVJfckxicWtIYkg2a3FmRXB3VlNJWktUU0pnVnc3eHZJMzMwbEFrNUtpQW1pVmdzM013QjNMLWYtUHFlb203eEU4UUJrLV9RYXRBX3hEakhRN1dGT1NyVUV6Y3FIVlFtSDJ5czBPQlBLUnpTaVFuelN5OQ?oc=5" target="_blank">Can the DRC Leverage U.S.-China Competition Over Critical Minerals for Peace?</a>
+        
+        <div class="regions">
+            
+            <span class="region-tag">DRC</span>
+            
+        </div>
+        
+    </div>
+    
+    <div class="article">
+        <div class="article-meta">
+            <span class="badge" style="background:#FF9500;">Supply Chain & Logistics</span>
+            Environment+Energy Leader · 397d ago
+        </div>
+        <a href="https://news.google.com/rss/articles/CBMiyAFBVV95cUxONFJsdUljZ3EzZi02M0VIR0dCT1JDY2lpZ01rVjZQdE5PbWxZOTcwUWhOd2tPTG1ReEJSWEFMcFp1amRDQnZwc1k2a0VhSHdORUFMaXBMTGhYaWl4dkNvS3JUZFNEMHRzSjJFYnNDZjdRSHFad19JN2tOTkN0QnVBNEh4ZW4zUldxdVVEc2JsWEhtNUVubzhIWWFtOWhqUFRvVVo5dG04MmtfMjhtM2RWMnozVmc5SVduQnY2Mkk4WUpzZmRLRjc1TQ?oc=5" target="_blank">Cobalt Supply Chain Disrupted as Democratic Republic of Congo Halts Exports</a>
+        
+        <div class="regions">
+            
+            <span class="region-tag">DRC</span>
+            
+        </div>
+        
+    </div>
+    
+    <div class="article">
+        <div class="article-meta">
+            <span class="badge" style="background:#FF9500;">Supply Chain & Logistics</span>
+            EV Magazine · 418d ago
+        </div>
+        <a href="https://news.google.com/rss/articles/CBMiiwFBVV95cUxPNVF2QVB0RUdHSkQ3YVhUNHRrSTRfd3kxbllTSGd1dDJmUVJ4R3lsZi1vVzJlRjAya0FmZ3JPaTJGNXNWcnJKR21lZmlGZ2wtTHFRajZlMHI1LW1sbDNDZUNEMU5qWm9zelRiaHhnRWQ1RUt5R2VuWGpnV3NWVTNzSHVTRlhYU3l3Rml3?oc=5" target="_blank">Trump, the EV Industry & Panama Canal: A Complex Connection</a>
+        
+    </div>
+    
+    <div class="article">
+        <div class="article-meta">
+            <span class="badge" style="background:#FF9500;">Supply Chain & Logistics</span>
+            Fastmarkets · 586d ago
+        </div>
+        <a href="https://news.google.com/rss/articles/CBMif0FVX3lxTE0xM0t0TDByVWhaUU5yWEFBcFNrQVdlSWljSzhKdFg2NXFZbkNhQ3Y4c1JsYUZEbG5idmpRajZ0MFZtUWV6QWdubHZ0UTMyc1Q5V3lmVnV5MUg5aTJobjJ2d3JJbm9lZEEtTUw2UXFvT1BUYXNFY1BVU1NCS0Qxb0U?oc=5" target="_blank">Logistics challenges in Africa continue despite Zambia-DRC border resolution</a>
+        
+        <div class="regions">
+            
+            <span class="region-tag">DRC</span>
+            
+        </div>
+        
+    </div>
+    
+    <div class="article">
+        <div class="article-meta">
+            <span class="badge" style="background:#FF9500;">Supply Chain & Logistics</span>
+            World Socialist Web Site · 597d ago
+        </div>
+        <a href="https://news.google.com/rss/articles/CBMiaEFVX3lxTFBrcVYyV2J1Y1V4ZmtQRElUOC1YQW1NSkcwWko4Rk53cTEwLTFjZ3p5dld6Q3hWckk5bFNaUzF1YVFEbWpaMlk1TndXVk1OYVowSjFTZ0lNaWh3QWtYaEdnRjVGa0xkcDU5?oc=5" target="_blank">Further mine closures point to deepening job cuts across Australia</a>
+        
+        <div class="regions">
+            
+            <span class="region-tag">Australia</span>
+            
+        </div>
+        
+    </div>
+    
+    <div class="article">
+        <div class="article-meta">
+            <span class="badge" style="background:#FF9500;">Supply Chain & Logistics</span>
+            Reuters · 677d ago
+        </div>
+        <a href="https://news.google.com/rss/articles/CBMiuAFBVV95cUxQXzBRNGpEcGx1WFRIQVB6X1U2Sjdwekk2RGo4RzNUTFlubjViM1Q0MFRXandzNXJ6TTRRVmNLeFN4WVFieDNlRkw1OXVzLV9RN2hxMXpDYl9KSGFLenVuam00VjB6ME8zcERMT0Z2Y0F2Tl9wOEY1QjBxWDdIaWZYVzhnNS1XZ1dfQ2lQd09OUm0wYVV1QWcyQ1R2OVpSTEtUMDcyT18tcmFITGtWZUR0ejdzb2tLZmxu?oc=5" target="_blank">Exclusive: China state stockpiler aims to buy up to 15,000 T of cobalt, sources say</a>
+        
+    </div>
+    
+    <div class="article">
+        <div class="article-meta">
+            <span class="badge" style="background:#FF9500;">Supply Chain & Logistics</span>
+            Nature · 753d ago
+        </div>
+        <a href="https://news.google.com/rss/articles/CBMiX0FVX3lxTFBSU3NQZWZlV0dLcUE3ZWNhemNqdmtuRU9FYmF2VWxyeUI5cFhyX2RZcjhMbFlSRTZQX1pybE5tRzZldlpuMVlhYkZRTHBaa1VVOXJ6UV9JMXlfOXRnYzc0?oc=5" target="_blank">Electric vehicle battery chemistry affects supply chain disruption vulnerabilities</a>
+        
+    </div>
+    
+    <div class="article">
+        <div class="article-meta">
+            <span class="badge" style="background:#FF9500;">Supply Chain & Logistics</span>
+            Business and Human Rights Centre · 754d ago
+        </div>
+        <a href="https://news.google.com/rss/articles/CBMi9AFBVV95cUxOckpyY3pJd2l0Y2FHYTVISHdPenRDZWJfVE5JcWFhMjdQZ3dTWEd1NmU0b1IyZWlXdkRJRkJIamtlbEdmcFFEUzhFamp1c0pkNUJLRzBEdTVVNG1WNzc1WE1ZaXVmZDlzMjdQd0NicURCbnExY09PZ2FJSmpOTmJSM1dod0tPcTYxcDQwRXQwYWRJSmc5Zm1PUGJOSTdqcEYtT0RwLURYNUVGSDhEMnY1MG9LM1lHNVZmVTFtbEhNbWFNUXJ1R2RFQl9sUW9KYzBhR2JaYmdZOXVwSVhpRmdpM0JaR3gxdURkQmRZVXFXQVR5ZEpT?oc=5" target="_blank">USA: 5 major tech companies not liable over alleged support of child labour in DRC cobalt mining operations, Appeals Court rules</a>
+        
+        <div class="regions">
+            
+            <span class="region-tag">DRC</span>
+            
+        </div>
+        
+    </div>
+    
+    <div class="article">
+        <div class="article-meta">
+            <span class="badge" style="background:#FF9500;">Supply Chain & Logistics</span>
+            Ropes & Gray LLP · 802d ago
+        </div>
+        <a href="https://news.google.com/rss/articles/CBMirAFBVV95cUxNY2xLN2p6WHJKYzRheEZSd2g3ODZXajN1RmlDRDAtc0NxV1VlWWh4OXg1VjJwQ1J6S1BFUGZQMXNndEFxcnFmQTBZSTJJOWpSQnVoVlVnVi1Yc0xTck5IWHNzeXYwb0FTcjB1aHk1ekJOWmNZdlAtV0ZYLVNkMjcyNkctVWlvX0ppSi11QTlsWG9TVGlpUW54bVRyMC1YMy1waWdsNWhlWEJhOGJ4?oc=5" target="_blank">The UK’s seventh package of sanctions against Russia | Insights</a>
+        
+        <div class="regions">
+            
+            <span class="region-tag">Russia</span>
+            
+        </div>
+        
+    </div>
+    
+    <div class="article">
+        <div class="article-meta">
+            <span class="badge" style="background:#FF9500;">Supply Chain & Logistics</span>
+            Amnesty International · 931d ago
+        </div>
+        <a href="https://news.google.com/rss/articles/CBMivgFBVV95cUxPcmozaXlqaVVjSGJjUEFCb3o5N2o2emtrUVNHblR6TVl6UnRNYXpHaDB2bWh0TUlNU0p5NlZSVFA3VWppeEFVTklBMWFmV3FTbThhRVF2NF9aOHNvcW1BcGdjQU96ajMwN0JBVDF2RkpLVkVjVGVNWFEtRjdHRWpzM1lvQnd1Nlpya251MWJsOXMzeTNvSmhPUkF6enlTNHlEd2ZOcm85RHRna005bG9qbG1ENDJxNDE1eU1lOXd3?oc=5" target="_blank">Forced evictions at industrial cobalt and copper mines in the DRC</a>
+        
+        <div class="regions">
+            
+            <span class="region-tag">DRC</span>
+            
+        </div>
+        
+    </div>
+    
+    <div class="article">
+        <div class="article-meta">
+            <span class="badge" style="background:#FF9500;">Supply Chain & Logistics</span>
+            Al Jazeera · 931d ago
+        </div>
+        <a href="https://news.google.com/rss/articles/CBMirgFBVV95cUxOOGJENVI4YmNBUWZZTndfSEVhaFFmY3hHWGpoTFFVTkJDYWx1TnhmV1k3bWtraUppcmJtc09pZGN3Y0xIZ3NZd3FabkloTGFPN256RGp3blN5X2x1U3F4TjI3SkZodDhDbEZNcEJNejRGcjBldlByWjhJU0RzU1F6NjMzNDNkUkhYNFlzRFJGeHh3UVlHajlSQUJiOFU4eElKbHNHTTJnZldKR2VxWkHSAbMBQVVfeXFMTkh6aXV2N2ZPaW9rOGtqLXNnYjBmWVZpOTFnYzE2M2U4UnlNSWtyX3hPc29jWV9oRm9uUlhfM1djNmlna001eGpMYy0yTm9ZQ0lUaFc1dEFzZlNCano3clNjamtCUkEwZFk1LUNDa3FCRWVSWEtkeUNiMmgzcDM1M0VYT3VuT0lpZkFCb1BIU0JRWjlOUk1LaERheWRBWWlkWnJ0ZHVMUkQ1T3pFaktLQ3RXX3M?oc=5" target="_blank">Mining of cobalt, copper in DRC leading to human rights abuses: Report</a>
+        
+        <div class="regions">
+            
+            <span class="region-tag">DRC</span>
+            
+        </div>
+        
+    </div>
+    
+    <div class="article">
+        <div class="article-meta">
+            <span class="badge" style="background:#FF9500;">Supply Chain & Logistics</span>
+            Modern Ghana · 995d ago
+        </div>
+        <a href="https://news.google.com/rss/articles/CBMikwFBVV95cUxOeHpYZVp5M09yMnNoNk1XUVQwbnpickswV25yVjVqdUpzV1RSMW0tNkxOQ2lqbmplZnFsS0YzT0otS2E0UkNGRnBxRkRNOFZtSi1oUWVhTUhzVk8xTUhfRm1zeUVybUUxWU45VUxDNWk2Z1hrYXhiVnBqZm5XRFdDcWpGck9wNk92VFdkS3R6LVAtVVHSAZIBQVVfeXFMTmpFX0xHenNONWRGQUJKRnJ3UHVoQlo2SlNWZ2pxakJucUtiM2ZzSzNtQmVGLUE5bXFVM3F6b3I4QTZ5bHdLTGZVYktPMU9nRWJJa3J6VEhVMVk2Y0dveHBxb0Y2bGppd0ZCS2Z0NF82UElKbjZYYkRDZ3g4ejhQLWFSZUxGZHBXRTBsRnRZdFRFN0E?oc=5" target="_blank">The race to defend or delay deep-sea mining</a>
+        
+    </div>
+    
+    <div class="article">
+        <div class="article-meta">
+            <span class="badge" style="background:#FF9500;">Supply Chain & Logistics</span>
+            RMI · 1061d ago
+        </div>
+        <a href="https://news.google.com/rss/articles/CBMiZEFVX3lxTE8zd3hXYWFkUEt3VlV5RTdOYzVGM3lZbHFkZWY4MWp4MS1sdXplTmZSYXR0QXJxbno2Y3BlYVVyS29VT3dZZTNvVmxEcXQwU2ZKQno1cUZTLXRxbjQ4MlNndEZLTTU?oc=5" target="_blank">The EV Battery Supply Chain Explained</a>
+        
+    </div>
+    
+    <div class="article">
+        <div class="article-meta">
+            <span class="badge" style="background:#FF9500;">Supply Chain & Logistics</span>
+            Fastmarkets · 1093d ago
+        </div>
+        <a href="https://news.google.com/rss/articles/CBMijwFBVV95cUxPaWVONTJqdXpTVTBSNlFscmJiRkZBa3BMT1lnc0NPUTRMMXZnUnpRQkQta0tEQmRnTW9kVTdIc1RTV3dKdkh2Nk96b3BaWHA2VU5td2s1ZUVDRGRhOExiQ29WcVpGV1dWTW0zaVI3bDJheklnWDBwdzU0Uy05TjdGNjRQdEU1MzRXQ0hydFY3aw?oc=5" target="_blank">DRC logistical issues remain in focus for cobalt supply chain</a>
+        
+        <div class="regions">
+            
+            <span class="region-tag">DRC</span>
+            
+        </div>
+        
+    </div>
+    
+    <div class="article">
+        <div class="article-meta">
+            <span class="badge" style="background:#FF9500;">Supply Chain & Logistics</span>
+            Voice of America English News · 1135d ago
+        </div>
+        <a href="https://news.google.com/rss/articles/CBMisgFBVV95cUxQakU0NG5WWFNUcVptRmc4Mng4dkwwSHJDQUprNkhsZkxlelBacW1XSEtvRGtuQ0hGWFpXcXdDakVfMV96LXdqY0w5aG52UkFtS2Y3LWZVbGMta0RjWjRJNXJUOU11WTVKVUpyZnhucUx0aGFZQ3BGeVQtSU11YlhoV2ZtQWlweUJkS1ZIOGhzY0czTkJ6Mmc2S3ZtMlU4WWRWMEY2UVRKN1kyTDBzeWJYLXB30gG0AUFVX3lxTE11anRIVll5aVJ1MlBRY2d0MHV3UlV5NmNPNXhmWU10TnZCU01wQktieVFPX1Bac0Q3MnViaWl3Wm5ieDVzNE5sWjR3SThTSTBpMzFKeEtVUG96R1dqOGlYM0FTalVnMFdZNzhCMTR6Smw5b1ZlamI2TnVSQ1R1N1c3X1J1Q0YtTEd1ZWlNR2dXdzV1X2tjUURBc1BPdXp4TnRaSlpyNDZhSlQxSnJicDhXbHFOMA?oc=5" target="_blank">DRC, Zambia Vow to Resolve Customs Delays for Trucks Hauling Copper, Cobalt - VOA</a>
+        
+        <div class="regions">
+            
+            <span class="region-tag">DRC</span>
+            
+        </div>
+        
+    </div>
+    
+    <div class="article">
+        <div class="article-meta">
+            <span class="badge" style="background:#FF9500;">Supply Chain & Logistics</span>
+            NPR · 1154d ago
+        </div>
+        <a href="https://news.google.com/rss/articles/CBMiqgFBVV95cUxPbVhmdUtTbVJldnQxbjF6T19FUnRtT2pQYjZXUXgweWI2RWE5UURnZ0ZhajZJMDNXWExGUm0tLWMzdEw5cGNnUUR0ajJhUUhWc1lNX3N6dGk3X2xPY3N1N2J2clNZNUx6U25TclhEUW8tTTVBc1VUNVFjMG5QSWdNSVRzU3dmVXpGYmRzV0xVc0M0RDRsMTV5MmVfeUJ3RGM5VVpvaloxSExfUQ?oc=5" target="_blank">How 'modern-day slavery' in the Congo powers the rechargeable battery economy</a>
+        
+        <div class="regions">
+            
+            <span class="region-tag">DRC</span>
+            
+        </div>
+        
+    </div>
+    
+    <div class="article">
+        <div class="article-meta">
+            <span class="badge" style="background:#FF9500;">Supply Chain & Logistics</span>
+            Global Witness · 1209d ago
+        </div>
+        <a href="https://news.google.com/rss/articles/CBMihAJBVV95cUxPSmpndHRkRVBEQ0dSNHltZUFqeTdkTVNYdU9PQ1ROdTFJeFZteG1sU3NZdkJkTDV4VGZwSklqdTNEci1MR2g2Y204VTBwMEpyU1l2Y0hNaDRMQTNMY1FZbmFDN3hocW54Z2dob3VkdF9tbnAzQnZIWXJRNlpXNDEwcWJrUXRZZ0ZMRUZXMktGVTh0RlF0bUN3MTRJT2hsbVBMOHRPdGFheUQwdkdZczJCWkd2TzQ1MzRJZUM4a1QzUE84TzhRSXd1dzd2VGVWMTNpZWJCSzN3MGxzNzhFWXM3a3lMU3V1MlFEN3lPRTVYYWJqam9vRnI4cDZYWUlIRjFNUXRnaQ?oc=5" target="_blank">Chinese industry body launches consultation on new grievance mechanism for communities impacted by mining projects</a>
+        
+    </div>
+    
+    <div class="article">
+        <div class="article-meta">
+            <span class="badge" style="background:#FF9500;">Supply Chain & Logistics</span>
+            RMI · 1226d ago
+        </div>
+        <a href="https://news.google.com/rss/articles/CBMif0FVX3lxTFBJQklYY2FpaFlJOUVRT3gtaXhkQ19QaTl0UHdYdTl4R2RlVFNqUkdDRzI0Mm01ZHNBV296STVnRFFPemR3WXFmaUJXRzJLTkNXMVRwaDc3ajYwQ2hmeEQwMDlrVGI4RWdMTXVWWG1VM2tFa1lEZTY4OTNITXlhRVE?oc=5" target="_blank">Supply Chain Traceability: Looking Beyond Greenhouse Gases</a>
+        
+    </div>
+    
+    <div class="article">
+        <div class="article-meta">
+            <span class="badge" style="background:#FF9500;">Supply Chain & Logistics</span>
+            abcnews.com · 1287d ago
+        </div>
+        <a href="https://news.google.com/rss/articles/CBMiowFBVV95cUxQc0RfdnV3RTBoWjVEUXJtVjNtQ01aWVdTdkZqZ0dGN0NqVFpVbENBWTM2bkRIblNYbUtzWmRPM1h6TTItcWpsOUc3bVBVcDd4VGJtdFRzM3FuelI2c2FjdjVOMDlFUDk5el9hYTJfTU04andoamU5WEN6NW5RbW9ZYXNPckczVWg5TVRGbU9IQng1YzliZGVXRERGSFVMZFJxUEx30gGoAUFVX3lxTE5melBLSWZSTThieWRKTEgxVUFncnVJYUt5U0dPVnNGdFFFeWdyRTVfVi1naUM1WEg4bGc1bWI0WjI2T2hXWDRvNmVzQWduR2Y4cEVtZEFoek1xdkVUZ2pqRm5qSWpTbG00Tmp0bzdwWFJ3MlFvMElQQW4yUU9xUTFOdTJzMEJkUkxNTWhRSFpPZS15MDBMSkt2Tk1ORlVRS29sWHJYcTdQbg?oc=5" target="_blank">Idaho cobalt mining that devastated local water revisited with greener new approach</a>
+        
+    </div>
+    
+    <div class="article">
+        <div class="article-meta">
+            <span class="badge" style="background:#FF9500;">Supply Chain & Logistics</span>
+            Vanity Fair · 1440d ago
+        </div>
+        <a href="https://news.google.com/rss/articles/CBMiwgFBVV95cUxOZDIybzdhWmJieVFBX2taVXNxeXZPdG04eE1WZFRZTnJuQzgxSlZfRmtTb2VOM2NCcjliM0lZZEowNDVFUk5DTGI4QTdaZzJmUF9fX09TUnBXNzZsSmtFdF8wT1NjQUllbUNYVlpEN1ZvbEJpR1FlN1dlcGowTFdTajlsMzg5Y2xqcDBOel9ac3AwaFpMZHJpQ0puVUR3Mm4tZTBLckNxX3pDY2pMZzU0MFRaSF94dHkzcVhYSzM4X2tJQQ?oc=5" target="_blank">Forget Gas Prices. The Billionaire Club’s Run on Cobalt Says Everything About Our Battery-Powered Future</a>
+        
+    </div>
+    
+    <div class="article">
+        <div class="article-meta">
+            <span class="badge" style="background:#FF9500;">Supply Chain & Logistics</span>
+            The China-Global South Project · 1441d ago
+        </div>
+        <a href="https://news.google.com/rss/articles/CBMi1AFBVV95cUxNRlo5TWJ0UktFdXR6cGIzWVhpeGtfdW5MdnRkcUZZVEFLV0tDWXV2aXYxUmhxWDlIMTUzNkpuSlNoV1Y2YmJjcE5oUzFTcnZvQVV0aEF1YXhOX2ZkamJjc3kwdkZHUGJWTjhKaTl2bDZBZExPRDBRZk5wbjNkbmw1a3VBVkQtOUJpdHRQLVJ6NW4xajA2a3E5eEpDekd6V2JQR2g2ZnM0WHQ5ZmZJcm9MaEF4c1k2cFBEX3FIckVUa0NXYkxNUGtKM0NJVFNWNjVnR1NsQQ?oc=5" target="_blank">Glencore Calls Force Majeure on Cobalt Exports as Durban Flooding Worsens Chinese Shipping Crisis</a>
+        
+    </div>
+    
+    <div class="article">
+        <div class="article-meta">
+            <span class="badge" style="background:#FF9500;">Supply Chain & Logistics</span>
+            The World Economic Forum · 1474d ago
+        </div>
+        <a href="https://news.google.com/rss/articles/CBMifkFVX3lxTE1aYWUzNHNudGxIX0ZEc3R2MzIwVC1FX2luSFN6dXNVZUFocl94V3NJNFNOSGkybUttbzZKcWhJU3FuVm1iR2RzdDhLUml2d3VxUjhfbXFFX0FqdHhCcnpYR2VVNWpnV0hURmttVFdrb3NtYmdkYU1WYW0zaUVtZw?oc=5" target="_blank">What else does Russia export, beyond oil and gas?</a>
+        
+        <div class="regions">
+            
+            <span class="region-tag">Russia</span>
+            
+        </div>
+        
+    </div>
+    
+    <div class="article">
+        <div class="article-meta">
+            <span class="badge" style="background:#FF9500;">Supply Chain & Logistics</span>
+            CSRwire · 1684d ago
+        </div>
+        <a href="https://news.google.com/rss/articles/CBMipwFBVV95cUxNc0h5N2hrM1B6dmxzQXJBSTRQUTdUU0RiN0lPUldoSVByNVJTdXhtdjlBVjUzaGs3SjlveUtTaDZqeU8tQVllN0ZVMjFjYmhHcGxQQ1I0eXlucVAwQU9DX0NNanRRODQ3T0MwRWxXaHI2WU5IZWJpS1VNNkNwLVBvZkFoeXRWUzlXZS03Z0VLeVgxREVCd1pQbkppbXBjdWJUWEltS2dKcw?oc=5" target="_blank">RMI and RCI Publish Revised Cobalt Refiner Supply Chain Due Diligence Standard</a>
+        
+    </div>
+    
+    <div class="article">
+        <div class="article-meta">
+            <span class="badge" style="background:#FF9500;">Supply Chain & Logistics</span>
+            bestmag.co.uk · 1846d ago
+        </div>
+        <a href="https://news.google.com/rss/articles/CBMitgFBVV95cUxQeTlaRi1sUVVzbXl5Q0dyTmVCeWx0dHhscmh1SV9LN3pDcjdERFpDV18xWnNkekViZVhPMFdxRS1FYXlqVUpDdURwMzhsQ3dqVHpVRHFLVGhQdG56NVVvd1hjX09XWEhFQ01mVjZ4ckJjcWduTnZSdDZWZzRVS09TcEJTZ2Y2c3d1Z19OUF9jeTVQeWwzUlZrRWUxaWlRNHBKV1F0LTVvY1hYQkxfN1dNaU0wbEw3Zw?oc=5" target="_blank">Prices for key lithium-ion battery materials soar as Benchmark voices concern over supply chain</a>
+        
+    </div>
+    
+    <div class="article">
+        <div class="article-meta">
+            <span class="badge" style="background:#FF9500;">Supply Chain & Logistics</span>
+            Dentons · 2367d ago
+        </div>
+        <a href="https://news.google.com/rss/articles/CBMi5wFBVV95cUxPWTJzWWtUWHl0bG85OXppX281bFRWS25fZExGMlJmMU8tSEVsbGpzSVZGWkpfeGx6TFB4MTQtMGlFdU1VWmM0aHFZQnhGRS01R2R4RDd2WVQ5VF9iNjJHOVlyd1Y3cVpMRk5aOVljT1M0cExsSjlsNnhIM2psakdJcFRJVWdwM2tiaEJwcGcwYzFvRlFQaXpSczVXbVJwUlkwU0pJLXF3ZWtjZnBIamhEUUQ2VlRfNHg0aUZJTnlmYk15Y0FVX3BBSWxkVlIwNjhHVlU1ZHlyaUJyS0RLVWhSTmo3Z1ZLOEE?oc=5" target="_blank">Democratic Republic of Congo: Revision of the Mining Code and Regulations</a>
+        
+        <div class="regions">
+            
+            <span class="region-tag">DRC</span>
+            
+        </div>
+        
+    </div>
+    
+    <div class="article">
+        <div class="article-meta">
+            <span class="badge" style="background:#FF9500;">Supply Chain & Logistics</span>
+            The Official Microsoft Blog · 2678d ago
+        </div>
+        <a href="https://news.google.com/rss/articles/CBMizgFBVV95cUxPQ3Y1RVAyZFZHTXJGN0xWeFNodE9ocGUwYmF3M2w4TnRyeUVvMzdTeWw2UXo4QjlNT3k3VzVBOGFKQ0V2VGhZX3RDZWpYYnh0bDRheUFJeElwSjBhNDlSUU1NaFVqakczWFVOVmhRTXhLenlhdXl4Y25hcExaZE4wVzI5TjlpZS1iX3o0SWhsOHR2RUoyMTB6T3VNYmZwOHJEOEoxYk1EbjdyS0UtcmJqUm44SkJXRE5HN3EwTWg1MUhBYkdTVTZrU05nSG5NQQ?oc=5" target="_blank">Continuing our work: Microsoft shares its FY2018 devices and supply chain report</a>
+        
+    </div>
+    
+    <div class="article">
+        <div class="article-meta">
+            <span class="badge" style="background:#FF9500;">Supply Chain & Logistics</span>
+            Sustainable Brands · 3380d ago
+        </div>
+        <a href="https://news.google.com/rss/articles/CBMitwFBVV95cUxQNEV3OVNsQ2ltSDhIeGdrSTNDSExjVU0xa1hqVERYakE2dHlGY3d5UFZ5Y0NmeTJMWGthUldlRElqTjhKclVtUWRMS213dlh6RzBHd2Zpck9tMTR3eGxWWTQxaDVKci1la2h1ZjlBWWVQWGc0bWhBRjlnRnFRdUJvMGdaY2t3LUowLVVNLUhtS1JrWTBjUjBleG1WQV82SC03YkRyX3NYZWdGQ0F2R25LZGhjUG9tUU0?oc=5" target="_blank">Apple, HP, Samsung, Sony Join Effort to Keep Child Labor Out of Cobalt Supply Chains</a>
+        
+    </div>
+    
+    <div class="article">
+        <div class="article-meta">
+            <span class="badge" style="background:#FF9500;">Supply Chain & Logistics</span>
+            The Washington Post · 3385d ago
+        </div>
+        <a href="https://news.google.com/rss/articles/CBMi6wFBVV95cUxOblk2VUxIR2NXU2JqYV9PeHE3MldvSWl0WDBPQ01lXy1ydTBjSnZ6cGF3b0VfWVdqY21XRDBpN1dZczYxTDEzRGpXUlNSTkFVOXN0Z2Rack5WeWdyYmVSbEdnbzN4RXd0d0N1bmpDYWVYbmZvV2duZGo2VUlaMW5aV2E0Q3VLOEkwamZpXzBXV0pJQWowOGhPMjhvQURyeTA3N2pJdHZuMEI2Z1dYNkxyQXJldHZ2UHlSeUVBQVdlY05qM1dSZlJpeDlyWDRpMTNOYkY5ZUlUb2JrWkQ4Y1lPN3FGUkNrMXJyWkw0?oc=5" target="_blank">State Department signals interest in how tech companies address abuses in cobalt supply chain</a>
+        
+    </div>
+    
+    
+
+</div>
+
+<hr>
+<footer>
+    COBALT RISK TERMINAL · NOT FINANCIAL ADVICE · DATA VIA YAHOO FINANCE & GOOGLE NEWS RSS
+</footer>
+
+</body>
+</html>
