@@ -197,11 +197,6 @@ LINKED_STOCKS = {
         "relationship": "negative",
         "exposure": "EV producer — cobalt is a significant battery material cost",
     },
-    "FREY": {
-        "name": "FREYR Battery",
-        "relationship": "mixed",
-        "exposure": "Developing cobalt-free cells — benefits from high cobalt prices long-term",
-    },
     "MP": {
         "name": "MP Materials",
         "relationship": "mixed",

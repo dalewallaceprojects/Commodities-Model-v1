@@ -55,10 +55,12 @@ def load_price_data(symbol: str) -> pd.DataFrame | None:
 @st.cache_data(ttl=MARKET_CACHE_TTL)
 def run_forecast(close_series: pd.Series, n: int = FORECAST_DAYS):
     """Run Holt-Winters exponential smoothing forecast."""
-    model = ExponentialSmoothing(close_series, trend="add").fit()
+    # Resample to business-day frequency to give statsmodels a proper date index
+    series = close_series.asfreq("B", method="ffill")
+    model = ExponentialSmoothing(series, trend="add").fit()
     forecast_vals = model.forecast(n)
     forecast_dates = pd.date_range(
-        start=close_series.index[-1] + timedelta(days=1),
+        start=series.index[-1] + timedelta(days=1),
         periods=n,
         freq="B",
     )

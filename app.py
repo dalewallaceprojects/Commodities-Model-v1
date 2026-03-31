@@ -131,7 +131,7 @@ fig = build_price_chart(
     forecast_dates, forecast_values,
     chart_start, chart_end,
 )
-st.plotly_chart(fig, use_container_width=True)
+st.plotly_chart(fig, width="stretch")
 
 
 # ── Technical Intelligence ──────────────────
