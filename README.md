@@ -2,7 +2,7 @@
 
 A modular, real-time commodity risk intelligence dashboard built with Streamlit. Tracks environmental, geopolitical, and economic factors affecting global commodity supply chains — with live news scraping, technical analysis, and equity exposure mapping.
 
-![Python](https://img.shields.io/badge/Python-3.10+-blue)
+![Python](https://img.shields.io/badge/Python-3.12-blue)
 ![Streamlit](https://img.shields.io/badge/Streamlit-1.30+-FF4B4B)
 ![License](https://img.shields.io/badge/License-MIT-green)
 
@@ -74,14 +74,73 @@ That's it. No engine or component changes needed.
 
 ## Quick start
 
-```bash
-git clone git@github.com:YOUR_USERNAME/YOUR_REPO.git
-cd YOUR_REPO
+### Prerequisites
 
-python -m venv venv
+- **Python 3.12** (3.14 is not supported by Streamlit yet)
+- **Git**
+
+### Windows (PowerShell)
+
+```powershell
+# Clone the repo
+git clone https://github.com/dalewallaceprojects/Commodities-Model-v1.git
+cd Commodities-Model-v1
+
+# Create a virtual environment with Python 3.12
+python3.12 -m venv venv
+
+# Activate it (you should see (venv) in your prompt)
+.\venv\Scripts\Activate.ps1
+
+# If you get a permissions error, run this first:
+# Set-ExecutionPolicy -ExecutionPolicy RemoteSigned -Scope CurrentUser
+
+# Install dependencies
+pip install -r requirements.txt
+
+# Launch the app
+python -m streamlit run app.py
+```
+
+### macOS / Linux
+
+```bash
+# Clone the repo
+git clone https://github.com/dalewallaceprojects/Commodities-Model-v1.git
+cd Commodities-Model-v1
+
+# Create a virtual environment
+python3.12 -m venv venv
 source venv/bin/activate
 
+# Install dependencies
 pip install -r requirements.txt
+
+# Launch the app
+streamlit run app.py
+```
+
+### After launch
+
+The app opens at `http://localhost:8501`. Use the sidebar to configure the ticker, chart overlays, and news filters.
+
+To stop the app, press `Ctrl+C` in the terminal.
+
+### Running it again later
+
+You don't need to reinstall anything — just activate the venv and launch:
+
+```powershell
+# Windows
+cd "C:\Users\Dalew\Documents\Projects\Commodities Model"
+.\venv\Scripts\Activate.ps1
+python -m streamlit run app.py
+```
+
+```bash
+# macOS / Linux
+cd Commodities-Model-v1
+source venv/bin/activate
 streamlit run app.py
 ```
 
