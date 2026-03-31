@@ -4,6 +4,17 @@ Everything specific to Cobalt as a commodity.
 To add a new commodity, duplicate this file and adjust the data.
 """
 
+from config.commodities.cobalt_geo import MINES, REFINERIES, PORTS, CHOKEPOINTS, ROUTES
+
+GEO_DATA = {
+    "mines": MINES,
+    "refineries": REFINERIES,
+    "ports": PORTS,
+    "chokepoints": CHOKEPOINTS,
+    "ROUTES": ROUTES,
+    "mine_label": "Mines",
+}
+
 COMMODITY = {
     "name": "Cobalt",
     "symbol": "⬡",
@@ -203,3 +214,9 @@ LINKED_STOCKS = {
         "exposure": "Indirect — correlated through critical minerals policy sentiment",
     },
 }
+
+# ─────────────────────────────────────────────
+# SUPPLY CHAIN GEOGRAPHY
+# ─────────────────────────────────────────────
+from config.commodities.cobalt_geo import MINES, REFINERIES, PORTS, CHOKEPOINTS, ROUTES
+GEO = {"mines": MINES, "refineries": REFINERIES, "ports": PORTS, "chokepoints": CHOKEPOINTS, "routes": ROUTES}

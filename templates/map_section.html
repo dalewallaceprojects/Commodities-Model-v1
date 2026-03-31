@@ -1,0 +1,133 @@
+{# templates/map_section.html — Leaflet supply chain map partial #}
+
+<div class="section-label">🗺️ Supply Chain Map</div>
+<div id="supply-chain-map" style="width:100%;height:520px;background:#0a0a0a;border:1px solid #1a1a1a;margin-bottom:12px;"></div>
+
+<div id="map-legend" style="display:flex;flex-wrap:wrap;gap:6px;margin-bottom:8px;">
+    <span style="font-size:0.6rem;color:#555;margin-right:8px;letter-spacing:0.1em;text-transform:uppercase;">LEGEND:</span>
+    <span style="font-size:0.6rem;color:#FF3B30;">● Production</span>
+    <span style="font-size:0.6rem;color:#00FBFF;">● Refineries</span>
+    <span style="font-size:0.6rem;color:#FFD700;">● Ports</span>
+    <span style="font-size:0.6rem;color:#FF9500;">⬥ Chokepoints</span>
+    {% for route in geo.routes %}
+    <span style="font-size:0.6rem;color:{{ route.color }};">— {{ route.name }}</span>
+    {% endfor %}
+</div>
+
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+
+<style>
+    #supply-chain-map .leaflet-control-zoom a {
+        background: #0a0a0a !important;
+        color: #00FBFF !important;
+        border-color: #1a1a1a !important;
+    }
+    #supply-chain-map .leaflet-popup-content-wrapper {
+        background: #0a0a0a;
+        color: #ccc;
+        border: 1px solid #1a1a1a;
+        border-radius: 4px;
+        font-family: 'JetBrains Mono', monospace;
+        font-size: 0.75rem;
+    }
+    #supply-chain-map .leaflet-popup-tip { background: #0a0a0a; }
+    #supply-chain-map .leaflet-popup-content-wrapper .leaflet-popup-content {
+        margin: 10px 14px;
+    }
+    .popup-label { color: #555; font-size: 0.6rem; text-transform: uppercase; letter-spacing: 0.08em; }
+    .popup-value { color: #00FBFF; font-weight: 700; }
+    .popup-note { color: #888; font-size: 0.7rem; margin-top: 4px; }
+</style>
+
+{# Pass data from Jinja into JS variables, then use raw block for all Leaflet code #}
+<script>
+var _mapMines = {{ geo.mines | tojson }};
+var _mapRefineries = {{ geo.refineries | tojson }};
+var _mapPorts = {{ geo.ports | tojson }};
+var _mapChokepoints = {{ geo.chokepoints | tojson }};
+var _mapRoutes = {{ geo.routes | tojson }};
+</script>
+
+{% raw %}
+<script>
+(function() {
+    var map = L.map('supply-chain-map', {
+        center: [15, 40],
+        zoom: 2,
+        minZoom: 2,
+        maxZoom: 10,
+        zoomControl: true,
+        attributionControl: false,
+    });
+
+    // Dark tile layer
+    L.tileLayer('https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png', {
+        subdomains: 'abcd',
+        maxZoom: 19,
+    }).addTo(map);
+
+    // ── Shipping routes ──
+    _mapRoutes.forEach(function(route) {
+        var opts = {color: route.color, weight: route.weight || 2, opacity: 0.7};
+        if (route.dash) opts.dashArray = route.dash;
+        var line = L.polyline(route.waypoints, opts).addTo(map);
+        line.bindPopup('<span class="popup-label">Route</span><br><span class="popup-value">' + route.name + '</span>');
+    });
+
+    // ── Mines / Production Sites ──
+    _mapMines.forEach(function(m) {
+        L.circleMarker([m.lat, m.lng], {
+            radius: 7, fillColor: '#FF3B30', color: '#FF3B30',
+            weight: 1, opacity: 0.9, fillOpacity: 0.8,
+        }).addTo(map).bindPopup(
+            '<span class="popup-label">' + (m.type || 'Mine') + '</span><br>' +
+            '<span class="popup-value">' + m.name + '</span><br>' +
+            '<span class="popup-note">' + m.country + ' · ' + m.operator + '</span>'
+        );
+    });
+
+    // ── Refineries ──
+    _mapRefineries.forEach(function(r) {
+        L.circleMarker([r.lat, r.lng], {
+            radius: 7, fillColor: '#00FBFF', color: '#00FBFF',
+            weight: 1, opacity: 0.9, fillOpacity: 0.8,
+        }).addTo(map).bindPopup(
+            '<span class="popup-label">Refinery / Processor</span><br>' +
+            '<span class="popup-value">' + r.name + '</span><br>' +
+            '<span class="popup-note">' + r.country + ' · ' + r.operator + '</span>' +
+            (r.notes ? '<br><span class="popup-note">' + r.notes + '</span>' : '')
+        );
+    });
+
+    // ── Ports ──
+    _mapPorts.forEach(function(p) {
+        L.circleMarker([p.lat, p.lng], {
+            radius: 6, fillColor: '#FFD700', color: '#FFD700',
+            weight: 1, opacity: 0.9, fillOpacity: 0.7,
+        }).addTo(map).bindPopup(
+            '<span class="popup-label">Port</span><br>' +
+            '<span class="popup-value">' + p.name + '</span><br>' +
+            '<span class="popup-note">' + p.country + '</span>' +
+            (p.notes ? '<br><span class="popup-note">' + p.notes + '</span>' : '')
+        );
+    });
+
+    // ── Chokepoints ──
+    _mapChokepoints.forEach(function(c) {
+        L.marker([c.lat, c.lng], {
+            icon: L.divIcon({
+                className: '',
+                html: '<div style="width:14px;height:14px;background:#FF9500;transform:rotate(45deg);border:1px solid #000;opacity:0.9;"></div>',
+                iconSize: [14, 14],
+                iconAnchor: [7, 7],
+            })
+        }).addTo(map).bindPopup(
+            '<span class="popup-label">Chokepoint</span><br>' +
+            '<span class="popup-value">' + c.name + '</span>' +
+            (c.notes ? '<br><span class="popup-note">' + c.notes + '</span>' : '')
+        );
+    });
+})();
+</script>
+{% endraw %}

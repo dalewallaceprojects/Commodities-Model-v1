@@ -324,6 +324,88 @@
 
     <hr>
 
+    <hr>
+
+    <!-- Supply Chain Map -->
+    {% if geo_data %}
+    <div class="section-label">🗺️ Supply Chain Map</div>
+    <div style="font-size:0.7rem;color:#555;margin-bottom:12px;">
+        Showing {{ geo_data.mine_label|lower }}, refineries/processing hubs, key ports, chokepoints, and major shipping routes.
+    </div>
+    <div id="supply-chain-map" style="width:100%;height:520px;background:#0a0a0a;border:1px solid #1a1a1a;margin-bottom:16px;"></div>
+
+    <!-- Legend -->
+    <div style="display:flex;flex-wrap:wrap;gap:16px;margin-bottom:8px;font-size:0.65rem;color:#888;">
+        <span><span style="display:inline-block;width:10px;height:10px;background:#FF3B30;border-radius:50%;margin-right:4px;"></span>{{ geo_data.mine_label }}</span>
+        <span><span style="display:inline-block;width:10px;height:10px;background:#00FBFF;border-radius:50%;margin-right:4px;"></span>Refineries</span>
+        <span><span style="display:inline-block;width:10px;height:10px;background:#FFD700;border-radius:50%;margin-right:4px;"></span>Ports</span>
+        <span><span style="display:inline-block;width:10px;height:10px;background:#FF9500;border-radius:50%;margin-right:4px;"></span>Chokepoints</span>
+        {% for route in geo_data.shipping_routes %}
+        <span><span style="display:inline-block;width:16px;height:2px;background:{{ route.color }};margin-right:4px;vertical-align:middle;"></span>{{ route.name }}</span>
+        {% endfor %}
+    </div>
+
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+    <script>
+    (function() {
+        var map = L.map('supply-chain-map', {
+            center: [10, 40],
+            zoom: 2,
+            zoomControl: true,
+            attributionControl: false,
+        });
+
+        L.tileLayer('https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png', {
+            maxZoom: 18,
+        }).addTo(map);
+
+        function marker(lat, lng, color, name, detail, radius) {
+            L.circleMarker([lat, lng], {
+                radius: radius || 5,
+                fillColor: color,
+                color: color,
+                weight: 1,
+                opacity: 0.9,
+                fillOpacity: 0.8,
+            }).addTo(map).bindPopup('<b style="color:' + color + ';">' + name + '</b><br><span style="color:#aaa;">' + detail + '</span>');
+        }
+
+        // Mines / Plantations
+        {% for m in geo_data.mines %}
+        marker({{ m.lat }}, {{ m.lng }}, '#FF3B30', '{{ m.name }}', '{{ m.country }} — {{ m.operator }}', 6);
+        {% endfor %}
+
+        // Refineries
+        {% for r in geo_data.refineries %}
+        marker({{ r.lat }}, {{ r.lng }}, '#00FBFF', '{{ r.name }}', '{{ r.country }}', 5);
+        {% endfor %}
+
+        // Ports
+        {% for p in geo_data.ports %}
+        marker({{ p.lat }}, {{ p.lng }}, '#FFD700', '{{ p.name }}', '{{ p.role }}', 5);
+        {% endfor %}
+
+        // Chokepoints
+        {% for c in geo_data.chokepoints %}
+        marker({{ c.lat }}, {{ c.lng }}, '#FF9500', '{{ c.name }}', 'Strategic chokepoint', 7);
+        {% endfor %}
+
+        // Shipping routes
+        {% for route in geo_data.shipping_routes %}
+        L.polyline({{ route.waypoints }}, {
+            color: '{{ route.color }}',
+            weight: 2,
+            opacity: 0.6,
+            dashArray: '8, 6',
+        }).addTo(map).bindPopup('<b style="color:{{ route.color }};">{{ route.name }}</b>');
+        {% endfor %}
+    })();
+    </script>
+    {% endif %}
+
+    <hr>
+
     <!-- Linked Equities -->
     <div class="section-label">📈 {{ commodity.name }}-Linked Equities</div>
 

@@ -118,6 +118,7 @@ def build_commodity(name: str):
     producing_regions = mod.PRODUCING_REGIONS
     risk_categories = mod.RISK_CATEGORIES
     linked_stocks = mod.LINKED_STOCKS
+    geo_data = getattr(mod, "GEO_DATA", None)
 
     # ── Market data ──
     print(f"   📈 Fetching market data for {ticker}...")
@@ -188,7 +189,12 @@ def build_commodity(name: str):
 
         articles_by_category.append((cat, articles, config["color"]))
 
+    # ── Geo data ──
+    
+    geo = getattr(mod, "GEO", None)
+
     # ── Render ──
+
     print(f"   🔨 Rendering HTML...")
     template = env.get_template("commodity.html")
     html = template.render(
@@ -204,6 +210,8 @@ def build_commodity(name: str):
         articles_by_category=articles_by_category,
         all_commodities=all_commodity_names,
         build_time=build_time,
+        geo_data=geo_data,
+        geo=geo,
     )
 
     filename = f"{name.lower()}.html"

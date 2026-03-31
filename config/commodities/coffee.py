@@ -4,6 +4,17 @@ Everything specific to Coffee as a commodity.
 To add a new commodity, duplicate this file and adjust the data.
 """
 
+from config.commodities.coffee_geo import MINES, REFINERIES, PORTS, CHOKEPOINTS, ROUTES
+
+GEO_DATA = {
+    "mines": MINES,
+    "refineries": REFINERIES,
+    "ports": PORTS,
+    "chokepoints": CHOKEPOINTS,
+    "ROUTES": ROUTES,
+    "mine_label": "Plantations",
+}
+
 COMMODITY = {
     "name": "Coffee",
     "symbol": "☕",
@@ -237,3 +248,9 @@ LINKED_STOCKS = {
         "exposure": "McCafé is a growing segment — coffee is material but diversified menu absorbs cost",
     },
 }
+
+# ─────────────────────────────────────────────
+# SUPPLY CHAIN GEOGRAPHY
+# ─────────────────────────────────────────────
+from config.commodities.coffee_geo import MINES, REFINERIES, PORTS, CHOKEPOINTS, ROUTES
+GEO = {"mines": MINES, "refineries": REFINERIES, "ports": PORTS, "chokepoints": CHOKEPOINTS, "routes": ROUTES}
