@@ -8,7 +8,7 @@ MINES = [
     {"name": "Tenke Fungurume", "lat": -10.60, "lng": 26.10, "country": "DRC", "operator": "CMOC"},
     {"name": "Kamoto Mine", "lat": -10.73, "lng": 25.43, "country": "DRC", "operator": "Glencore/Katanga"},
     {"name": "Kisanfu Mine", "lat": -10.95, "lng": 26.25, "country": "DRC", "operator": "CMOC"},
-    {"name": "Voisey's Bay", "lat": 56.33, "lng": -62.08, "country": "Canada", "operator": "Vale"},
+    {"name": "Voiseys Bay", "lat": 56.33, "lng": -62.08, "country": "Canada", "operator": "Vale"},
     {"name": "Murrin Murrin", "lat": -28.72, "lng": 121.87, "country": "Australia", "operator": "Minara/Glencore"},
     {"name": "Norilsk", "lat": 69.35, "lng": 88.20, "country": "Russia", "operator": "Nornickel"},
     {"name": "Morowali HPAL", "lat": -2.85, "lng": 121.90, "country": "Indonesia", "operator": "Various (Chinese JV)"},

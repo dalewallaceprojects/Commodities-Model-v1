@@ -34,13 +34,13 @@ REFINERIES = [
 ]
 
 PORTS = [
-    {"name": "Santos", "lat": -23.96, "lng": -46.33, "country": "Brazil", "role": "World's largest coffee export port"},
-    {"name": "Ho Chi Minh City", "lat": 10.82, "lng": 106.63, "country": "Vietnam", "role": "Vietnam's primary coffee export"},
-    {"name": "Buenaventura", "lat": 3.88, "lng": -77.02, "country": "Colombia", "role": "Colombia's Pacific export hub"},
-    {"name": "Cartagena", "lat": 10.39, "lng": -75.51, "country": "Colombia", "role": "Colombia's Atlantic export hub"},
+    {"name": "Santos", "lat": -23.96, "lng": -46.33, "country": "Brazil", "role": "Worlds largest coffee export port"},
+    {"name": "Ho Chi Minh City", "lat": 10.82, "lng": 106.63, "country": "Vietnam", "role": "Vietnams primary coffee export"},
+    {"name": "Buenaventura", "lat": 3.88, "lng": -77.02, "country": "Colombia", "role": "Colombias Pacific export hub"},
+    {"name": "Cartagena", "lat": 10.39, "lng": -75.51, "country": "Colombia", "role": "Colombias Atlantic export hub"},
     {"name": "Djibouti", "lat": 11.59, "lng": 43.15, "country": "Djibouti", "role": "Ethiopian coffee export route"},
     {"name": "Mombasa", "lat": -4.04, "lng": 39.67, "country": "Kenya", "role": "East African coffee export"},
-    {"name": "Hamburg", "lat": 53.55, "lng": 9.99, "country": "Germany", "role": "Europe's largest coffee import port"},
+    {"name": "Hamburg", "lat": 53.55, "lng": 9.99, "country": "Germany", "role": "Europes largest coffee import port"},
     {"name": "New York/New Jersey", "lat": 40.67, "lng": -74.04, "country": "USA", "role": "US East Coast import hub"},
     {"name": "New Orleans", "lat": 29.95, "lng": -90.07, "country": "USA", "role": "US coffee import & ICE warehousing"},
     {"name": "Antwerp", "lat": 51.26, "lng": 4.40, "country": "Belgium", "role": "European green coffee trading"},
