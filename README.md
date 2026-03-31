@@ -1,156 +1,97 @@
 # ⬡ Commodity Risk Intelligence Terminal
 
-A modular, real-time commodity risk intelligence dashboard built with Streamlit. Tracks environmental, geopolitical, and economic factors affecting global commodity supply chains — with live news scraping, technical analysis, and equity exposure mapping.
+Static site generator that builds commodity risk intelligence dashboards. Scrapes live data from Yahoo Finance and Google News RSS, computes technical indicators and commodity betas, then generates static HTML pages deployable to GitHub Pages.
 
 ![Python](https://img.shields.io/badge/Python-3.12-blue)
-![Streamlit](https://img.shields.io/badge/Streamlit-1.30+-FF4B4B)
 ![License](https://img.shields.io/badge/License-MIT-green)
 
 ---
 
+## How it works
+
+1. **`python build.py`** runs locally — fetches market data, scrapes news, computes everything
+2. Generates static HTML files into `docs/`
+3. Push to GitHub — GitHub Pages serves the `docs/` folder
+4. Re-run `build.py` whenever you want fresh data
+
 ## Architecture
 
-The app is designed for **multi-commodity expansion** — adding a new commodity means creating one config file, not touching any engine or component code.
-
 ```
-├── app.py                          # Entry point — thin orchestrator
+├── build.py                        # Run this to generate the site
 ├── requirements.txt
-├── .streamlit/
-│   └── config.toml                 # Dark theme defaults
-│
-├── config/                         # ← All configuration lives here
-│   ├── __init__.py
-│   ├── theme.py                    # Colours, fonts, CSS, HTML helpers
-│   ├── settings.py                 # Global params (RSI period, cache TTL, etc.)
+├── config/
+│   ├── settings.py                 # Global params (RSI, cache, beta thresholds)
 │   └── commodities/
-│       ├── __init__.py             # Registry — add new commodities here
-│       └── cobalt.py               # Cobalt-specific: regions, queries, stocks
-│
-├── engines/                        # ← Data fetching & processing
-│   ├── __init__.py
-│   ├── market_data.py              # Yahoo Finance, indicators, forecasting, beta
-│   └── news_scraper.py             # Google News RSS, classification, region tagging
-│
-└── components/                     # ← UI rendering
-    ├── __init__.py
-    ├── sidebar.py                  # Sidebar controls
-    ├── chart.py                    # Plotly price + RSI chart
-    ├── tables.py                   # All HTML table renderers
-    └── news_feed.py                # Risk feed, category breakdown, export
+│       ├── __init__.py             # Registry
+│       ├── cobalt.py               # Cobalt: regions, queries, stocks
+│       └── coffee.py               # Coffee: regions, queries, stocks
+├── engines/
+│   ├── market_data.py              # Yahoo Finance, indicators, beta
+│   └── news_scraper.py             # Google News RSS, classification
+├── templates/
+│   ├── index.html                  # Landing page template
+│   └── commodity.html              # Commodity dashboard template
+└── docs/                           # Generated static site (GitHub Pages)
+    ├── index.html
+    ├── cobalt.html
+    └── coffee.html
 ```
-
-## Adding a new commodity
-
-1. **Duplicate** `config/commodities/cobalt.py` → `config/commodities/lithium.py`
-2. **Edit** the new file — change `COMMODITY`, `PRODUCING_REGIONS`, `RISK_CATEGORIES`, `LINKED_STOCKS`
-3. **Register** it in `config/commodities/__init__.py`:
-   ```python
-   from config.commodities import cobalt, lithium
-
-   REGISTRY = {
-       "Cobalt": cobalt,
-       "Lithium": lithium,
-   }
-   ```
-4. **Run the app** — a commodity selector appears automatically when 2+ are registered
-
-That's it. No engine or component changes needed.
-
-## Editing specific parts
-
-| I want to change...             | Edit this file                    |
-|---------------------------------|-----------------------------------|
-| Colours, fonts, CSS             | `config/theme.py`                 |
-| RSI period, forecast length     | `config/settings.py`              |
-| Cobalt news queries             | `config/commodities/cobalt.py`    |
-| Cobalt linked stocks            | `config/commodities/cobalt.py`    |
-| How indicators are computed     | `engines/market_data.py`          |
-| How news is scraped/classified  | `engines/news_scraper.py`         |
-| Chart appearance                | `components/chart.py`             |
-| Table layout/HTML               | `components/tables.py`            |
-| News feed rendering             | `components/news_feed.py`         |
-| Sidebar controls                | `components/sidebar.py`           |
-| Overall page flow               | `app.py`                          |
 
 ## Quick start
 
-### Prerequisites
-
-- **Python 3.12** (3.14 is not supported by Streamlit yet)
-- **Git**
-
-### Windows (PowerShell)
+### First time setup
 
 ```powershell
-# Clone the repo
-git clone https://github.com/dalewallaceprojects/Commodities-Model-v1.git
-cd Commodities-Model-v1
-
-# Create a virtual environment with Python 3.12
-python3.12 -m venv venv
-
-# Activate it (you should see (venv) in your prompt)
-.\venv\Scripts\Activate.ps1
-
-# If you get a permissions error, run this first:
-# Set-ExecutionPolicy -ExecutionPolicy RemoteSigned -Scope CurrentUser
-
-# Install dependencies
-pip install -r requirements.txt
-
-# Launch the app
-python -m streamlit run app.py
-```
-
-### macOS / Linux
-
-```bash
-# Clone the repo
-git clone https://github.com/dalewallaceprojects/Commodities-Model-v1.git
-cd Commodities-Model-v1
-
-# Create a virtual environment
-python3.12 -m venv venv
-source venv/bin/activate
-
-# Install dependencies
-pip install -r requirements.txt
-
-# Launch the app
-streamlit run app.py
-```
-
-### After launch
-
-The app opens at `http://localhost:8501`. Use the sidebar to configure the ticker, chart overlays, and news filters.
-
-To stop the app, press `Ctrl+C` in the terminal.
-
-### Running it again later
-
-You don't need to reinstall anything — just activate the venv and launch:
-
-```powershell
-# Windows
 cd "C:\Users\Dalew\Documents\Projects\Commodities Model"
+python3.12 -m venv venv
 .\venv\Scripts\Activate.ps1
-python -m streamlit run app.py
+pip install -r requirements.txt
 ```
 
-```bash
-# macOS / Linux
-cd Commodities-Model-v1
-source venv/bin/activate
-streamlit run app.py
+### Build the site
+
+```powershell
+.\venv\Scripts\Activate.ps1
+python build.py
 ```
 
-## Features
+### Preview locally
 
-- **Live market data** — Yahoo Finance with candlestick/line chart, Bollinger Bands, SMA overlays, RSI, Holt-Winters forecast
-- **News scraping** — Google News RSS across ~25 targeted queries per commodity, keyword classification into 5 risk categories
-- **Region tagging** — auto-identifies which producing region each article relates to
-- **Equity exposure** — tracks linked stocks with live prices, returns, and computed Commodity Beta (β)
-- **CSV export** — download the full scraped dataset
+```powershell
+cd docs
+python -m http.server 8000
+# Open http://localhost:8000
+```
+
+### Deploy to GitHub Pages
+
+```powershell
+git add docs/
+git commit -m "Rebuild site"
+git push
+```
+
+Then in your GitHub repo: **Settings → Pages → Source → Deploy from branch → main → /docs → Save**
+
+## Adding a new commodity
+
+1. Duplicate `config/commodities/cobalt.py` → e.g. `lithium.py`
+2. Edit the data (`COMMODITY`, `PRODUCING_REGIONS`, `RISK_CATEGORIES`, `LINKED_STOCKS`)
+3. Register in `config/commodities/__init__.py`
+4. Run `python build.py` — new page appears automatically
+
+## Editing guide
+
+| I want to change...             | Edit this file                    |
+|---------------------------------|-----------------------------------|
+| RSI period, beta thresholds     | `config/settings.py`              |
+| Cobalt news queries / stocks    | `config/commodities/cobalt.py`    |
+| Coffee news queries / stocks    | `config/commodities/coffee.py`    |
+| How indicators are computed     | `engines/market_data.py`          |
+| How news is scraped/classified  | `engines/news_scraper.py`         |
+| Dashboard page design           | `templates/commodity.html`        |
+| Landing page design             | `templates/index.html`            |
+| Build process                   | `build.py`                        |
 
 ## Disclaimer
 

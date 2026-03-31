@@ -1,13 +1,9 @@
 """
 engines/news_scraper.py
-Handles all news scraping operations:
-  - Google News RSS scraping
-  - Article classification by risk category
-  - Producing region identification
-  - Deduplication and sorting
+News scraping operations — no Streamlit dependency.
+Used by build.py to fetch news for static site generation.
 """
 
-import streamlit as st
 import pandas as pd
 import feedparser
 from bs4 import BeautifulSoup
@@ -15,10 +11,9 @@ from datetime import datetime
 from urllib.parse import quote_plus
 import time
 
-from config.settings import NEWS_CACHE_TTL, NEWS_DELAY_BETWEEN, NEWS_MAX_PER_QUERY
+from config.settings import NEWS_DELAY_BETWEEN, NEWS_MAX_PER_QUERY
 
 
-@st.cache_data(ttl=NEWS_CACHE_TTL, show_spinner=False)
 def scrape_google_news_rss(query: str, max_results: int = 15) -> list[dict]:
     """Fetch articles from Google News RSS for a given query."""
     encoded_query = quote_plus(query)
@@ -63,7 +58,6 @@ def scrape_google_news_rss(query: str, max_results: int = 15) -> list[dict]:
 
 
 def classify_article(article: dict, risk_categories: dict) -> list[str]:
-    """Classify an article into risk categories based on keyword matching."""
     text = f"{article['title']} {article['summary']}".lower()
     matched = []
     for category, config in risk_categories.items():
@@ -74,7 +68,6 @@ def classify_article(article: dict, risk_categories: dict) -> list[str]:
 
 
 def identify_regions(article: dict, producing_regions: dict) -> list[str]:
-    """Identify which producing regions are mentioned in an article."""
     text = f"{article['title']} {article['summary']}".lower()
     matched = []
     for region, info in producing_regions.items():
@@ -85,7 +78,6 @@ def identify_regions(article: dict, producing_regions: dict) -> list[str]:
     return matched
 
 
-@st.cache_data(ttl=NEWS_CACHE_TTL, show_spinner=False)
 def fetch_all_risk_news(
     risk_categories: dict,
     producing_regions: dict,

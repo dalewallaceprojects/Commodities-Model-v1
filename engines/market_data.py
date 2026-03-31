@@ -1,13 +1,9 @@
 """
 engines/market_data.py
-Handles all market data operations:
-  - Price data loading from Yahoo Finance
-  - Technical indicator computation (BB, SMA, RSI, Z-Score, ATR)
-  - Holt-Winters forecasting
-  - Stock metrics and commodity beta calculation
+Market data operations — no Streamlit dependency.
+Used by build.py to fetch data for static site generation.
 """
 
-import streamlit as st
 import yfinance as yf
 import pandas as pd
 import numpy as np
@@ -16,11 +12,10 @@ from statsmodels.tsa.holtwinters import ExponentialSmoothing
 
 from config.settings import (
     BB_PERIOD, RSI_PERIOD, ATR_PERIOD, FORECAST_DAYS,
-    MARKET_CACHE_TTL, BETA_LOOKBACK, BETA_MIN_WEEKS,
+    BETA_LOOKBACK, BETA_MIN_WEEKS,
 )
 
 
-@st.cache_data(ttl=MARKET_CACHE_TTL)
 def load_price_data(symbol: str) -> pd.DataFrame | None:
     """Load full price history and compute technical indicators."""
     df = yf.download(symbol, period="max", multi_level_index=False)
@@ -29,33 +24,26 @@ def load_price_data(symbol: str) -> pd.DataFrame | None:
 
     df.index = pd.to_datetime(df.index).tz_localize(None)
 
-    # Bollinger Bands
     df["SMA20"]  = df["Close"].rolling(BB_PERIOD).mean()
     df["STD20"]  = df["Close"].rolling(BB_PERIOD).std()
     df["BB_Up"]  = df["SMA20"] + df["STD20"] * 2
     df["BB_Low"] = df["SMA20"] - df["STD20"] * 2
-
-    # Moving averages
     df["SMA50"]  = df["Close"].rolling(50).mean()
     df["SMA200"] = df["Close"].rolling(200).mean()
 
-    # RSI
     delta = df["Close"].diff()
     gain  = delta.clip(lower=0).rolling(RSI_PERIOD).mean()
     loss  = (-delta.clip(upper=0)).rolling(RSI_PERIOD).mean()
     df["RSI"] = 100 - (100 / (1 + gain / loss.replace(0, np.nan)))
 
-    # Z-Score and ATR
     df["Z_Score"] = (df["Close"] - df["SMA20"]) / df["STD20"]
     df["ATR"]     = (df["High"] - df["Low"]).rolling(ATR_PERIOD).mean()
 
     return df.dropna()
 
 
-@st.cache_data(ttl=MARKET_CACHE_TTL)
 def run_forecast(close_series: pd.Series, n: int = FORECAST_DAYS):
     """Run Holt-Winters exponential smoothing forecast."""
-    # Resample to business-day frequency to give statsmodels a proper date index
     series = close_series.asfreq("B", method="ffill")
     model = ExponentialSmoothing(series, trend="add").fit()
     forecast_vals = model.forecast(n)
@@ -69,9 +57,9 @@ def run_forecast(close_series: pd.Series, n: int = FORECAST_DAYS):
 
 def get_derived_values(df: pd.DataFrame) -> dict:
     """Extract the latest derived values from a price dataframe."""
-    last_close = float(df["Close"].iloc[-1])
-    prev_close = float(df["Close"].iloc[-2])
-    day_chg    = last_close - prev_close
+    last_close  = float(df["Close"].iloc[-1])
+    prev_close  = float(df["Close"].iloc[-2])
+    day_chg     = last_close - prev_close
     day_chg_pct = day_chg / prev_close * 100
 
     return {
@@ -89,9 +77,8 @@ def get_derived_values(df: pd.DataFrame) -> dict:
     }
 
 
-@st.cache_data(ttl=MARKET_CACHE_TTL, show_spinner=False)
 def get_stock_metrics(stock_ticker: str, commodity_ticker: str) -> dict | None:
-    """Get current price, recent performance, and commodity beta for a stock."""
+    """Get current price, recent performance, and commodity beta."""
     try:
         stock_df = yf.download(
             stock_ticker, period=BETA_LOOKBACK,
@@ -115,7 +102,6 @@ def get_stock_metrics(stock_ticker: str, commodity_ticker: str) -> dict | None:
             / float(stock_df["Close"].iloc[-63]) * 100
         ) if len(stock_df) >= 63 else None
 
-        # Commodity beta
         commodity_beta = None
         try:
             comm_df = yf.download(

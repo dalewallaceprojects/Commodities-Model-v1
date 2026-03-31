@@ -1,0 +1,400 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{ commodity.name }} Risk Intelligence</title>
+    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;700&family=Syne:wght@700;800&display=swap" rel="stylesheet">
+    <style>
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        ::selection { background: #00FBFF; color: #000; }
+
+        body {
+            background: #000;
+            color: #fff;
+            font-family: 'JetBrains Mono', monospace;
+            line-height: 1.6;
+        }
+
+        .container { max-width: 960px; margin: 0 auto; padding: 0 24px; }
+
+        /* Nav */
+        nav {
+            border-bottom: 1px solid #1a1a1a;
+            padding: 16px 0;
+            margin-bottom: 40px;
+        }
+        nav .container {
+            display: flex;
+            align-items: center;
+            gap: 24px;
+            flex-wrap: wrap;
+        }
+        nav .brand {
+            font-family: 'Syne', sans-serif;
+            font-size: 0.85rem;
+            font-weight: 800;
+            color: #00FBFF;
+            text-decoration: none;
+            letter-spacing: -0.02em;
+        }
+        nav a {
+            color: #555;
+            text-decoration: none;
+            font-size: 0.75rem;
+            letter-spacing: 0.05em;
+            transition: color 0.15s;
+        }
+        nav a:hover, nav a.active { color: #00FBFF; }
+
+        /* Section label */
+        .section-label {
+            font-family: 'Syne', sans-serif;
+            font-size: 0.6rem;
+            letter-spacing: 0.2em;
+            text-transform: uppercase;
+            color: #00FBFF;
+            border-left: 2px solid #00FBFF;
+            padding-left: 0.6rem;
+            margin: 48px 0 20px;
+        }
+
+        /* Title */
+        h1 {
+            font-family: 'Syne', sans-serif;
+            font-size: clamp(1.8rem, 4vw, 2.8rem);
+            font-weight: 800;
+            letter-spacing: -0.02em;
+            margin-bottom: 8px;
+        }
+        h1 span { color: #00FBFF; }
+        .subtitle {
+            color: #555;
+            font-size: 0.75rem;
+            margin-bottom: 32px;
+        }
+
+        /* Metric cards */
+        .metrics {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+            margin-bottom: 32px;
+        }
+        .metric {
+            background: #0a0a0a;
+            border: 1px solid #1a1a1a;
+            padding: 16px 20px;
+        }
+        .metric-label {
+            font-size: 0.6rem;
+            letter-spacing: 0.15em;
+            text-transform: uppercase;
+            color: #555;
+            margin-bottom: 4px;
+        }
+        .metric-value {
+            font-size: 1.4rem;
+            font-weight: 700;
+            color: #00FBFF;
+        }
+        .metric-delta {
+            font-size: 0.75rem;
+            margin-left: 8px;
+        }
+        .positive { color: #00FF88; }
+        .negative { color: #FF3B30; }
+        .neutral  { color: #aaa; }
+        .mixed    { color: #FFD700; }
+
+        /* Tables */
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 8px;
+        }
+        th {
+            background: #0a0a0a;
+            color: #00FBFF;
+            border-bottom: 1px solid #00FBFF;
+            padding: 10px 12px;
+            text-align: left;
+            font-family: 'Syne', sans-serif;
+            font-size: 0.65rem;
+            letter-spacing: 0.08em;
+            text-transform: uppercase;
+        }
+        th.right { text-align: right; }
+        td {
+            background: #000;
+            color: #ccc;
+            border-bottom: 1px solid #111;
+            padding: 10px 12px;
+            font-size: 0.8rem;
+        }
+        td.right { text-align: right; }
+        td.muted { color: #555; font-size: 0.7rem; }
+        tr:hover td { background: #050505; }
+
+        /* Stock group label */
+        .group-label {
+            font-family: 'Syne', sans-serif;
+            font-size: 0.65rem;
+            letter-spacing: 0.15em;
+            text-transform: uppercase;
+            margin: 24px 0 12px;
+            padding-left: 0.6rem;
+            border-left: 2px solid;
+        }
+
+        /* Article cards */
+        .category-bar {
+            background: #0a0a0a;
+            border: 1px solid #1a1a1a;
+            padding: 10px 14px;
+            margin-bottom: 4px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .category-bar .name { font-size: 0.75rem; color: #ccc; }
+        .category-bar .count { font-size: 1rem; font-weight: 800; }
+
+        .article-group-header {
+            font-family: 'Syne', sans-serif;
+            font-size: 0.7rem;
+            letter-spacing: 0.1em;
+            text-transform: uppercase;
+            margin: 28px 0 12px;
+            padding: 8px 12px;
+            border-left: 3px solid;
+        }
+
+        .article {
+            background: #0a0a0a;
+            border: 1px solid #1a1a1a;
+            padding: 14px 16px;
+            margin-bottom: 4px;
+            transition: border-color 0.15s;
+        }
+        .article:hover { border-color: #333; }
+        .article-meta {
+            font-size: 0.65rem;
+            color: #555;
+            margin-bottom: 6px;
+        }
+        .article-meta .badge {
+            display: inline-block;
+            padding: 1px 6px;
+            font-size: 0.55rem;
+            font-weight: 700;
+            letter-spacing: 0.08em;
+            text-transform: uppercase;
+            color: #000;
+            margin-right: 6px;
+        }
+        .article a {
+            color: #ddd;
+            text-decoration: none;
+            font-size: 0.82rem;
+            line-height: 1.4;
+        }
+        .article a:hover { color: #00FBFF; }
+        .article .regions {
+            margin-top: 6px;
+        }
+        .article .region-tag {
+            display: inline-block;
+            background: #111;
+            color: #888;
+            padding: 1px 6px;
+            font-size: 0.55rem;
+            border: 1px solid #222;
+            margin-right: 4px;
+        }
+
+        /* Divider */
+        hr {
+            border: none;
+            border-top: 1px solid #1a1a1a;
+            margin: 40px 0;
+        }
+
+        /* Footer */
+        footer {
+            text-align: center;
+            color: #333;
+            font-size: 0.6rem;
+            letter-spacing: 0.15em;
+            padding: 40px 0 60px;
+        }
+    </style>
+</head>
+<body>
+
+<nav>
+    <div class="container">
+        <a href="index.html" class="brand">⬡ Risk Terminal</a>
+        {% for name in all_commodities %}
+        <a href="{{ name|lower }}.html" {% if name == commodity.name %}class="active"{% endif %}>{{ name }}</a>
+        {% endfor %}
+    </div>
+</nav>
+
+<div class="container">
+
+    <!-- Title -->
+    <h1>{{ commodity.symbol }} {{ commodity.name }} Risk Intelligence — <span>{{ ticker }}</span></h1>
+    <div class="subtitle">Generated {{ build_time }} · Data via Yahoo Finance · News via Google News RSS</div>
+
+    <!-- Metrics -->
+    <div class="section-label">📊 Market Snapshot</div>
+    <div class="metrics">
+        <div class="metric">
+            <div class="metric-label">Last Price</div>
+            <div>
+                <span class="metric-value">${{ "%.2f"|format(vals.last_close) }}</span>
+                <span class="metric-delta {{ 'positive' if vals.day_chg >= 0 else 'negative' }}">
+                    {{ "%+.2f"|format(vals.day_chg) }} ({{ "%+.2f"|format(vals.day_chg_pct) }}%)
+                </span>
+            </div>
+        </div>
+        <div class="metric">
+            <div class="metric-label">RSI (14)</div>
+            <div>
+                <span class="metric-value">{{ "%.1f"|format(vals.last_rsi) }}</span>
+                <span class="metric-delta {{ 'negative' if vals.last_rsi > 70 else ('positive' if vals.last_rsi < 30 else 'neutral') }}">
+                    {{ "Overbought" if vals.last_rsi > 70 else ("Oversold" if vals.last_rsi < 30 else "Neutral") }}
+                </span>
+            </div>
+        </div>
+        <div class="metric">
+            <div class="metric-label">Z-Score</div>
+            <div>
+                <span class="metric-value">{{ "%.2f"|format(vals.last_z) }}</span>
+                <span class="metric-delta {{ 'negative' if vals.last_z|abs > 2 else 'neutral' }}">
+                    {{ "Extended" if vals.last_z|abs > 2 else "Within Range" }}
+                </span>
+            </div>
+        </div>
+        <div class="metric">
+            <div class="metric-label">ATR (14)</div>
+            <div>
+                <span class="metric-value">{{ "%.2f"|format(vals.last_atr) }}</span>
+                <span class="metric-delta {{ 'negative' if vals.last_atr > vals.atr_mean else 'neutral' }}">
+                    {{ "Expanding" if vals.last_atr > vals.atr_mean else "Contracting" }}
+                </span>
+            </div>
+        </div>
+    </div>
+
+    <hr>
+
+    <!-- Technical Intelligence -->
+    <div class="section-label">🧬 Technical Intelligence</div>
+    <table>
+        <thead><tr><th>Indicator</th><th>Value</th><th>Signal</th></tr></thead>
+        <tbody>
+            {% for row in tech_signals %}
+            <tr>
+                <td>{{ row.name }}</td>
+                <td>{{ row.value }}</td>
+                <td style="color:{{ row.color }};font-weight:700;">{{ row.signal }}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+
+    <hr>
+
+    <!-- Producing Regions -->
+    <div class="section-label">🌐 Key Producing Regions</div>
+    <table>
+        <thead><tr><th>Region</th><th>Global Share</th><th>Search Terms</th></tr></thead>
+        <tbody>
+            {% for region, info in producing_regions.items() %}
+            <tr>
+                <td>{{ region }}</td>
+                <td>{{ info.share }}</td>
+                <td class="muted">{{ info.keywords[:3]|join(", ") }}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+
+    <hr>
+
+    <!-- Linked Equities -->
+    <div class="section-label">📈 {{ commodity.name }}-Linked Equities</div>
+
+    {% for rel, label, color in [("positive", "Positively Correlated", "#00FF88"), ("negative", "Negatively Correlated", "#FF3B30"), ("mixed", "Mixed / Indirect", "#FFD700")] %}
+    {% set group = stock_groups[rel] %}
+    {% if group %}
+    <div class="group-label" style="color:{{ color }};border-color:{{ color }};">{{ label }}</div>
+    <table>
+        <thead>
+            <tr><th>Ticker</th><th class="right">Price</th><th class="right">Day</th><th class="right">1M</th><th class="right">3M</th><th class="right">β</th><th>Exposure</th></tr>
+        </thead>
+        <tbody>
+            {% for tick, info, metrics in group %}
+            <tr>
+                <td><span style="color:#00FBFF;font-weight:700;">{{ tick }}</span><br><span style="color:#666;font-size:0.7rem;">{{ info.name }}</span></td>
+                <td class="right">{{ metrics.price_str }}</td>
+                <td class="right" style="color:{{ metrics.day_color }};">{{ metrics.day_str }}</td>
+                <td class="right" style="color:{{ metrics.mo1_color }};">{{ metrics.mo1_str }}</td>
+                <td class="right" style="color:{{ metrics.mo3_color }};">{{ metrics.mo3_str }}</td>
+                <td class="right" style="color:{{ metrics.beta_color }};font-weight:700;">{{ metrics.beta_str }}</td>
+                <td class="muted">{{ info.exposure }}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    {% endif %}
+    {% endfor %}
+
+    <hr>
+
+    <!-- Risk Intelligence Feed -->
+    <div class="section-label">📡 Live Risk Intelligence Feed</div>
+    <div class="subtitle">{{ article_count }} articles from {{ source_count }} sources</div>
+
+    <!-- Category breakdown -->
+    {% for cat, count, color in category_counts %}
+    <div class="category-bar" style="border-left:3px solid {{ color }};">
+        <span class="name">{{ cat }}</span>
+        <span class="count" style="color:{{ color }};">{{ count }}</span>
+    </div>
+    {% endfor %}
+
+    <!-- Articles by category -->
+    {% for cat, articles, color in articles_by_category %}
+    <div class="article-group-header" style="color:{{ color }};border-color:{{ color }};">
+        {{ cat }} — {{ articles|length }} articles
+    </div>
+    {% for a in articles %}
+    <div class="article">
+        <div class="article-meta">
+            <span class="badge" style="background:{{ color }};">{{ cat.split(' ', 1)[1] if ' ' in cat else cat }}</span>
+            {{ a.source }} · {{ a.age_str }}
+        </div>
+        <a href="{{ a.link }}" target="_blank">{{ a.title }}</a>
+        {% if a.regions %}
+        <div class="regions">
+            {% for r in a.regions %}
+            <span class="region-tag">{{ r.split('(')[0].strip() }}</span>
+            {% endfor %}
+        </div>
+        {% endif %}
+    </div>
+    {% endfor %}
+    {% endfor %}
+
+</div>
+
+<hr>
+<footer>
+    {{ commodity.name|upper }} RISK TERMINAL · NOT FINANCIAL ADVICE · DATA VIA YAHOO FINANCE & GOOGLE NEWS RSS
+</footer>
+
+</body>
+</html>
