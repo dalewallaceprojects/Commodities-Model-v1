@@ -247,7 +247,7 @@
 
     <!-- Title -->
     <h1>☕ Coffee Risk Intelligence — <span>KC=F</span></h1>
-    <div class="subtitle">Generated 2026-03-31 19:20 UTC · Data via Yahoo Finance · News via Google News RSS</div>
+    <div class="subtitle">Generated 2026-03-31 19:38 UTC · Data via Yahoo Finance · News via Google News RSS</div>
 
     <!-- Metrics -->
     <div class="section-label">📊 Market Snapshot</div>
@@ -397,6 +397,18 @@
         <span><span style="display:inline-block;width:10px;height:10px;background:#FFD700;border-radius:50%;margin-right:4px;"></span>Ports</span>
         <span><span style="display:inline-block;width:10px;height:10px;background:#FF9500;border-radius:50%;margin-right:4px;"></span>Chokepoints</span>
         
+        <span><span style="display:inline-block;width:16px;height:2px;background:#00FBFF;margin-right:4px;vertical-align:middle;"></span>Brazil → Europe</span>
+        
+        <span><span style="display:inline-block;width:16px;height:2px;background:#FFD700;margin-right:4px;vertical-align:middle;"></span>Brazil → USA</span>
+        
+        <span><span style="display:inline-block;width:16px;height:2px;background:#FF9500;margin-right:4px;vertical-align:middle;"></span>Vietnam → Europe (via Suez)</span>
+        
+        <span><span style="display:inline-block;width:16px;height:2px;background:#00FF88;margin-right:4px;vertical-align:middle;"></span>Colombia → USA</span>
+        
+        <span><span style="display:inline-block;width:16px;height:2px;background:#FF00FB;margin-right:4px;vertical-align:middle;"></span>Ethiopia → Europe</span>
+        
+        <span><span style="display:inline-block;width:16px;height:2px;background:#E040FB;margin-right:4px;vertical-align:middle;"></span>Vietnam → USA</span>
+        
     </div>
 
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
@@ -513,6 +525,48 @@
 
         // Shipping routes
         
+        L.polyline([[-23.96, -46.33], [-10.0, -25.0], [10.0, -20.0], [36.0, -5.6], [53.55, 9.99]], {
+            color: '#00FBFF',
+            weight: 2,
+            opacity: 0.6,
+            dashArray: '8, 6',
+        }).addTo(map).bindPopup('<b style="color:#00FBFF;">Brazil → Europe</b>');
+        
+        L.polyline([[-23.96, -46.33], [-5.0, -35.0], [15.0, -60.0], [25.0, -70.0], [40.67, -74.04]], {
+            color: '#FFD700',
+            weight: 2,
+            opacity: 0.6,
+            dashArray: '8, 6',
+        }).addTo(map).bindPopup('<b style="color:#FFD700;">Brazil → USA</b>');
+        
+        L.polyline([[10.82, 106.63], [2.5, 101.2], [5.0, 80.0], [12.58, 43.33], [30.46, 32.35], [36.0, 15.0], [53.55, 9.99]], {
+            color: '#FF9500',
+            weight: 2,
+            opacity: 0.6,
+            dashArray: '8, 6',
+        }).addTo(map).bindPopup('<b style="color:#FF9500;">Vietnam → Europe (via Suez)</b>');
+        
+        L.polyline([[3.88, -77.02], [9.08, -79.68], [20.0, -85.0], [25.0, -80.0], [40.67, -74.04]], {
+            color: '#00FF88',
+            weight: 2,
+            opacity: 0.6,
+            dashArray: '8, 6',
+        }).addTo(map).bindPopup('<b style="color:#00FF88;">Colombia → USA</b>');
+        
+        L.polyline([[11.59, 43.15], [12.58, 43.33], [30.46, 32.35], [36.0, 15.0], [53.55, 9.99]], {
+            color: '#FF00FB',
+            weight: 2,
+            opacity: 0.6,
+            dashArray: '8, 6',
+        }).addTo(map).bindPopup('<b style="color:#FF00FB;">Ethiopia → Europe</b>');
+        
+        L.polyline([[10.82, 106.63], [15.0, 120.0], [35.0, 150.0], [40.0, -160.0], [33.7, -118.2]], {
+            color: '#E040FB',
+            weight: 2,
+            opacity: 0.6,
+            dashArray: '8, 6',
+        }).addTo(map).bindPopup('<b style="color:#E040FB;">Vietnam → USA</b>');
+        
     })();
     </script>
     
@@ -544,10 +598,10 @@
             
             <tr>
                 <td><span style="color:#00FBFF;font-weight:700;">JVA</span><br><span style="color:#666;font-size:0.7rem;">Coffee Holding Co.</span></td>
-                <td class="right">$4.23</td>
-                <td class="right" style="color:#FF3B30;">-1.40%</td>
-                <td class="right" style="color:#00FF88;">+36.9%</td>
-                <td class="right" style="color:#00FF88;">+10.5%</td>
+                <td class="right">$4.22</td>
+                <td class="right" style="color:#FF3B30;">-1.63%</td>
+                <td class="right" style="color:#00FF88;">+36.6%</td>
+                <td class="right" style="color:#00FF88;">+10.2%</td>
                 <td class="right" style="color:#00FF88;font-weight:700;">+0.35</td>
                 <td class="muted">Small-cap coffee roaster & distributor — revenue tied to coffee volumes</td>
             </tr>
@@ -555,9 +609,9 @@
             <tr>
                 <td><span style="color:#00FBFF;font-weight:700;">BRCC</span><br><span style="color:#666;font-size:0.7rem;">BRC Inc. (Black Rifle Coffee)</span></td>
                 <td class="right">$0.78</td>
-                <td class="right" style="color:#00FF88;">+3.26%</td>
-                <td class="right" style="color:#FF3B30;">-3.8%</td>
-                <td class="right" style="color:#FF3B30;">-31.4%</td>
+                <td class="right" style="color:#00FF88;">+3.61%</td>
+                <td class="right" style="color:#FF3B30;">-3.5%</td>
+                <td class="right" style="color:#FF3B30;">-31.1%</td>
                 <td class="right" style="color:#FFD700;font-weight:700;">+0.04</td>
                 <td class="muted">DTC premium coffee brand — brand pricing power offsets input costs</td>
             </tr>
@@ -577,48 +631,48 @@
             
             <tr>
                 <td><span style="color:#00FBFF;font-weight:700;">SBUX</span><br><span style="color:#666;font-size:0.7rem;">Starbucks</span></td>
-                <td class="right">$89.08</td>
-                <td class="right" style="color:#00FF88;">+2.72%</td>
-                <td class="right" style="color:#FF3B30;">-7.9%</td>
-                <td class="right" style="color:#00FF88;">+5.2%</td>
+                <td class="right">$89.17</td>
+                <td class="right" style="color:#00FF88;">+2.82%</td>
+                <td class="right" style="color:#FF3B30;">-7.8%</td>
+                <td class="right" style="color:#00FF88;">+5.3%</td>
                 <td class="right" style="color:#FFD700;font-weight:700;">+0.20</td>
                 <td class="muted">World's largest coffee chain — higher bean costs squeeze cafe margins</td>
             </tr>
             
             <tr>
                 <td><span style="color:#00FBFF;font-weight:700;">BROS</span><br><span style="color:#666;font-size:0.7rem;">Dutch Bros</span></td>
-                <td class="right">$50.52</td>
-                <td class="right" style="color:#00FF88;">+5.27%</td>
-                <td class="right" style="color:#FF3B30;">-4.7%</td>
-                <td class="right" style="color:#FF3B30;">-18.6%</td>
+                <td class="right">$50.80</td>
+                <td class="right" style="color:#00FF88;">+5.86%</td>
+                <td class="right" style="color:#FF3B30;">-4.2%</td>
+                <td class="right" style="color:#FF3B30;">-18.1%</td>
                 <td class="right" style="color:#00FF88;font-weight:700;">+0.33</td>
                 <td class="muted">Fast-growing drive-thru chain — bean cost inflation pressures unit economics</td>
             </tr>
             
             <tr>
                 <td><span style="color:#00FBFF;font-weight:700;">KDP</span><br><span style="color:#666;font-size:0.7rem;">Keurig Dr Pepper</span></td>
-                <td class="right">$26.10</td>
-                <td class="right" style="color:#FF3B30;">-1.32%</td>
-                <td class="right" style="color:#FF3B30;">-11.0%</td>
-                <td class="right" style="color:#FF3B30;">-5.7%</td>
+                <td class="right">$26.17</td>
+                <td class="right" style="color:#FF3B30;">-1.06%</td>
+                <td class="right" style="color:#FF3B30;">-10.7%</td>
+                <td class="right" style="color:#FF3B30;">-5.4%</td>
                 <td class="right" style="color:#FFD700;font-weight:700;">-0.02</td>
                 <td class="muted">K-Cup & packaged coffee — raw bean prices directly impact COGS</td>
             </tr>
             
             <tr>
                 <td><span style="color:#00FBFF;font-weight:700;">SJM</span><br><span style="color:#666;font-size:0.7rem;">J.M. Smucker</span></td>
-                <td class="right">$95.48</td>
-                <td class="right" style="color:#00FF88;">+0.33%</td>
-                <td class="right" style="color:#FF3B30;">-15.0%</td>
-                <td class="right" style="color:#FF3B30;">-2.0%</td>
+                <td class="right">$95.69</td>
+                <td class="right" style="color:#00FF88;">+0.55%</td>
+                <td class="right" style="color:#FF3B30;">-14.8%</td>
+                <td class="right" style="color:#FF3B30;">-1.8%</td>
                 <td class="right" style="color:#FFD700;font-weight:700;">-0.02</td>
                 <td class="muted">Owns Folgers, Café Bustelo, Dunkin' retail — coffee is ~32% of revenue</td>
             </tr>
             
             <tr>
                 <td><span style="color:#00FBFF;font-weight:700;">NSRGY</span><br><span style="color:#666;font-size:0.7rem;">Nestlé</span></td>
-                <td class="right">$98.42</td>
-                <td class="right" style="color:#00FF88;">+0.83%</td>
+                <td class="right">$98.44</td>
+                <td class="right" style="color:#00FF88;">+0.85%</td>
                 <td class="right" style="color:#FF3B30;">-6.1%</td>
                 <td class="right" style="color:#FF3B30;">-0.6%</td>
                 <td class="right" style="color:#FFD700;font-weight:700;">+0.07</td>
@@ -650,20 +704,20 @@
             
             <tr>
                 <td><span style="color:#00FBFF;font-weight:700;">LKNCY</span><br><span style="color:#666;font-size:0.7rem;">Luckin Coffee</span></td>
-                <td class="right">$32.33</td>
-                <td class="right" style="color:#FF3B30;">-0.55%</td>
-                <td class="right" style="color:#FF3B30;">-4.1%</td>
-                <td class="right" style="color:#FF3B30;">-3.3%</td>
+                <td class="right">$32.29</td>
+                <td class="right" style="color:#FF3B30;">-0.68%</td>
+                <td class="right" style="color:#FF3B30;">-4.2%</td>
+                <td class="right" style="color:#FF3B30;">-3.4%</td>
                 <td class="right" style="color:#FFD700;font-weight:700;">-0.06</td>
                 <td class="muted">China's largest coffee chain — rapid growth may offset input cost pressure</td>
             </tr>
             
             <tr>
                 <td><span style="color:#00FBFF;font-weight:700;">MCD</span><br><span style="color:#666;font-size:0.7rem;">McDonald's</span></td>
-                <td class="right">$309.86</td>
-                <td class="right" style="color:#00FF88;">+0.43%</td>
-                <td class="right" style="color:#FF3B30;">-6.7%</td>
-                <td class="right" style="color:#00FF88;">+1.2%</td>
+                <td class="right">$309.70</td>
+                <td class="right" style="color:#00FF88;">+0.38%</td>
+                <td class="right" style="color:#FF3B30;">-6.8%</td>
+                <td class="right" style="color:#00FF88;">+1.1%</td>
                 <td class="right" style="color:#FFD700;font-weight:700;">+0.05</td>
                 <td class="muted">McCafé is a growing segment — coffee is material but diversified menu absorbs cost</td>
             </tr>
@@ -677,23 +731,23 @@
 
     <!-- Risk Intelligence Feed -->
     <div class="section-label">📡 Live Risk Intelligence Feed</div>
-    <div class="subtitle">331 articles from 203 sources</div>
+    <div class="subtitle">332 articles from 206 sources</div>
 
     <!-- Category breakdown -->
     
-    <div class="category-bar" style="border-left:3px solid #FF9500;">
-        <span class="name">🚢 Supply Chain & Logistics</span>
-        <span class="count" style="color:#FF9500;">87</span>
-    </div>
-    
     <div class="category-bar" style="border-left:3px solid #aaa;">
         <span class="name">📊 General Market</span>
-        <span class="count" style="color:#aaa;">79</span>
+        <span class="count" style="color:#aaa;">82</span>
+    </div>
+    
+    <div class="category-bar" style="border-left:3px solid #FF9500;">
+        <span class="name">🚢 Supply Chain & Logistics</span>
+        <span class="count" style="color:#FF9500;">81</span>
     </div>
     
     <div class="category-bar" style="border-left:3px solid #FFD700;">
         <span class="name">📜 Trade Policy & Sanctions</span>
-        <span class="count" style="color:#FFD700;">78</span>
+        <span class="count" style="color:#FFD700;">77</span>
     </div>
     
     <div class="category-bar" style="border-left:3px solid #00BFFF;">
@@ -703,17 +757,17 @@
     
     <div class="category-bar" style="border-left:3px solid #00FF88;">
         <span class="name">🌍 Environmental Regulation</span>
-        <span class="count" style="color:#00FF88;">51</span>
+        <span class="count" style="color:#00FF88;">54</span>
     </div>
     
     <div class="category-bar" style="border-left:3px solid #FF3B30;">
         <span class="name">⚔️ Conflict & Instability</span>
-        <span class="count" style="color:#FF3B30;">37</span>
+        <span class="count" style="color:#FF3B30;">39</span>
     </div>
     
     <div class="category-bar" style="border-left:3px solid #E040FB;">
         <span class="name">🦠 Crop Disease & Pests</span>
-        <span class="count" style="color:#E040FB;">37</span>
+        <span class="count" style="color:#E040FB;">38</span>
     </div>
     
 
@@ -816,15 +870,9 @@
     <div class="article">
         <div class="article-meta">
             <span class="badge" style="background:#00BFFF;">Weather & Climate</span>
-            valorinternational.globo.com · 41d ago
+            Daily Coffee News by Roast Magazine · 41d ago
         </div>
-        <a href="https://news.google.com/rss/articles/CBMivgFBVV95cUxPR3U0Q1Fqci1wWXdGclk2al9ETHBITXdSMkotaVBlam9FMFo4dm5aSlA5N0RVLVoxdURmakhReGdHXy1YSG9hUEQxR2FqU0p4bmQ3RUx5dkEzM3A3Z05jeHY0bVpGR01pcDN6ZWxmWC1HRlVkNkthc0tWUDRGOG9fUXJpSEdYbEszaWxpSTk2c2JYNGhCUWl1SDRiWEpvRm5rYmZoZnZ5UEdDOThRS3BmeE1zRndYckY4OEJrTVpR0gHMAUFVX3lxTE1TZXd1WHBvSFNkclJNSUp5bDRoSXFwY0VHWnpDYl80ZnZyRVFFZ3hma1lCenpBakZ2ZWlfRFo2b2FOZXgtVG1xc2ZlNGdNUjhZcEFkbVFmS2k2NGJQSXA3SWpqaVpiWmhRdll3X1had3dlY1U4YjBNckFuUlB5SHY5ZnZ2TFJzaDVOYzVBckNvb2xCamlNSHY1Sl9Jc3lPdkRSR2NqRno4Q05GMmxYMXZxcndHVzlRNEVvU1Fuc0FtSkJhNVpaNWttUGF2bA?oc=5" target="_blank">Excess rains spur coffee diseases in Minas Gerais</a>
-        
-        <div class="regions">
-            
-            <span class="region-tag">Brazil</span>
-            
-        </div>
+        <a href="https://news.google.com/rss/articles/CBMivwFBVV95cUxQeDFIMW5BelBMLXk4dUFTNFozdmRmUzZxbjZXRzVHYmlIcWRrdVNMQ1JodU1LU01zdnZySGlvNGxUWmRPMXQzOXNqTnVMRmFETFJSSnUyU0dXRlhSTGdtcm9yWkRxOW9CcGpsS19IZ2tUQWZyVDhKUmVKR2ZmVGVJRXJYaE9JWDZOTUNKR3ZoZllVQXBIUnpLaWRxN2ppN3hjWUJRQjJxdmZCR3VERXhWOFI0d056VDZuQ2JvM1dTVQ?oc=5" target="_blank">Report: Climate Change Adding Weeks of ‘Coffee-Harming Heat’ in Major Growing Regions</a>
         
     </div>
     
@@ -840,9 +888,15 @@
     <div class="article">
         <div class="article-meta">
             <span class="badge" style="background:#00BFFF;">Weather & Climate</span>
-            Daily Coffee News by Roast Magazine · 41d ago
+            Valor International · 41d ago
         </div>
-        <a href="https://news.google.com/rss/articles/CBMivwFBVV95cUxQeDFIMW5BelBMLXk4dUFTNFozdmRmUzZxbjZXRzVHYmlIcWRrdVNMQ1JodU1LU01zdnZySGlvNGxUWmRPMXQzOXNqTnVMRmFETFJSSnUyU0dXRlhSTGdtcm9yWkRxOW9CcGpsS19IZ2tUQWZyVDhKUmVKR2ZmVGVJRXJYaE9JWDZOTUNKR3ZoZllVQXBIUnpLaWRxN2ppN3hjWUJRQjJxdmZCR3VERXhWOFI0d056VDZuQ2JvM1dTVQ?oc=5" target="_blank">Report: Climate Change Adding Weeks of ‘Coffee-Harming Heat’ in Major Growing Regions</a>
+        <a href="https://news.google.com/rss/articles/CBMivgFBVV95cUxPR3U0Q1Fqci1wWXdGclk2al9ETHBITXdSMkotaVBlam9FMFo4dm5aSlA5N0RVLVoxdURmakhReGdHXy1YSG9hUEQxR2FqU0p4bmQ3RUx5dkEzM3A3Z05jeHY0bVpGR01pcDN6ZWxmWC1HRlVkNkthc0tWUDRGOG9fUXJpSEdYbEszaWxpSTk2c2JYNGhCUWl1SDRiWEpvRm5rYmZoZnZ5UEdDOThRS3BmeE1zRndYckY4OEJrTVpR0gHMAUFVX3lxTE1TZXd1WHBvSFNkclJNSUp5bDRoSXFwY0VHWnpDYl80ZnZyRVFFZ3hma1lCenpBakZ2ZWlfRFo2b2FOZXgtVG1xc2ZlNGdNUjhZcEFkbVFmS2k2NGJQSXA3SWpqaVpiWmhRdll3X1had3dlY1U4YjBNckFuUlB5SHY5ZnZ2TFJzaDVOYzVBckNvb2xCamlNSHY1Sl9Jc3lPdkRSR2NqRno4Q05GMmxYMXZxcndHVzlRNEVvU1Fuc0FtSkJhNVpaNWttUGF2bA?oc=5" target="_blank">Excess rains spur coffee diseases in Minas Gerais</a>
+        
+        <div class="regions">
+            
+            <span class="region-tag">Brazil</span>
+            
+        </div>
         
     </div>
     
@@ -1160,6 +1214,21 @@
     <div class="article">
         <div class="article-meta">
             <span class="badge" style="background:#00BFFF;">Weather & Climate</span>
+            Food and Agriculture Organization · 371d ago
+        </div>
+        <a href="https://news.google.com/rss/articles/CBMi5gFBVV95cUxQWmhlNU43Qms1LUc2UUNBMnNXRWxjbEY0NTF4SjJCaHo4ZDFNeHl2QjVMd1FZbEt2c21ERFBLSEp6UmR3dEg1aFltbDRsX3ZVNTVGV2JXS0xHN3dVcUFzdnp3Ym5keklKLXJia3ItV3hZbGNaQ1laRUt1TzFNeFBVN1JEQ2lEdDc0Tk5sUFJxNkd3a3JTZlc5SmgxcmhyOGxaRU5uMklrYjE0R2JZZjhMM2MySjk3cW8yN0pFMm1uM1NZOTFuTzNKM1I3SlU0Vy1LU0pUS0NCY1hDY21hRTRyQ2puUkdUUQ?oc=5" target="_blank">Asia Pacific WSP-FAO and Vietnam Unite to Tackle Drought with Cutting-Edge Water Monitoring</a>
+        
+        <div class="regions">
+            
+            <span class="region-tag">Vietnam</span>
+            
+        </div>
+        
+    </div>
+    
+    <div class="article">
+        <div class="article-meta">
+            <span class="badge" style="background:#00BFFF;">Weather & Climate</span>
             FOX Weather · 467d ago
         </div>
         <a href="https://news.google.com/rss/articles/CBMiekFVX3lxTFA1MWZENzVtVWdMOG1wRVVjeW9SNllqeUpNVUlDXzZEOFA5TWNMaTMybElZMVdRWWFONVB1MTNuQS1iYzNxc1RKRlQtM2lmdmpBRFpZN2wtdnlGRnBtTTlmU3dUV3BGOGpQWWVkU2ptUUd2NDVwd2EtMHpn0gF_QVVfeXFMT1lyWkM0UGx2b2pGLVQ5ZjJQWVhLRTJjV1puTWRDb2RIR0hLTkxmSFM4b3R3ajNfaUdjcFVPcnFyQ0dUUTZMRjNSY2tiSnAxN191SGU0TkhUMzJFWkNjUXRtRUY2a21hVFVVR01EekQyMXR0Z2xSeUFwMWlRT05KQQ?oc=5" target="_blank">Coffee prices hover around record highs after extreme weather in key growing regions</a>
@@ -1202,6 +1271,21 @@
             Reuters · 645d ago
         </div>
         <a href="https://news.google.com/rss/articles/CBMizAFBVV95cUxNMHZJcHNvUGpJUl84aWtWTVhHbFltb2UyT1dwUXRBRDZPSW1SYy1YdWt4WUZPRTlTU1NyVnZld2NJNkVBYTFBSzIyZFNfV3BISEE5U3hXMktQdUhRZV8wdk5pMWxFZThYZHpYdFJCRXBtdzhQY1RtcnJaU0w0Qm9PZ0MwelhlVHd1ejV1RTNmTG5vN0l2aDF3YW9ZRWRaUk9paUNjZGwxcnBtaU96YTk0NmNyQnZkUkZfdm9fV19acFdwT3JMSW1hSWZ0d1o?oc=5" target="_blank">Some Vietnam coffee farms thrive despite drought, but may not stop espresso price hikes</a>
+        
+        <div class="regions">
+            
+            <span class="region-tag">Vietnam</span>
+            
+        </div>
+        
+    </div>
+    
+    <div class="article">
+        <div class="article-meta">
+            <span class="badge" style="background:#00BFFF;">Weather & Climate</span>
+            VnExpress International · 664d ago
+        </div>
+        <a href="https://news.google.com/rss/articles/CBMitgFBVV95cUxNRDBUQ2VFdmk5bk5UR2x0S0pEYU5sZXd3eDNSWExfbTh4UmE4LWJUWWhNVmZjRThXbmJQT2szc1Bvd0NxODhhRVZDRGFCVmx1dnBhZGlVd1Yzek5CWVo4SU4zdjZwcFhqTkM5MGtob2MxTkF2TTdpbFJCU3B6TUlwQl96dERLS3VpblF5WW43emJYU3RzTDJlc1pwaU5JTGVxNUkzU1ZGUlVnNVM2V1V0WDRZZVhUdw?oc=5" target="_blank">Vietnam's coffee trees stunted by drought, heat and pests</a>
         
         <div class="regions">
             
@@ -1268,9 +1352,9 @@
     <div class="article">
         <div class="article-meta">
             <span class="badge" style="background:#00BFFF;">Weather & Climate</span>
-            Green Queen Media · 900d ago
+            Conservation International · 960d ago
         </div>
-        <a href="https://news.google.com/rss/articles/CBMiwgFBVV95cUxOQ0hXTUYwZVpmQ1VIWUVmdE9PakQzRFlsMzFBWl8tUDFhbi1rVHdZMlVSSU1uNWJMQlYwSVFIemZ0SlRCNVNPWTFXUkRlbTctbEZVSFdod1FQaHpSZVpieHVka1lkV3dOclBRUDd1MV9BUE01dXZ2VEZBa3pEazU1N1FVUm00dXVOWDdJSXpIcGoyOFI0U3paN003aXNaQXpnSjQ5ZjVYaTlibWxYMkZ3eHgwOGo5RnhobEM2RlBQTXMzUQ?oc=5" target="_blank">Starbucks Creates 6 New Climate-Resistant Coffee Beans</a>
+        <a href="https://news.google.com/rss/articles/CBMimgFBVV95cUxOX3VtUTBuWWtfMkhjcWxzNUk4UVo0VUJSV1BwYk10V1VhSWpWU3JfeWtmSlhoNjA0Mm5OX2NWZUtMd0VMMFI5MDdwOHA5VkI5ako5MXNMdG1DamlaWUhwQkl0b0NERGEwYURzZ0gwMTB3bE03YTZ6aU5ONS1WWGpFSUh2Sk9EbmJZSnR6S09Gb2t2NHRNd2dvMnJn?oc=5" target="_blank">How a 20-year partnership is addressing coffee's climate woes</a>
         
     </div>
     
@@ -1352,21 +1436,6 @@
     <div class="article">
         <div class="article-meta">
             <span class="badge" style="background:#00BFFF;">Weather & Climate</span>
-            STiR Coffee and Tea Magazine · 1658d ago
-        </div>
-        <a href="https://news.google.com/rss/articles/CBMiswFBVV95cUxPM0Y5bFVRdk9tV19Da3FUSklMRHByRHNGeE9LRWtJcEdoNkt2Y2tLU09JSEhyWXFIeHA0ZWdUT0dMak80N2xyWU1NN3N5ekR6QmdCOEdITlFmOXE2UEg0Z05RRG53eXEzcDFQTHk0cW5zYl91dUhjZnYyYzFtZjZ5NVdPVHVYRnBCbEwzRElCMDUyaEQwWXdqSU85WE85SzhVLXF5OS1KMVJDTUNTM0ppWTRqbw?oc=5" target="_blank">BREAKING: Vietnam’s 2021-22 Coffee Harvest Down on Dry Weather</a>
-        
-        <div class="regions">
-            
-            <span class="region-tag">Vietnam</span>
-            
-        </div>
-        
-    </div>
-    
-    <div class="article">
-        <div class="article-meta">
-            <span class="badge" style="background:#00BFFF;">Weather & Climate</span>
             Reuters · 1686d ago
         </div>
         <a href="https://news.google.com/rss/articles/CBMisAFBVV95cUxPS1dobWhoRmliMXdFUlZqWFhIREVDRU1pcUc0UXhfd3N4RC15RHNCT1hkYTlyekxDZGp0U0t4NTdXc1NNNWF6TU1SejdBbW9YV3JEOTZ3a3R2aDlBNkFFTTRuOVlyYVJ5OWZzcEVqQVYxZ3A1UVc1SUppRV9ZdmhubVRNQldlUURvSFVlZ3NjaG5GZjM4OUt5LXNSeWFuMjNBMnExcmRJWVIxTDNsSDN5Ng?oc=5" target="_blank">Researcher sees 4% loss to Brazil's 2022 coffee crop from frosts</a>
@@ -1439,21 +1508,6 @@
             migrationpolicy.org · 1867d ago
         </div>
         <a href="https://news.google.com/rss/articles/CBMioAFBVV95cUxOUWRDVTdXUXNPQlJkY1pMUnV6Uy1jWjZsTmdnSE1abFZoRWxONmliVlBBQURDdXpUUks3NkVHVkpmSDgwbkVlVzNsb3k1RmVCM1YtQlNBZ3gyVTBnLXBRVldHSXRVb2kwUDdrNWpVOW42cXhTWE9KbnlsUy1TRWp4Q0dKbDljc2I3LVl3d3Z0SkhMRVVtLUZJSGJqRHRiY2tX?oc=5" target="_blank">Climate Extremes, Food Insecurity, and Migration in Central America: A Complicated Nexus</a>
-        
-    </div>
-    
-    <div class="article">
-        <div class="article-meta">
-            <span class="badge" style="background:#00BFFF;">Weather & Climate</span>
-            State of the Planet · 1964d ago
-        </div>
-        <a href="https://news.google.com/rss/articles/CBMihAFBVV95cUxPZ2FmUENnSkp6aUxjMG91QWpyTU13RF9FX3JVeDdjNlprS0tmWUFZb1N0NUVPZlBhY0lfWk1IbzN4N2ROYkxTajNYZHlPb203cWh1U2VtNWlsWDM5NlhlakR4QkhMRHZfdjhnUVFzVmNmcEI2cTA3UXFhVUJUNWl4eU41UlQ?oc=5" target="_blank">Helping Vietnam’s Coffee Sector Become More Climate Resilient</a>
-        
-        <div class="regions">
-            
-            <span class="region-tag">Vietnam</span>
-            
-        </div>
         
     </div>
     
@@ -1564,7 +1618,7 @@
     
     
     <div class="article-group-header" style="color:#FF3B30;border-color:#FF3B30;">
-        ⚔️ Conflict & Instability — 37 articles
+        ⚔️ Conflict & Instability — 39 articles
     </div>
     
     <div class="article">
@@ -1645,6 +1699,21 @@
             Business Daily · 29d ago
         </div>
         <a href="https://news.google.com/rss/articles/CBMi1wFBVV95cUxNamk0MFBZT21CZ0h0OURuWXd0cHhMZURHY1M5WDNpVXRMSmQwUHVqbjQtSm9vYTN2eFEwU09KbUxsOGFVZTdTNldKaGVOMmZqUTVlWnFtY1pVN1hkUEdia3RBNVFuRDJZSG1lWmcwYkRIX2gtUEtSNmh1NzdpOVpnYXZPUXpXamRDbmFjZl9BeDBYUDlRbmdtY0N0a081dlAxS3FsOVRQUlZ5c3N0SXBTOHE3VUFacVhCS2FaLUdSQ2RudHQ5WU9OS3RaRG83Z1hKbENDYnJBNA?oc=5" target="_blank">Freight costs to rise as ships opt for longer routes on Iran conflict</a>
+        
+    </div>
+    
+    <div class="article">
+        <div class="article-meta">
+            <span class="badge" style="background:#FF3B30;">Conflict & Instability</span>
+            Trendsnafrica · 54d ago
+        </div>
+        <a href="https://news.google.com/rss/articles/CBMisAFBVV95cUxQVDBQeWw2RGFvbGdoUndnQ1A2ampudTdSUlUwWDFlMGRhT2cycUd2eHpDWDJzUnpaX2tsYWlSeXFGVzlHUVVjMnU3UHAyZDlFRFFTWER0b0lUeDRHSzEybzlLdUpLRzc4NlRWMTdLZFQyWlRQbHNQdS1OUUdjSGFyNFlRZXltbkQ0cUxwN09NdnA5Yno2UHFOUkM5c25uSkpDYVNHSkl5QjVEemZYTGJHRA?oc=5" target="_blank">EU Cites Progress in Ethiopia’s Coffee Sector Toward Deforestation-Free Supply Chains</a>
+        
+        <div class="regions">
+            
+            <span class="region-tag">Ethiopia</span>
+            
+        </div>
         
     </div>
     
@@ -1813,7 +1882,7 @@
     <div class="article">
         <div class="article-meta">
             <span class="badge" style="background:#FF3B30;">Conflict & Instability</span>
-            Global Coffee Report · 923d ago
+            gcrmag.com · 923d ago
         </div>
         <a href="https://news.google.com/rss/articles/CBMiiAFBVV95cUxPQV94eVRyeXFtVzlYLXNzeEUzTGhFY0JQblBMYXF0NmNyeGtkVWRyWEMzUm8xZDd0dG1xM2N6aFBDWWduN25ka29LYlFVNFktMHhaU0pHTVBSRTlsS29iY09sQkRJcnUzc3p2d1lJblhqbkNXdHZseFd0bUpCandweVJpSzRSWlV3?oc=5" target="_blank">How harvest migration is impacting the coffee supply chain</a>
         
@@ -1885,6 +1954,21 @@
             Perfect Daily Grind · 1482d ago
         </div>
         <a href="https://news.google.com/rss/articles/CBMie0FVX3lxTE9lZVYzTnU5NE5VZW5QVzN6UEpRTHZiU1BvNG41LXJBNUxsa3Z6aEFtSVhkUVZTa2k5WXBxeWtXSlI1Zkh3N3BBdGwwQzdwZHpST3N4QkJQVmRkTjY4SmoxMlhIQ1ZUSG1GVmZFNkp3Q3BYeG5heEV0cEFYSQ?oc=5" target="_blank">Civil war in Ethiopia: How is the situation affecting the coffee sector?</a>
+        
+        <div class="regions">
+            
+            <span class="region-tag">Ethiopia</span>
+            
+        </div>
+        
+    </div>
+    
+    <div class="article">
+        <div class="article-meta">
+            <span class="badge" style="background:#FF3B30;">Conflict & Instability</span>
+            World Socialist Web Site · 1604d ago
+        </div>
+        <a href="https://news.google.com/rss/articles/CBMiaEFVX3lxTE9zM2VPR05RMXh0YTF6cnhBWXRyVDVQNDg1M29OY3pYZ0xjMU4yaHBtaEp2QVpSejVsNU5zamdYanI3NHlRNV9oM04zSnZYWjdHY1RXMXl5ZEd0ZllmYS1peVR0TmhXZXhP?oc=5" target="_blank">Ethiopia’s war on Tigray threatens broader civil war</a>
         
         <div class="regions">
             
@@ -1992,7 +2076,7 @@
     
     
     <div class="article-group-header" style="color:#FFD700;border-color:#FFD700;">
-        📜 Trade Policy & Sanctions — 78 articles
+        📜 Trade Policy & Sanctions — 77 articles
     </div>
     
     <div class="article">
@@ -2109,15 +2193,6 @@
     <div class="article">
         <div class="article-meta">
             <span class="badge" style="background:#FFD700;">Trade Policy & Sanctions</span>
-            Trendsnafrica · 37d ago
-        </div>
-        <a href="https://news.google.com/rss/articles/CBMiygFBVV95cUxQS09lc0JIVk1CN05YUzFpZ3JjeVZLYm5nTkM2ejh2QkdmeGhoZjJValJPZDhPVExpdklMU2ZYZmdtME4wZDhlVjdmRjZmamhTQXlwdXc4bWRwRHdNUEp5ZkNwMWVRMFg0N3RWTW04bC1GemdiY1V2elh6dmZtM0NoRHNMZ1ZVajN6M2FhNkRWT0FtRTYtOVhrd2dncUNWdWRrWW1id1VRRGt0SnlRSkt1dzNVZ0hHc092OEtycTBLOUxBWkFwN1c3aFdn?oc=5" target="_blank">Kenya Mombasa Port Congestion and Customs Upgrades Disrupt Regional Coffee Shipments Across East Africa</a>
-        
-    </div>
-    
-    <div class="article">
-        <div class="article-meta">
-            <span class="badge" style="background:#FFD700;">Trade Policy & Sanctions</span>
             The Kenya Times · 38d ago
         </div>
         <a href="https://news.google.com/rss/articles/CBMiugFBVV95cUxOOTkyUUxqTHlMNUtsV0ZCZl9rRkl5TzBXZk1aUmg2dnZyU3FrbEkyN2RvVXlPU3VMTFJodThhSTdOMVlOZmtWSk51ZmtCMlRrZ0lMLUFFbVZOMF9jV0czck1HSWQ4NERZX25EZzJiUXZfTTFTcFVvU181T2dZNUpNZm00NTI4VDAxRE15bmsySjFwWElnMEFWWnVMN29nWHNVQWlvYVdNamhjZTQ3YlJmSEFNM0RPUW9hS3c?oc=5" target="_blank">Export Trucks Face Long Queues And Missed Deadlines At Mombasa Port</a>
@@ -2142,18 +2217,18 @@
     <div class="article">
         <div class="article-meta">
             <span class="badge" style="background:#FFD700;">Trade Policy & Sanctions</span>
-            Supply Chain Dive · 39d ago
+            NPR · 39d ago
         </div>
-        <a href="https://news.google.com/rss/articles/CBMilAFBVV95cUxQVU1lNTJkQlRkeEl3WjN3eEs0LVRsM2xZcmFRLWZqVkxfQmFCdWRnM3hwNEQtTmZfd1NrdC1RNFM1S2s5MjJnLWRtLXZGaDN3djA0b2t0djlsbEl6OXE5aVlHdTdaU0gtZ3JUTDRHSUZYcjc1dWZyLVBXWkpsOFRGSXNvMElvWGwydGhueHEySnBkTUw2?oc=5" target="_blank">Trump sets fresh 10% global tariff — and plans to increase further</a>
+        <a href="https://news.google.com/rss/articles/CBMihwFBVV95cUxQVjNrM0tPd1B6Z1lVMWZnZnBMemxfenN4cDloVmFGSjdTeTlrX0R3LWlFQXFNdk1rbE1sMkpRc3k3UmxXWmQwaHE4dWdwNnV3b3JpQ0t5MGZaSjBhVUQ1aFVidnVaSjJqOUNtZUFLZ1d2MmFudzJmM1pOMFJqSnoyTDdva1BCUlU?oc=5" target="_blank">7 key things to know about Trump's tariffs after the Supreme Court decision</a>
         
     </div>
     
     <div class="article">
         <div class="article-meta">
             <span class="badge" style="background:#FFD700;">Trade Policy & Sanctions</span>
-            NPR · 39d ago
+            Supply Chain Dive · 39d ago
         </div>
-        <a href="https://news.google.com/rss/articles/CBMihwFBVV95cUxQVjNrM0tPd1B6Z1lVMWZnZnBMemxfenN4cDloVmFGSjdTeTlrX0R3LWlFQXFNdk1rbE1sMkpRc3k3UmxXWmQwaHE4dWdwNnV3b3JpQ0t5MGZaSjBhVUQ1aFVidnVaSjJqOUNtZUFLZ1d2MmFudzJmM1pOMFJqSnoyTDdva1BCUlU?oc=5" target="_blank">7 key things to know about Trump's tariffs after the Supreme Court decision</a>
+        <a href="https://news.google.com/rss/articles/CBMilAFBVV95cUxQVU1lNTJkQlRkeEl3WjN3eEs0LVRsM2xZcmFRLWZqVkxfQmFCdWRnM3hwNEQtTmZfd1NrdC1RNFM1S2s5MjJnLWRtLXZGaDN3djA0b2t0djlsbEl6OXE5aVlHdTdaU0gtZ3JUTDRHSUZYcjc1dWZyLVBXWkpsOFRGSXNvMElvWGwydGhueHEySnBkTUw2?oc=5" target="_blank">Trump sets fresh 10% global tariff — and plans to increase further</a>
         
     </div>
     
@@ -2265,7 +2340,7 @@
     <div class="article">
         <div class="article-meta">
             <span class="badge" style="background:#FFD700;">Trade Policy & Sanctions</span>
-            Global Coffee Report · 68d ago
+            gcrmag.com · 68d ago
         </div>
         <a href="https://news.google.com/rss/articles/CBMiWkFVX3lxTE5CRGdHQWFsZHh0N2lHSkJLTkVoQjNzSmVEWi1NemZKSzhmVWtheHRLQU9keUl5bHQxX21PUmNQNmhJdW9YcmlDNjB0dTNDZE9ibFZDM2FyajN5Zw?oc=5" target="_blank">EUDR delays: a timeline</a>
         
@@ -2349,9 +2424,9 @@
     <div class="article">
         <div class="article-meta">
             <span class="badge" style="background:#FFD700;">Trade Policy & Sanctions</span>
-            France 24 · 130d ago
+            Valor International · 130d ago
         </div>
-        <a href="https://news.google.com/rss/articles/CBMimwFBVV95cUxNNlprdGFiTWZWcndkaVVoVmpteGVFalM3TktFb2xoSXRnMllFVVJBN0R3Y2pKNGdUSnNTU0UwUWNRQTVVd3E2VW5oaS1KSVNyclJIX1E1WlhIdVVGRXZOdG5sREl0MzdYUDZ1MWNGRktXLTcyUVpZbmhyWU1abE1jSENxamhmZFItdnZtSlQ2a1JTSHlWblJmbWNtUQ?oc=5" target="_blank">Trump eases tariffs on Brazilian food imports in bid to curb US price pressures</a>
+        <a href="https://news.google.com/rss/articles/CBMiywFBVV95cUxNRFh4UUtrVkNWT29yVkNyUWRmNHU3S1BieVZubU05djVXUXAxVXFUaGtTVXl4SXBNVzBMNTRJYlUxTlRHODMtOHh3V3M3ZG10Y1JMSDVXb242Q05nMFU3QXQ0ZGtzaXVlRHRZdHNHcjNJYldKeThoQjVPYVg0UGpkdy1pQkR2QWZNSlBpYkxFblBRRGVwZC1MRnlUbUFHNGZfLXVHMy1TNS1pM2poWGhYWFVxVWYzX2FHZTFacWJmX2lBVTBKM1RvV0QwWdIB2gFBVV95cUxQZllpYWlTSFpTaHZRckJ6RUtOTTREelFjYjlocUF1Z00xX3lfU0JGeFJsZGI2eEZXNjE5cHlEUFlkcUlISFlCYkUzNVdYeFZ1anVON2pHMW9Xd19zRGEtbkNNdGwwWm11T0xXS3pjV2p5bzBrSktDUGYzVmZaaURpUXNjZzVrdjNZMC1VX3BiWlJxZE92bXpPSG5hdENfU29qUlBCYzBnN3JzN2l6VzIzUjh0WU9sQVpZbHdTTFpYXzNJUTc2R0ZzQkR3OTdxdVlLaWNLRUJ4Q0x2dw?oc=5" target="_blank">Trump lifts 40% tariffs on Brazilian beef, coffee and fruit</a>
         
         <div class="regions">
             
@@ -2364,9 +2439,9 @@
     <div class="article">
         <div class="article-meta">
             <span class="badge" style="background:#FFD700;">Trade Policy & Sanctions</span>
-            valorinternational.globo.com · 130d ago
+            France 24 · 130d ago
         </div>
-        <a href="https://news.google.com/rss/articles/CBMiywFBVV95cUxNRFh4UUtrVkNWT29yVkNyUWRmNHU3S1BieVZubU05djVXUXAxVXFUaGtTVXl4SXBNVzBMNTRJYlUxTlRHODMtOHh3V3M3ZG10Y1JMSDVXb242Q05nMFU3QXQ0ZGtzaXVlRHRZdHNHcjNJYldKeThoQjVPYVg0UGpkdy1pQkR2QWZNSlBpYkxFblBRRGVwZC1MRnlUbUFHNGZfLXVHMy1TNS1pM2poWGhYWFVxVWYzX2FHZTFacWJmX2lBVTBKM1RvV0QwWdIB2gFBVV95cUxQZllpYWlTSFpTaHZRckJ6RUtOTTREelFjYjlocUF1Z00xX3lfU0JGeFJsZGI2eEZXNjE5cHlEUFlkcUlISFlCYkUzNVdYeFZ1anVON2pHMW9Xd19zRGEtbkNNdGwwWm11T0xXS3pjV2p5bzBrSktDUGYzVmZaaURpUXNjZzVrdjNZMC1VX3BiWlJxZE92bXpPSG5hdENfU29qUlBCYzBnN3JzN2l6VzIzUjh0WU9sQVpZbHdTTFpYXzNJUTc2R0ZzQkR3OTdxdVlLaWNLRUJ4Q0x2dw?oc=5" target="_blank">Trump lifts 40% tariffs on Brazilian beef, coffee and fruit</a>
+        <a href="https://news.google.com/rss/articles/CBMimwFBVV95cUxNNlprdGFiTWZWcndkaVVoVmpteGVFalM3TktFb2xoSXRnMllFVVJBN0R3Y2pKNGdUSnNTU0UwUWNRQTVVd3E2VW5oaS1KSVNyclJIX1E1WlhIdVVGRXZOdG5sREl0MzdYUDZ1MWNGRktXLTcyUVpZbmhyWU1abE1jSENxamhmZFItdnZtSlQ2a1JTSHlWblJmbWNtUQ?oc=5" target="_blank">Trump eases tariffs on Brazilian food imports in bid to curb US price pressures</a>
         
         <div class="regions">
             
@@ -2415,6 +2490,15 @@
     <div class="article">
         <div class="article-meta">
             <span class="badge" style="background:#FFD700;">Trade Policy & Sanctions</span>
+            Supply Chain Dive · 137d ago
+        </div>
+        <a href="https://news.google.com/rss/articles/CBMiogFBVV95cUxQbjBrbVdvX2xCQ2FicW4tdlBlbTgwSnUxVi0tSUJVb2cwNnRtSHliMnlaTEdBTWhlZjdKcDNDTkxheENMenE3d1h2SXVSYkc2SU9ndmJNT1ZWejNUSTZDUVhxRnFwTnRTRlRKSW43WmVRdlZVYjBXUFdjM1I4UTNGSUplVnBGX2NkYjk1VVdHbDREY3dWenNHRGVDbWtVYVhISEE?oc=5" target="_blank">US exempts 200+ agricultural products from reciprocal tariffs</a>
+        
+    </div>
+    
+    <div class="article">
+        <div class="article-meta">
+            <span class="badge" style="background:#FFD700;">Trade Policy & Sanctions</span>
             CTV News · 137d ago
         </div>
         <a href="https://news.google.com/rss/articles/CBMixwFBVV95cUxQalp5UkJzMkVaWG9HRFpTblhQd0VRVzRUUGVvZFVHM3g1Wjh1YTNzaWFHaEw3RGR3bExSbDl2M0V0Y1ktNmNoSWxsSjlpUnl3NHItci1GaEZDb3hZN1R3Nk1ZdUNxa0RmNTZPSFlkNkg0X3otRDVjTEMwZGxZTFpHNlctRXpWdGh4MXJPNVBkMW14UF9HMDI2M090V0VSOXFfaExuUXVPdDhOUE1nek1EMHlDQjZtYS1yTnV3NXEtTl8xTnZtNUdJ?oc=5" target="_blank">Trump lowers tariffs on beef, coffee, other foods as inflation concerns mount</a>
@@ -2433,9 +2517,9 @@
     <div class="article">
         <div class="article-meta">
             <span class="badge" style="background:#FFD700;">Trade Policy & Sanctions</span>
-            Supply Chain Dive · 137d ago
+            Flexport · 138d ago
         </div>
-        <a href="https://news.google.com/rss/articles/CBMiogFBVV95cUxQbjBrbVdvX2xCQ2FicW4tdlBlbTgwSnUxVi0tSUJVb2cwNnRtSHliMnlaTEdBTWhlZjdKcDNDTkxheENMenE3d1h2SXVSYkc2SU9ndmJNT1ZWejNUSTZDUVhxRnFwTnRTRlRKSW43WmVRdlZVYjBXUFdjM1I4UTNGSUplVnBGX2NkYjk1VVdHbDREY3dWenNHRGVDbWtVYVhISEE?oc=5" target="_blank">US exempts 200+ agricultural products from reciprocal tariffs</a>
+        <a href="https://news.google.com/rss/articles/CBMinwFBVV95cUxNU2ZTTlNaWmhjOGtIX0ttTnNQRjFkd21CZXgxRUFTZW1DRzRGUm1MM1F5bmdVUlR5TE1sbDRfQ3ExVC11ZThXWm9QT0d2MU9JZU05UDFxTmJDSDNLT1FGTGMwZG5FUmlaOXc0RXprMlBQQzBMUUtWMmpFUElHSTUwSXIyY040eVhYWXo4dEN0aUt4SWM2Vk43LVkyd1JzQkk?oc=5" target="_blank">Global Logistics Update: November 13, 2025</a>
         
     </div>
     
@@ -2445,15 +2529,6 @@
             BBC · 138d ago
         </div>
         <a href="https://news.google.com/rss/articles/CBMiWkFVX3lxTE5SOG9ZRlNRejZDbkhfVVJzbFEzVEpYaWx2Q3dNdjVXZkRDWlhqZFZkYmhOVUZhZFpDLTdBOWRtbVg5czNvZ3ZjamlWS0RZUmJmNjNhT0pwazBjZw?oc=5" target="_blank">US tariffs on coffee and bananas to ease under new trade deals</a>
-        
-    </div>
-    
-    <div class="article">
-        <div class="article-meta">
-            <span class="badge" style="background:#FFD700;">Trade Policy & Sanctions</span>
-            Flexport · 138d ago
-        </div>
-        <a href="https://news.google.com/rss/articles/CBMinwFBVV95cUxNU2ZTTlNaWmhjOGtIX0ttTnNQRjFkd21CZXgxRUFTZW1DRzRGUm1MM1F5bmdVUlR5TE1sbDRfQ3ExVC11ZThXWm9QT0d2MU9JZU05UDFxTmJDSDNLT1FGTGMwZG5FUmlaOXc0RXprMlBQQzBMUUtWMmpFUElHSTUwSXIyY040eVhYWXo4dEN0aUt4SWM2Vk43LVkyd1JzQkk?oc=5" target="_blank">Global Logistics Update: November 13, 2025</a>
         
     </div>
     
@@ -2565,7 +2640,7 @@
     <div class="article">
         <div class="article-meta">
             <span class="badge" style="background:#FFD700;">Trade Policy & Sanctions</span>
-            Global Coffee Report · 203d ago
+            gcrmag.com · 203d ago
         </div>
         <a href="https://news.google.com/rss/articles/CBMie0FVX3lxTE1NZ01tUEtESGhuNFVzM2s4ZUI3ZXoxT1NwYXNQZ0VyS1BoX3FTZml4V0VEY1NLTmczME5iTDU5dGgzUXlKZGZtMXZSQ0ZWQVpjb1Zwei1uT1BkbUhzWHdVZVBDbmZnMWxkSVBYZkFDNlJBcWpHWU5zN3pBOA?oc=5" target="_blank">Vietnam reports record export revenues</a>
         
@@ -2827,7 +2902,7 @@
     
     
     <div class="article-group-header" style="color:#00FF88;border-color:#00FF88;">
-        🌍 Environmental Regulation — 51 articles
+        🌍 Environmental Regulation — 54 articles
     </div>
     
     <div class="article">
@@ -2884,7 +2959,7 @@
     <div class="article">
         <div class="article-meta">
             <span class="badge" style="background:#00FF88;">Environmental Regulation</span>
-            valorinternational.globo.com · 35d ago
+            Valor International · 35d ago
         </div>
         <a href="https://news.google.com/rss/articles/CBMi2AFBVV95cUxQek02eWxjYWViYnNVbU95XzJTTVl4eXVmU3VKNXBJQ2dpbWxoV1NFbHFTWm1nc1Q3MHQyTlluMXpmQ3VpdEVUN3ZJMWMzR0NKdFcxRjVuUnlLelJlWms4aFc4TU9zeUJZSHdQd3Fjd1hSN3Nndm1SMnBYZnkwcEV5RVVlMmhwRjY5Z2syd2xxMnlzZE9BcnVjQ1NUWDRnT0dsdzZXZjlaUnJfLUh0X253QktzNXlhQ29UUjF6eWFsRzdEd1Bld29lcVhCYW9IdW9jWmplNzR1SHPSAecBQVVfeXFMUHFhZlNpZHBtWkRWV3BteUhXcDVFaS1TNlpESVkyNHBBWlpLdVQxaUwtSk9FMGY2Mkd6VjVXQ2tNN2pkY3kySlUzaVFJZXZsR3ZWeVF0bVU0U2pXN0Q3MmVELUhkWWRhazJRSDFmVVlFd25laDIzckFoQl96eE9fRkl1RFVkUkowc2x4aXRjbUtuSy1kX21MQnlKNE1CcUVFQk1vRzI2eU53UzNoX1VjV1FsTnlLaG1yTndzcC1BcVBXQ1B2YWRETEp2dWw0YmhtOUZYMGt6N2paYzM3UURLUi1zSzVoZXNn?oc=5" target="_blank">CONAB tracks in real time whether coffee meets EU environmental rules</a>
         
@@ -2902,7 +2977,7 @@
     <div class="article">
         <div class="article-meta">
             <span class="badge" style="background:#00FF88;">Environmental Regulation</span>
-            worldvision.org · 36d ago
+            World Vision · 36d ago
         </div>
         <a href="https://news.google.com/rss/articles/CBMigAFBVV95cUxNOTBBc0FOb0lCM0tDOEc0U1lObFJLTmRDM3ZXOVNaelFIU0xVOEpHejU0S3poaEdCakkxRFR6czJEekRtQVYzNlVKYjlTa3BuUHIzUnJWdXVHV0JpVTQ5X2FqY1MyUDNaNXktTExPYi13T05kMm1RME9wdnZJZmdabA?oc=5" target="_blank">Child labor: Facts, FAQs, and how to help</a>
         
@@ -2941,6 +3016,21 @@
             EEAS · 50d ago
         </div>
         <a href="https://news.google.com/rss/articles/CBMi-wFBVV95cUxNcTR3UldlZkxQeTRDZHExajBaVVpyVC13Y2pDTV81a3VJRnpuQU1qY1F1QWRLV2x1dFotZjUwb2wtMm9MQUVSczlNSmtvNWx6cmlseFNFeWw5eFFBOVU5Q3BEV2d5enQ0Tmc0MlRteVFWUUl0and3QWV5OXNyMGR1WHhGYlRsalUzZjNBQnlzdXhCLWh0OGpyNWUzZ2l6WFdsaDVmM1M2WmQ2WUVyZl9rWDh6c1IwOTI2cHg4dElxV0VPUlhvYXZGalNIWkpjYnhRc0Z3OGRZU1NJMzV0LTJtWXBjZ0xRd1VzZ2NGTDl5T2NPWElfdHEzM0xvOA?oc=5" target="_blank">The new African Standard : A game changer bringing new opportunities for EU’s Deforestation-free Regulation (EUDR)</a>
+        
+    </div>
+    
+    <div class="article">
+        <div class="article-meta">
+            <span class="badge" style="background:#00FF88;">Environmental Regulation</span>
+            Trendsnafrica · 54d ago
+        </div>
+        <a href="https://news.google.com/rss/articles/CBMisAFBVV95cUxQVDBQeWw2RGFvbGdoUndnQ1A2ampudTdSUlUwWDFlMGRhT2cycUd2eHpDWDJzUnpaX2tsYWlSeXFGVzlHUVVjMnU3UHAyZDlFRFFTWER0b0lUeDRHSzEybzlLdUpLRzc4NlRWMTdLZFQyWlRQbHNQdS1OUUdjSGFyNFlRZXltbkQ0cUxwN09NdnA5Yno2UHFOUkM5c25uSkpDYVNHSkl5QjVEemZYTGJHRA?oc=5" target="_blank">EU Cites Progress in Ethiopia’s Coffee Sector Toward Deforestation-Free Supply Chains</a>
+        
+        <div class="regions">
+            
+            <span class="region-tag">Ethiopia</span>
+            
+        </div>
         
     </div>
     
@@ -3052,6 +3142,15 @@
     <div class="article">
         <div class="article-meta">
             <span class="badge" style="background:#00FF88;">Environmental Regulation</span>
+            Business Wire · 142d ago
+        </div>
+        <a href="https://news.google.com/rss/articles/CBMimANBVV95cUxNTjhPNm1hZXpOSmxlXzZ0N2xJRXFDc0F0VlpBeDhhdDByYlVpVHdhT2JreVFqWWhyN3lrQ0JTWDM5ejlyM0Rlb1VwSEg2R0pTYzZ1enY4QV8zZV9HTXc2eV9sVHliYVpiT2hab0NNN1RlVXBIT3huUk9xS1NmUUQ0b2thQ00zLU1SWkw3MS16VXJvVVpFLU9HeWo2dklTeVJLOUR1Y1FETXM1ajNhYUdEbDdJcGdzenR4N0xNNl9aWkp0TVBTUmh5Tk0xYko1MXAyS1drS21VYTdxSTZEeXRYMU1sb2FSV1pjWnNQRHdpU2JxSmkyV3NfUWRmc3ZfdGcyQWZDUUU0YVpYcWxDMXhhb2J1SzIxR0N2aEZiSi13b21QcWV1R3JkelU4MkdyVldtQndoUWY4eExrNEJCOHFqVVB2SXo3eS1rX2pkaWdwWV9HbXBOZ1g5cXd3VHEzZzk3UWlJa2xUbzREUno2cmtKWG41UDJ5S3R3b2Fwa0hzS2xwdERBNldTa3ppQWdKVzFFZUhCLVlfclU?oc=5" target="_blank">Kirin: Development of a Fermented Ingredient Derived from Coffee Cherries to Enhance Body and Aroma Contributing to the Sustainability of Coffee Farms, Reduction of Environmental Impact, and Addressing Alcohol-related Social Issues</a>
+        
+    </div>
+    
+    <div class="article">
+        <div class="article-meta">
+            <span class="badge" style="background:#00FF88;">Environmental Regulation</span>
             Agroberichten Buitenland · 153d ago
         </div>
         <a href="https://news.google.com/rss/articles/CBMi3wFBVV95cUxQZFJKdUZLdTFxd0M4QnBPQWVKQ0syZHR5SjIzVlBzeDRCTE1oV3NSVUhLUXV0VHIxWWQ0YTNpLWhBLS1YRVJya0Rfd2stSFh4ZGRPLWdMRXVFcU9Cd251dUJ5OXZTOVV1ZnJMQ3YwMS1IV3J0elhTYTBpOWZZTl90VHE4TEYtWVRNOUF1aFE5NGdnTTRMRlVxcEliMHZBNC1zWGFSeFZ6T1R4Wm9aMFo1MTI2MWdhcDRQaThEMUV4Z0VQV3VkbndiYWJHZTNsbkdWMU42RDdLT2Y4VjlLRXBJ?oc=5" target="_blank">Sustainable coffee from Vietnam: scaling solutions for a deforestation-free future</a>
@@ -3070,6 +3169,15 @@
             Future Market Insights · 166d ago
         </div>
         <a href="https://news.google.com/rss/articles/CBMilgFBVV95cUxNOUU2aEctSXdxN2FUVFBOTmlKV0lQWDBtUkhfbnBUdjNwNUI5dnFyLXF6NnlxaU05WU9aS2Ixa2FxY3NOaXl4bjNWaHhiempmZE03bEE2VTNDMGJNVzAwanBSQUVTdWZNV3RSZEpVQXRmMGhhMDJtcmlMek5jUW1XRGtaRWNQTjQ4ZUJXWjZWUDRWNUk2T0E?oc=5" target="_blank">Demand for Organic Fertilizer in North America | Global Market Analysis Report - 2035</a>
+        
+    </div>
+    
+    <div class="article">
+        <div class="article-meta">
+            <span class="badge" style="background:#00FF88;">Environmental Regulation</span>
+            Sustainability Magazine · 169d ago
+        </div>
+        <a href="https://news.google.com/rss/articles/CBMilwFBVV95cUxPbkhBdlRVX050a1VqT041Szdab2Q0TTdCOE5lYlZOeGN6UEotWTdVOTVoallwOWFENHpKVjBfUl9Mbk1sVU9JVTg2X0diRjlaWU9XRU43YXlnWWhmR05aZmNTd1p6TnB0V0QwT18zRmxGaTNpYnJXRUkya25HVkpTVnM5LS13cDQ1NVVPdWlLcFh6YmNBWThV?oc=5" target="_blank">Why is Starbucks the World’s Most Sustainable Coffee Chain?</a>
         
     </div>
     
@@ -3106,7 +3214,7 @@
     <div class="article">
         <div class="article-meta">
             <span class="badge" style="background:#00FF88;">Environmental Regulation</span>
-            bruegel.org · 187d ago
+            Bruegel · 187d ago
         </div>
         <a href="https://news.google.com/rss/articles/CBMiuwFBVV95cUxNMnI4Q1NFd2U0Q2I3eS03TjdDa1dvMVRzZ3k5VmF2ZEs3R0twSWxPa0dRNG9Zdjd4amtPdHJNdU5TVHQ5LVpGb1dpaEhjdzN2RlYxeHIyZ09NXzFmWnBqSmViaHluZWRVVHc5c3N5eE53NmxqaHF2R1pSMk12eTRXeURpQVMwSVhNc1VibVR0NHNBYk1Ib01IdGdDd2JYbnhsLU1xMGRUX2xFcW92b2xEM2FnTEFUWkRxaG9n?oc=5" target="_blank">Coffee and chocolate lovers should want EU deforestation rules in force without delay</a>
         
@@ -3124,7 +3232,7 @@
     <div class="article">
         <div class="article-meta">
             <span class="badge" style="background:#00FF88;">Environmental Regulation</span>
-            Global Coffee Report · 203d ago
+            gcrmag.com · 203d ago
         </div>
         <a href="https://news.google.com/rss/articles/CBMie0FVX3lxTE1NZ01tUEtESGhuNFVzM2s4ZUI3ZXoxT1NwYXNQZ0VyS1BoX3FTZml4V0VEY1NLTmczME5iTDU5dGgzUXlKZGZtMXZSQ0ZWQVpjb1Zwei1uT1BkbUhzWHdVZVBDbmZnMWxkSVBYZkFDNlJBcWpHWU5zN3pBOA?oc=5" target="_blank">Vietnam reports record export revenues</a>
         
@@ -3363,7 +3471,7 @@
     
     
     <div class="article-group-header" style="color:#FF9500;border-color:#FF9500;">
-        🚢 Supply Chain & Logistics — 87 articles
+        🚢 Supply Chain & Logistics — 81 articles
     </div>
     
     <div class="article">
@@ -3456,18 +3564,18 @@
     <div class="article">
         <div class="article-meta">
             <span class="badge" style="background:#FF9500;">Supply Chain & Logistics</span>
-            Fortune Business Insights · 29d ago
+            Business Daily · 29d ago
         </div>
-        <a href="https://news.google.com/rss/articles/CBMikgFBVV95cUxOMmVpb2h0QU9wSFBpYjU1bnRKX3RJckQ3VjNOU2FHdFU3eVI4dE1QQ1NLYkdoZ3RxQ3J0NDd4UExfNGVRd0RCOFJ3OXhOM2t4X0lQTU9Bby1KODBXTGhIbjl2UlFzRW9wVlFQRUVCMV9hSnlJdWZFMGJjT0V6b3pfRl9pcXJZWkhjTVlPc09uNjZ2Zw?oc=5" target="_blank">Organic Beverages Market Size, Share | Industry Report [2034]</a>
+        <a href="https://news.google.com/rss/articles/CBMi1wFBVV95cUxNamk0MFBZT21CZ0h0OURuWXd0cHhMZURHY1M5WDNpVXRMSmQwUHVqbjQtSm9vYTN2eFEwU09KbUxsOGFVZTdTNldKaGVOMmZqUTVlWnFtY1pVN1hkUEdia3RBNVFuRDJZSG1lWmcwYkRIX2gtUEtSNmh1NzdpOVpnYXZPUXpXamRDbmFjZl9BeDBYUDlRbmdtY0N0a081dlAxS3FsOVRQUlZ5c3N0SXBTOHE3VUFacVhCS2FaLUdSQ2RudHQ5WU9OS3RaRG83Z1hKbENDYnJBNA?oc=5" target="_blank">Freight costs to rise as ships opt for longer routes on Iran conflict</a>
         
     </div>
     
     <div class="article">
         <div class="article-meta">
             <span class="badge" style="background:#FF9500;">Supply Chain & Logistics</span>
-            Business Daily · 29d ago
+            Fortune Business Insights · 29d ago
         </div>
-        <a href="https://news.google.com/rss/articles/CBMi1wFBVV95cUxNamk0MFBZT21CZ0h0OURuWXd0cHhMZURHY1M5WDNpVXRMSmQwUHVqbjQtSm9vYTN2eFEwU09KbUxsOGFVZTdTNldKaGVOMmZqUTVlWnFtY1pVN1hkUEdia3RBNVFuRDJZSG1lWmcwYkRIX2gtUEtSNmh1NzdpOVpnYXZPUXpXamRDbmFjZl9BeDBYUDlRbmdtY0N0a081dlAxS3FsOVRQUlZ5c3N0SXBTOHE3VUFacVhCS2FaLUdSQ2RudHQ5WU9OS3RaRG83Z1hKbENDYnJBNA?oc=5" target="_blank">Freight costs to rise as ships opt for longer routes on Iran conflict</a>
+        <a href="https://news.google.com/rss/articles/CBMikgFBVV95cUxOMmVpb2h0QU9wSFBpYjU1bnRKX3RJckQ3VjNOU2FHdFU3eVI4dE1QQ1NLYkdoZ3RxQ3J0NDd4UExfNGVRd0RCOFJ3OXhOM2t4X0lQTU9Bby1KODBXTGhIbjl2UlFzRW9wVlFQRUVCMV9hSnlJdWZFMGJjT0V6b3pfRl9pcXJZWkhjTVlPc09uNjZ2Zw?oc=5" target="_blank">Organic Beverages Market Size, Share | Industry Report [2034]</a>
         
     </div>
     
@@ -3486,15 +3594,6 @@
             ZAWYA · 34d ago
         </div>
         <a href="https://news.google.com/rss/articles/CBMipAFBVV95cUxQd1NsV0pzYk5xN1JFWjRodkl4UURvLVlMdlVpTWxiaGFaUmJWSlZOLW42VTFhaGtyYVNiQ1FwRmlrTFBuTndmZzYzVjlRTzQxVDNEZ1ZSaE11NEJkNnc2cF96bzJOVVBJWHE0ZENDU3Zib0d3aXBPWXlFdE5sVFd6RHlpMWpLLUpydGtFWEZPVE1LNUpVUlRERTBvUXhHTnNVbUl5Sg?oc=5" target="_blank">Kenya: Mombasa Port congestion disrupts coffee exports</a>
-        
-    </div>
-    
-    <div class="article">
-        <div class="article-meta">
-            <span class="badge" style="background:#FF9500;">Supply Chain & Logistics</span>
-            Trendsnafrica · 37d ago
-        </div>
-        <a href="https://news.google.com/rss/articles/CBMiygFBVV95cUxQS09lc0JIVk1CN05YUzFpZ3JjeVZLYm5nTkM2ejh2QkdmeGhoZjJValJPZDhPVExpdklMU2ZYZmdtME4wZDhlVjdmRjZmamhTQXlwdXc4bWRwRHdNUEp5ZkNwMWVRMFg0N3RWTW04bC1GemdiY1V2elh6dmZtM0NoRHNMZ1ZVajN6M2FhNkRWT0FtRTYtOVhrd2dncUNWdWRrWW1id1VRRGt0SnlRSkt1dzNVZ0hHc092OEtycTBLOUxBWkFwN1c3aFdn?oc=5" target="_blank">Kenya Mombasa Port Congestion and Customs Upgrades Disrupt Regional Coffee Shipments Across East Africa</a>
         
     </div>
     
@@ -3561,6 +3660,21 @@
     <div class="article">
         <div class="article-meta">
             <span class="badge" style="background:#FF9500;">Supply Chain & Logistics</span>
+            Trendsnafrica · 54d ago
+        </div>
+        <a href="https://news.google.com/rss/articles/CBMisAFBVV95cUxQVDBQeWw2RGFvbGdoUndnQ1A2ampudTdSUlUwWDFlMGRhT2cycUd2eHpDWDJzUnpaX2tsYWlSeXFGVzlHUVVjMnU3UHAyZDlFRFFTWER0b0lUeDRHSzEybzlLdUpLRzc4NlRWMTdLZFQyWlRQbHNQdS1OUUdjSGFyNFlRZXltbkQ0cUxwN09NdnA5Yno2UHFOUkM5c25uSkpDYVNHSkl5QjVEemZYTGJHRA?oc=5" target="_blank">EU Cites Progress in Ethiopia’s Coffee Sector Toward Deforestation-Free Supply Chains</a>
+        
+        <div class="regions">
+            
+            <span class="region-tag">Ethiopia</span>
+            
+        </div>
+        
+    </div>
+    
+    <div class="article">
+        <div class="article-meta">
+            <span class="badge" style="background:#FF9500;">Supply Chain & Logistics</span>
             vietnamnews.vn · 56d ago
         </div>
         <a href="https://news.google.com/rss/articles/CBMiwAFBVV95cUxPQUUzV1FEYkd6SkpZNExlM3BHNEtkUFRTckJ6SE1qeWZyQThzN2hjNGpTakZGUkRhZlpxcExScGVXMDdJUDhwQUJDLWJvc1ItMXozbnZlcUZ2elJEYjR4MW9xR1A5RFFpY2NCRTRsQUlyUFM0WnN3c05xTWxNT3ZBcUxJM0FfRkd5dno4NzdMZGhPNXBEbXk3U2NvUVJQbEpjb1VhOTl2R1kydzRYQUl1TjNXeHQxY1l2cVd4VDZINGE?oc=5" target="_blank">Vietnamese coffee exporters urged to revamp supply chains for stricter EU rules</a>
@@ -3600,7 +3714,7 @@
     <div class="article">
         <div class="article-meta">
             <span class="badge" style="background:#FF9500;">Supply Chain & Logistics</span>
-            Global Coffee Report · 68d ago
+            gcrmag.com · 68d ago
         </div>
         <a href="https://news.google.com/rss/articles/CBMiWkFVX3lxTE5CRGdHQWFsZHh0N2lHSkJLTkVoQjNzSmVEWi1NemZKSzhmVWtheHRLQU9keUl5bHQxX21PUmNQNmhJdW9YcmlDNjB0dTNDZE9ibFZDM2FyajN5Zw?oc=5" target="_blank">EUDR delays: a timeline</a>
         
@@ -3714,18 +3828,18 @@
     <div class="article">
         <div class="article-meta">
             <span class="badge" style="background:#FF9500;">Supply Chain & Logistics</span>
-            The Guardian · 137d ago
+            Supply Chain Dive · 137d ago
         </div>
-        <a href="https://news.google.com/rss/articles/CBMidEFVX3lxTFBtZWdvTkxURnFtVDZOZE5ub3lkaHBVa0JqdEd4RDFXZ0VXYWpLc3dmYU9PMEhoVzkzcVdhSWRRRm5LMjV0Q3Q2WVpXakdTbG45SVY5aF9BV0k2aEtnTHNyMEJpWUxTWWM5ODBxVTFhb3RpRDVL?oc=5" target="_blank">Trump reverses course and cuts tariffs on US food imports</a>
+        <a href="https://news.google.com/rss/articles/CBMiogFBVV95cUxQbjBrbVdvX2xCQ2FicW4tdlBlbTgwSnUxVi0tSUJVb2cwNnRtSHliMnlaTEdBTWhlZjdKcDNDTkxheENMenE3d1h2SXVSYkc2SU9ndmJNT1ZWejNUSTZDUVhxRnFwTnRTRlRKSW43WmVRdlZVYjBXUFdjM1I4UTNGSUplVnBGX2NkYjk1VVdHbDREY3dWenNHRGVDbWtVYVhISEE?oc=5" target="_blank">US exempts 200+ agricultural products from reciprocal tariffs</a>
         
     </div>
     
     <div class="article">
         <div class="article-meta">
             <span class="badge" style="background:#FF9500;">Supply Chain & Logistics</span>
-            Supply Chain Dive · 137d ago
+            The Guardian · 137d ago
         </div>
-        <a href="https://news.google.com/rss/articles/CBMiogFBVV95cUxQbjBrbVdvX2xCQ2FicW4tdlBlbTgwSnUxVi0tSUJVb2cwNnRtSHliMnlaTEdBTWhlZjdKcDNDTkxheENMenE3d1h2SXVSYkc2SU9ndmJNT1ZWejNUSTZDUVhxRnFwTnRTRlRKSW43WmVRdlZVYjBXUFdjM1I4UTNGSUplVnBGX2NkYjk1VVdHbDREY3dWenNHRGVDbWtVYVhISEE?oc=5" target="_blank">US exempts 200+ agricultural products from reciprocal tariffs</a>
+        <a href="https://news.google.com/rss/articles/CBMidEFVX3lxTFBtZWdvTkxURnFtVDZOZE5ub3lkaHBVa0JqdEd4RDFXZ0VXYWpLc3dmYU9PMEhoVzkzcVdhSWRRRm5LMjV0Q3Q2WVpXakdTbG45SVY5aF9BV0k2aEtnTHNyMEJpWUxTWWM5ODBxVTFhb3RpRDVL?oc=5" target="_blank">Trump reverses course and cuts tariffs on US food imports</a>
         
     </div>
     
@@ -3807,15 +3921,6 @@
     <div class="article">
         <div class="article-meta">
             <span class="badge" style="background:#FF9500;">Supply Chain & Logistics</span>
-            Global Coffee Report · 174d ago
-        </div>
-        <a href="https://news.google.com/rss/articles/CBMihAFBVV95cUxNQUdyQ0tFX2VCbW1xbE8td1BaRzBVRUhHcU1xc1NKUVNtZWJpMDROOVlZYlVNcTN5cUZVMEQ0MFRzUFpUNHExSTZUZUZ5RXNUdTB6anVjclBYdG13OWFTMHFLV0xCVnhlcTE5Wk40S1VzOVIxc0t1TjRmSHNUcm9vUmJqRm4?oc=5" target="_blank">Is India set to be the world’s next top coffee producer?</a>
-        
-    </div>
-    
-    <div class="article">
-        <div class="article-meta">
-            <span class="badge" style="background:#FF9500;">Supply Chain & Logistics</span>
             VIR · 175d ago
         </div>
         <a href="https://news.google.com/rss/articles/CBMiswFBVV95cUxQX0dnSHpnbXpoQ0JnWDNtVEhmd1hORlpWMlJVZ2FTWXdVVGV2ZElZamlObmZWb0VmMEs2eUFwRUdDLU9CNDVfVVNFUVBZSlBMNXAxNXoybkVWSzI4dDB6NEZiVEJ1Uk9ZNGZmbW04LUpBSDNVTm1KdTgyV2pTTjcwdG9OeTNDeENFM09hNDVSRGFBVHotUUhuSUYwRFo4UndZQ1pUMEtKaXZrWFlGQWVaOVhrQQ?oc=5" target="_blank">Voluntary Sustainability Standards redefining the future of Vietnam’s green exports - Vietnam Investment Review</a>
@@ -3855,7 +3960,7 @@
     <div class="article">
         <div class="article-meta">
             <span class="badge" style="background:#FF9500;">Supply Chain & Logistics</span>
-            bruegel.org · 187d ago
+            Bruegel · 187d ago
         </div>
         <a href="https://news.google.com/rss/articles/CBMiuwFBVV95cUxNMnI4Q1NFd2U0Q2I3eS03TjdDa1dvMVRzZ3k5VmF2ZEs3R0twSWxPa0dRNG9Zdjd4amtPdHJNdU5TVHQ5LVpGb1dpaEhjdzN2RlYxeHIyZ09NXzFmWnBqSmViaHluZWRVVHc5c3N5eE53NmxqaHF2R1pSMk12eTRXeURpQVMwSVhNc1VibVR0NHNBYk1Ib01IdGdDd2JYbnhsLU1xMGRUX2xFcW92b2xEM2FnTEFUWkRxaG9n?oc=5" target="_blank">Coffee and chocolate lovers should want EU deforestation rules in force without delay</a>
         
@@ -3873,7 +3978,7 @@
     <div class="article">
         <div class="article-meta">
             <span class="badge" style="background:#FF9500;">Supply Chain & Logistics</span>
-            Global Coffee Report · 203d ago
+            gcrmag.com · 203d ago
         </div>
         <a href="https://news.google.com/rss/articles/CBMie0FVX3lxTE1NZ01tUEtESGhuNFVzM2s4ZUI3ZXoxT1NwYXNQZ0VyS1BoX3FTZml4V0VEY1NLTmczME5iTDU5dGgzUXlKZGZtMXZSQ0ZWQVpjb1Zwei1uT1BkbUhzWHdVZVBDbmZnMWxkSVBYZkFDNlJBcWpHWU5zN3pBOA?oc=5" target="_blank">Vietnam reports record export revenues</a>
         
@@ -3951,15 +4056,6 @@
     <div class="article">
         <div class="article-meta">
             <span class="badge" style="background:#FF9500;">Supply Chain & Logistics</span>
-            Global Coffee Report · 265d ago
-        </div>
-        <a href="https://news.google.com/rss/articles/CBMiigFBVV95cUxNbGZxazFyb0k2TDZXZ0paR3NyTnZFSTBmeHZ2cmktdFc2Y0UzTG5BWGdEMzlUc3pSNzBTLUVTUmM4ZG9zQWx1VEtXeVJreFc4aXZjdHhtNExfWUpFWThCcjJhNnJtQ0Y4amE0ZlJiZWwxNjI4SE5PTGdjOFVKUGtZcHFodXhnblNLWkE?oc=5" target="_blank">Fighting fungus with fungus: a solution to coffee leaf rust?</a>
-        
-    </div>
-    
-    <div class="article">
-        <div class="article-meta">
-            <span class="badge" style="background:#FF9500;">Supply Chain & Logistics</span>
             Reuters · 265d ago
         </div>
         <a href="https://news.google.com/rss/articles/CBMixgFBVV95cUxPNk5PZjdTVTBsTnhleVRJNEIxN0ltb2lWa0hmcENQNEQ1Qk5qYnZQUVQ3d01aNHgwdVZ2X21HX0hjczJVZmN3Vi1wR0tVQWpUX2JQbXc2Y1E4UWFyeENxaWJSMXlFYW5YVm1fWUhrc2NOT2lkOE9GTnBrQno1QVpXQTFmVTVDYXpHOVB4cklzU0N6c2R4UzIwNi00aWFpWGZWTDZXYWZ6aFVkR2dWX0dWbkc4dnF1TldSY1drTy1xQWVzUDBPOXc?oc=5" target="_blank">Coffee maker Lavazza calls for further delay to EU deforestation law</a>
@@ -4023,6 +4119,15 @@
             Daily Coffee News by Roast Magazine · 307d ago
         </div>
         <a href="https://news.google.com/rss/articles/CBMiuwFBVV95cUxPUklaSjV1V0RzRUpkT1FnM0R5WHpOclRRTXM2WnNFcDZZQ0ctNzdmNTdUZnlmdVRCOWprNVIwdFNVUlliR19iS3JyaS1iWU12TVA4Tk01b0hsODgwMDcxYXQtQnVsa0lGM28yQkcyanh3OGxzS1VPd2x2YUQ3U2JfSFVmSEVkY1JXODZUNms2NUhYcHRzRlR5cFIwcnd6c0lrY3cyamlnN2hKY0t0b3JLa0sxNUxEWkdHbThz?oc=5" target="_blank">Nicaragua Coffee Report: Weather Helps Production Though Smallholders Challenged</a>
+        
+    </div>
+    
+    <div class="article">
+        <div class="article-meta">
+            <span class="badge" style="background:#FF9500;">Supply Chain & Logistics</span>
+            DatamarNews · 308d ago
+        </div>
+        <a href="https://news.google.com/rss/articles/CBMikgFBVV95cUxPb1BIS0Z5bzJXMS1pU1RobVZUdlZ5aHpqS2xXaUVsV3lHd1NMOXItRDBwYUxnMnJyTy1nQW5GRTBHRkVxb3gwUmlaelljV2R1NWdJcnN5dUh1bFlaVHFubGlYenhJc3FlRHpGU0FLZXVrTTlwbFh5M0d2QnhHS1UyMldaYlJha1FmZHRzUTBQclF1UQ?oc=5" target="_blank">Port Congestion in Europe Threatens Global Trade Flows</a>
         
     </div>
     
@@ -4131,30 +4236,6 @@
     <div class="article">
         <div class="article-meta">
             <span class="badge" style="background:#FF9500;">Supply Chain & Logistics</span>
-            Global Coffee Report · 377d ago
-        </div>
-        <a href="https://news.google.com/rss/articles/CBMiZ0FVX3lxTE16RDVKMWpPVkRZc0d0TXZTcGtXbU83SWxmanMwNE11ei1Xa2w1WDVKSFhsMVp2NTJQQm1CLUwxR3A5bFpiVndIQnZVeFdwVWs5VDZkOExJTThwWXYtY2ZfaC1lMklVYzg?oc=5" target="_blank">Vietnam’s coffee harvest headache</a>
-        
-        <div class="regions">
-            
-            <span class="region-tag">Vietnam</span>
-            
-        </div>
-        
-    </div>
-    
-    <div class="article">
-        <div class="article-meta">
-            <span class="badge" style="background:#FF9500;">Supply Chain & Logistics</span>
-            TradingView · 389d ago
-        </div>
-        <a href="https://news.google.com/rss/articles/CBMi2wFBVV95cUxQc0dGVm00d2E2WjVweUotWUVQY2pmWEYwOFBNSDl5YS1tNm5FcFBFM1dhWmFLM0pCNGRLUy1Qc3FjbkZXM0V3bm55akdQam51VzFtNHZxU2VHNG1hOFpEMkZqamlUejhqQXdVaFlWQVdvcHZkUGMxX0drMEt0b2V5dkZ2MlhGTWRPUHNrSnRrS2ZXb05qa2NybVZSc1pjUm9OZmstNEhjSkFFN0ZzWjVvLVMtRTRNeTVQRFd1dlM0MXJNeWdvMWQ0cERqWktKRldJZU5qSVFBZDVOM00?oc=5" target="_blank">Global coffee crisis brews as soaring prices disrupt supply chains and rattle industry</a>
-        
-    </div>
-    
-    <div class="article">
-        <div class="article-meta">
-            <span class="badge" style="background:#FF9500;">Supply Chain & Logistics</span>
             The Daily Princetonian · 390d ago
         </div>
         <a href="https://news.google.com/rss/articles/CBMiyAFBVV95cUxOeXlvempSTTc5NXAzT2pXLUdIYlpEU25fTUEyczExb1lWZU5JOGJ1ZkRwY0dkN0dlOHhmRXdZZUc1R0NkNHB5N0NxN2F4akY3b1h2MVZOUm5nbFB2RVg2Y0syVU9PREJvR3ZubTBDbHEtUTk3WlZVczBuU2syd3BKV00yOWxlLTBEZGFjZFc1dmJvSFNSQWFUTFJzTm1fQXQ0ZW1YMUpwdXVlZEtfcWxBdVFVOFIxVzRJcG44OEN2aDBKZ2FKNi1JSw?oc=5" target="_blank">Small World Coffee raises prices in response to supply shortage</a>
@@ -4182,30 +4263,6 @@
     <div class="article">
         <div class="article-meta">
             <span class="badge" style="background:#FF9500;">Supply Chain & Logistics</span>
-            Global Coffee Report · 516d ago
-        </div>
-        <a href="https://news.google.com/rss/articles/CBMikAFBVV95cUxNeGdnX0xjNVRHOGVSNkhyRXctdGZ5R2p2Q0FYX0E2bVhxOUtUUlk2N1FpbjhYNjdMMEU0WWJSeVZWLVVDNDR0dUJLa19oV2NEUG1Xa0s3TDIwbTZCalpTNlVyODBmWWh1cFNSTzY3T0lMZUhNa2Q2a19oeU9JN2Vacl9OVWFfLWhiUGtyRmhBSlo?oc=5" target="_blank">Reality hit: Brazil’s coffee industry still struggling to recover</a>
-        
-        <div class="regions">
-            
-            <span class="region-tag">Brazil</span>
-            
-        </div>
-        
-    </div>
-    
-    <div class="article">
-        <div class="article-meta">
-            <span class="badge" style="background:#FF9500;">Supply Chain & Logistics</span>
-            Global Coffee Report · 545d ago
-        </div>
-        <a href="https://news.google.com/rss/articles/CBMikAFBVV95cUxNeEtPeDlxbkRpSWlraWVjWm5BRUpfRG4wa0pHZU04aUJ2cG9ZWEtrUUtjb2E5dzE3WWIyTVpVbWhOaFM0MkN4bVJpVXNfVDVzSnp4TGF0bTBmcDJLMWszWDcwMlpaZE5tOWRQQkpfUXBHQWlCY2RmVno0SGYzMDZkY0RwWV9vQm5lc2g2dEJ3eHY?oc=5" target="_blank">Fairtrade study finds small-scale coffee farms more sustainable</a>
-        
-    </div>
-    
-    <div class="article">
-        <div class="article-meta">
-            <span class="badge" style="background:#FF9500;">Supply Chain & Logistics</span>
             Perfect Daily Grind · 796d ago
         </div>
         <a href="https://news.google.com/rss/articles/CBMikAFBVV95cUxQVVJCQVhQMnVISkFPLXNqYTV1cjNvVUl1Q1FrU2pZMVo4NUliV25jQ1dSSjdCd0tOb24wem1lNVRTb2hLbndlaVlmYTNUSUhkczlxSnRWWHg0SlZYU1I5Ymw3aDlYYl8tZ3JSYVQ1RFc3ZEFMY0tOcWhfYjhTTng3VkZocjhkWHVJd0FvZ0xCVEk?oc=5" target="_blank">Red Sea crisis: Why coffee roasters need to prepare for shipping delays</a>
@@ -4224,7 +4281,7 @@
     <div class="article">
         <div class="article-meta">
             <span class="badge" style="background:#FF9500;">Supply Chain & Logistics</span>
-            Global Coffee Report · 923d ago
+            gcrmag.com · 923d ago
         </div>
         <a href="https://news.google.com/rss/articles/CBMiiAFBVV95cUxPQV94eVRyeXFtVzlYLXNzeEUzTGhFY0JQblBMYXF0NmNyeGtkVWRyWEMzUm8xZDd0dG1xM2N6aFBDWWduN25ka29LYlFVNFktMHhaU0pHTVBSRTlsS29iY09sQkRJcnUzc3p2d1lJblhqbkNXdHZseFd0bUpCandweVJpSzRSWlV3?oc=5" target="_blank">How harvest migration is impacting the coffee supply chain</a>
         
@@ -4290,36 +4347,21 @@
     <div class="article">
         <div class="article-meta">
             <span class="badge" style="background:#FF9500;">Supply Chain & Logistics</span>
-            Global Coffee Report · 1888d ago
+            Kellogg Insight · 2786d ago
         </div>
-        <a href="https://news.google.com/rss/articles/CBMiW0FVX3lxTE5xUTZqdFhqLTBhSVNwcDZYcGxOYWM5WGJzeXI0UzEzVHRpem8xV2o1bXgyT2drb2hFZ2ZQMkg0QnNXMzYtOUJ2b1FyMl9kb3R2c2s2VVpXRWdhZmM?oc=5" target="_blank">Robust plans for Uganda</a>
-        
-        <div class="regions">
-            
-            <span class="region-tag">Uganda</span>
-            
-        </div>
-        
-    </div>
-    
-    <div class="article">
-        <div class="article-meta">
-            <span class="badge" style="background:#FF9500;">Supply Chain & Logistics</span>
-            Global Coffee Report · 2456d ago
-        </div>
-        <a href="https://news.google.com/rss/articles/CBMid0FVX3lxTFB5dUJTLUhiRzJMRHJxV2tNMG5XaHRtajZNS3gwOE9oenl0bk5sa0J2RDUzRDNkWllyZnpiSGszQTBRV1I1eUMtX19hZ2U5OWVjMXlnemZfOVJDYnJrUXVlSE1zbjd4cWNhSEV3UG0zTEI5Rk9KLVNJ?oc=5" target="_blank">Papua New Guinea: From adversity to diversity</a>
+        <a href="https://news.google.com/rss/articles/CBMizgFBVV95cUxNSGFHU1JubkM2Qy13ZEJfeFR2V2Z1MUYza2ZVbW9KcFVpNWFEdHFVSHFtdGg3Sm82d1F2c2EzR21KeThZczhSQl8tcHgzbVItbWRRNHlkR0d6T0xoWmxuWlo5TmNxTUlnbjUwQVJBSkdMdmE3ZnhxSTlqSXJzV0dzRE82ZkZyY0FXdVFxbUdvNFhWMnlmNTRJemJEU0VpclJySHFhY2lFT0d4OVJKb1daY3pVeS1xM09QeXNqcW5Qank5MFBwaWFHSEZUSEEtZw?oc=5" target="_blank">How the Coffee Industry Is Building a Sustainable Supply Chain in an Unstable Region</a>
         
     </div>
     
     
     <div class="article-group-header" style="color:#E040FB;border-color:#E040FB;">
-        🦠 Crop Disease & Pests — 37 articles
+        🦠 Crop Disease & Pests — 38 articles
     </div>
     
     <div class="article">
         <div class="article-meta">
             <span class="badge" style="background:#E040FB;">Crop Disease & Pests</span>
-            valorinternational.globo.com · 41d ago
+            Valor International · 41d ago
         </div>
         <a href="https://news.google.com/rss/articles/CBMivgFBVV95cUxPR3U0Q1Fqci1wWXdGclk2al9ETHBITXdSMkotaVBlam9FMFo4dm5aSlA5N0RVLVoxdURmakhReGdHXy1YSG9hUEQxR2FqU0p4bmQ3RUx5dkEzM3A3Z05jeHY0bVpGR01pcDN6ZWxmWC1HRlVkNkthc0tWUDRGOG9fUXJpSEdYbEszaWxpSTk2c2JYNGhCUWl1SDRiWEpvRm5rYmZoZnZ5UEdDOThRS3BmeE1zRndYckY4OEJrTVpR0gHMAUFVX3lxTE1TZXd1WHBvSFNkclJNSUp5bDRoSXFwY0VHWnpDYl80ZnZyRVFFZ3hma1lCenpBakZ2ZWlfRFo2b2FOZXgtVG1xc2ZlNGdNUjhZcEFkbVFmS2k2NGJQSXA3SWpqaVpiWmhRdll3X1had3dlY1U4YjBNckFuUlB5SHY5ZnZ2TFJzaDVOYzVBckNvb2xCamlNSHY1Sl9Jc3lPdkRSR2NqRno4Q05GMmxYMXZxcndHVzlRNEVvU1Fuc0FtSkJhNVpaNWttUGF2bA?oc=5" target="_blank">Excess rains spur coffee diseases in Minas Gerais</a>
         
@@ -4427,7 +4469,7 @@
     <div class="article">
         <div class="article-meta">
             <span class="badge" style="background:#E040FB;">Crop Disease & Pests</span>
-            Global Coffee Report · 265d ago
+            gcrmag.com · 265d ago
         </div>
         <a href="https://news.google.com/rss/articles/CBMiigFBVV95cUxNbGZxazFyb0k2TDZXZ0paR3NyTnZFSTBmeHZ2cmktdFc2Y0UzTG5BWGdEMzlUc3pSNzBTLUVTUmM4ZG9zQWx1VEtXeVJreFc4aXZjdHhtNExfWUpFWThCcjJhNnJtQ0Y4amE0ZlJiZWwxNjI4SE5PTGdjOFVKUGtZcHFodXhnblNLWkE?oc=5" target="_blank">Fighting fungus with fungus: a solution to coffee leaf rust?</a>
         
@@ -4511,6 +4553,21 @@
             PLOS · 480d ago
         </div>
         <a href="https://news.google.com/rss/articles/CBMigwFBVV95cUxPQ3F4dkpuanJFckdpdkdvRFhrWEl2bTdIeGlfSE52NXo1bTNYcF9KWVVFTkJqcWVkX0VkLTJ5N3NtaHRGZTdXSW5kN3E0cGVybnMwbE5VQzdLZzRHNjVreE43bFMxcTgwLVlYeXQwRnVSbWJVMmc5cmtZSHNLLV8zNG5uVQ?oc=5" target="_blank">Gene transfer between fungal species triggers repeated coffee wilt disease outbreaks</a>
+        
+    </div>
+    
+    <div class="article">
+        <div class="article-meta">
+            <span class="badge" style="background:#E040FB;">Crop Disease & Pests</span>
+            VnExpress International · 664d ago
+        </div>
+        <a href="https://news.google.com/rss/articles/CBMitgFBVV95cUxNRDBUQ2VFdmk5bk5UR2x0S0pEYU5sZXd3eDNSWExfbTh4UmE4LWJUWWhNVmZjRThXbmJQT2szc1Bvd0NxODhhRVZDRGFCVmx1dnBhZGlVd1Yzek5CWVo4SU4zdjZwcFhqTkM5MGtob2MxTkF2TTdpbFJCU3B6TUlwQl96dERLS3VpblF5WW43emJYU3RzTDJlc1pwaU5JTGVxNUkzU1ZGUlVnNVM2V1V0WDRZZVhUdw?oc=5" target="_blank">Vietnam's coffee trees stunted by drought, heat and pests</a>
+        
+        <div class="regions">
+            
+            <span class="region-tag">Vietnam</span>
+            
+        </div>
         
     </div>
     

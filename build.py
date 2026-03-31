@@ -118,7 +118,18 @@ def build_commodity(name: str):
     producing_regions = mod.PRODUCING_REGIONS
     risk_categories = mod.RISK_CATEGORIES
     linked_stocks = mod.LINKED_STOCKS
-    geo_data = getattr(mod, "GEO_DATA", None)
+    geo_raw = getattr(mod, "GEO", None)
+    if geo_raw:
+        geo_data = {
+            "mines": geo_raw.get("mines", []),
+            "refineries": geo_raw.get("refineries", []),
+            "ports": geo_raw.get("ports", []),
+            "chokepoints": geo_raw.get("chokepoints", []),
+            "shipping_routes": geo_raw.get("routes", []),
+            "mine_label": "Mines" if "cobalt" in name.lower() else "Plantations",
+        }
+    else:
+        geo_data = None
 
     # ── Market data ──
     print(f"   📈 Fetching market data for {ticker}...")
@@ -190,7 +201,7 @@ def build_commodity(name: str):
         articles_by_category.append((cat, articles, config["color"]))
 
     # ── Geo data ──
-    
+
     geo = getattr(mod, "GEO", None)
 
     # ── Render ──
