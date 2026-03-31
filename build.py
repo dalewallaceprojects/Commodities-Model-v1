@@ -12,6 +12,23 @@ GitHub Pages serves from the docs/ folder on main branch.
 
 import os
 import sys
+
+def fix_antimeridian(routes):
+    fixed = []
+    for route in routes:
+        new_waypoints = [route["waypoints"][0]]
+        for i in range(1, len(route["waypoints"])):
+            prev_lng = new_waypoints[-1][1]
+            curr = route["waypoints"][i]
+            lng = curr[1]
+            if prev_lng - lng > 180:
+                lng += 360
+            elif lng - prev_lng > 180:
+                lng -= 360
+            new_waypoints.append([curr[0], lng])
+        fixed.append({**route, "waypoints": new_waypoints})
+    return fixed
+
 from datetime import datetime
 from pathlib import Path
 from jinja2 import Environment, FileSystemLoader
@@ -125,7 +142,7 @@ def build_commodity(name: str):
             "refineries": geo_raw.get("refineries", []),
             "ports": geo_raw.get("ports", []),
             "chokepoints": geo_raw.get("chokepoints", []),
-            "shipping_routes": geo_raw.get("routes", []),
+            "shipping_routes": fix_antimeridian(geo_raw.get("routes", [])),
             "mine_label": "Mines" if "cobalt" in name.lower() else "Plantations",
         }
     else:
